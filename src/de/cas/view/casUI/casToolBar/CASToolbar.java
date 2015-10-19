@@ -1,4 +1,4 @@
-package de.cas.view.casUI.casPanel;
+package de.cas.view.casUI.casToolBar;
 
 import java.awt.Insets;
 
