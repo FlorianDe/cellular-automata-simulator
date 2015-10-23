@@ -42,6 +42,7 @@ public class MainFrame extends JFrame {
         this.stateScrollPane = new JScrollPane(this.stateContainer,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        this.stateScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         this.populationPanel = new CASPopulationPanel();
         this.populationScrollPane = new JScrollPane(this.populationPanel,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -58,6 +59,7 @@ public class MainFrame extends JFrame {
         
         this.stateContainer.addState();
         this.stateContainer.addState();
+
         
         this.pack();
         this.setVisible(true);
@@ -69,7 +71,7 @@ public class MainFrame extends JFrame {
     }
 	@Override
 	public Dimension getMinimumSize() {
-		return new Dimension(500,200);
+		return new Dimension(500,220);
 	}
 
 }

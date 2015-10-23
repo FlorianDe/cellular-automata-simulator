@@ -6,7 +6,7 @@ public class Cell {
 	private int state;
 
 	public Cell() {
-		state = INIT_STATE;
+		this(INIT_STATE);
 	}
 
 	public Cell(int state) {
@@ -32,7 +32,7 @@ public class Cell {
 	
 	@Override
 	public Cell clone() {
-		return new Cell(state);
+		return new Cell(this.state);
 	}
 
 }

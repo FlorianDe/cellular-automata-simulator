@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
@@ -19,6 +20,7 @@ public class CASStateContainerPanel extends JPanel {
         this.states = new ArrayList<>();
         this.container = new JPanel();
         this.container.setLayout(new BoxLayout(this.container, BoxLayout.Y_AXIS));
+        
         this.add(this.container);
         this.setBackground(Color.decode("0xFACDFA"));
 	}
@@ -37,6 +39,6 @@ public class CASStateContainerPanel extends JPanel {
 
     @Override
     public Dimension getPreferredSize() {
-    	return new Dimension(140 ,super.getPreferredSize().height);
+    	return new Dimension(CASStatePanel.PANEL_WIDTH ,super.getPreferredSize().height);
     }
 }

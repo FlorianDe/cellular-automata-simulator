@@ -2,22 +2,28 @@ package de.cas.model;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 public abstract class Automaton {
 
-	
-	protected Cell[][] population;
-	
-	protected int numberOfRows;
-	protected int numberOfColumns;
-	protected int numberOfStates;
+	private Cell[][] population;	
+	private int numberOfRows;
+	private int numberOfColumns;
+	private int numberOfStates;
 	private boolean isTorus;
 	private boolean isMooreNeighborHood;
-	private Point[] directions;
-
 	private Color[] colors;
+	
+	//Attributes here for performance!!!!
+	private static final int[][] directionsMoore = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1} };
+	private static final int[][] directionsNeumann = {{0, -1}, {-1, 0}, {0, 1}, {1, 0} };
+	private int[][] directions;
+	private Cell[] neighbors;
 	
 	/**
 	 * Konstruktor
@@ -29,19 +35,16 @@ public abstract class Automaton {
 	 * @param isTorus true, falls die Zellen als Torus betrachtet werden
 	 */
 	public Automaton(int rows, int columns, int numberOfStates, boolean isMooreNeighborHood, boolean isTorus){
-		this.setNumberOfRows(rows);
-		this.setNumberOfColumns(columns);
-		this.numberOfStates = numberOfStates;
+		this.setSize(rows, columns);
 		this.setTorus(isTorus);
-		this.isMooreNeighborHood = isMooreNeighborHood;
-		this.setDirections(isMooreNeighborHood);
+		this.numberOfStates = numberOfStates;
 		this.population = new Cell[rows][columns];
-		for (int y = 0; y < population.length; y++) {
-			for (int x = 0; x < population[y].length; x++) {
-				population[y][x] = new Cell();
-			}
-		}
+		this.clearPopulation();
 		this.defineColors();
+		
+		this.isMooreNeighborHood = isMooreNeighborHood;
+		this.neighbors = isMooreNeighborHood?new Cell[8]:new Cell[4];
+		this.directions = isMooreNeighborHood?directionsMoore:directionsNeumann;
 	}
 	
 	/**
@@ -81,6 +84,16 @@ public abstract class Automaton {
 		return numberOfColumns;
 	}
 	
+	private void setSizeHelper(){
+		if(population!=null){
+			Cell[][] oldPopulation = this.population.clone();
+			this.population = new Cell[numberOfRows][numberOfColumns];
+			for (int y = 0; y < numberOfRows; y++)
+				for (int x = 0; x < numberOfColumns; x++)
+					population[y][x] = (y >= oldPopulation.length || x >= oldPopulation[y].length)?new Cell():oldPopulation[y][x];	
+		}
+	}
+	
 	/**
 	 * Ändert die Größe des Automaten; Achtung: aktuelle Belegungen nicht
 	 * gelöschter Zellen sollen beibehalten werden; neue Zellen sollen im
@@ -90,14 +103,11 @@ public abstract class Automaton {
 	 * @param columns die neue Anzahl an Spalten
 	 */
 	public void setSize(int rows, int columns){
-		Cell[][] oldPopulation = this.population.clone();
-		this.setNumberOfRows(rows);
-		this.setNumberOfColumns(columns);
-		
-		this.population = new Cell[this.getNumberOfRows()][this.getNumberOfColumns()];
-		for (int y = 0; y < numberOfRows; y++)
-			for (int x = 0; x < numberOfColumns; x++)
-				population[y][x] = (y >= oldPopulation.length || x >= oldPopulation[y].length)?new Cell():oldPopulation[y][x];	
+		if(rows > 0)
+			this.numberOfRows = rows;
+		if(columns > 0)
+			this.numberOfColumns = columns;
+		setSizeHelper();
 	}
 	
 	/**
@@ -106,9 +116,7 @@ public abstract class Automaton {
 	 * @param rows die neue Anzahl an Reihen
 	 */
 	public void setNumberOfRows(int rows){
-		if(rows > 0){
-			this.numberOfRows = rows;
-		}
+		setSize(rows, numberOfColumns);
 	}
 	
 	/**
@@ -117,9 +125,7 @@ public abstract class Automaton {
 	 * @param rows die neue Anzahl an Spalten
 	 */
 	public void setNumberOfColumns(int columns){
-		if(columns > 0){
-			this.numberOfColumns = columns;
-		}
+		setSize(numberOfRows, columns);
 	}
 	
 	/**
@@ -175,7 +181,14 @@ public abstract class Automaton {
 	 * setzt alle Zellen in den Zustand 0
 	 */
 	public void clearPopulation(){
-		this.population = new Cell[numberOfRows][numberOfColumns];
+		for (int y = 0; y < numberOfRows; y++){
+			for (int x = 0; x < numberOfColumns; x++){
+				if(population[y][x]!=null)
+					population[y][x].setState(Cell.INIT_STATE);
+				else
+					population[y][x] = new Cell();
+			}	
+		}
 	}
 	
 	/**
@@ -218,17 +231,19 @@ public abstract class Automaton {
 	 * Ansonsten: Farbzuordnung per Zufall
 	 */
 	protected void defineColors(){
-		colors = new Color[numberOfStates];
-		colors[0] = Color.WHITE;
-		if (numberOfStates == 2) {
-			colors[1] = Color.BLACK;
-		} else if (numberOfStates == 3) {
-			colors[1] = Color.GRAY;
-			colors[2] = Color.BLACK;
-		} else {
-			Random random = new Random();
-			for (int i = 1; i < numberOfStates; i++) {
-				colors[i] = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+		if(numberOfStates>0){
+			colors = new Color[numberOfStates];
+			colors[0] = Color.WHITE;
+			if (numberOfStates == 2) {
+				colors[1] = Color.BLACK;
+			} else if (numberOfStates == 3) {
+				colors[1] = Color.GRAY;
+				colors[2] = Color.BLACK;
+			} else {
+				Random random = new Random();
+				for (int i = 1; i < numberOfStates; i++) {
+					colors[i] = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+				}
 			}
 		}
 	}
@@ -272,11 +287,12 @@ public abstract class Automaton {
 	 *
 	 * @return
 	 */
+	
 	public Cell[][] calcNextGeneration(){
-		Cell[][] oldPopulation = this.population.clone();
+		Cell[][] populationCopy = clonePopulation();
 		for (int y = 0; y < numberOfRows; y++)
 			for (int x = 0; x < numberOfColumns; x++)
-				population[y][x] = transform(oldPopulation[y][x], getCellNeighbors(oldPopulation, y, x));
+				population[y][x] = transform(populationCopy[y][x], getCellNeighbors(populationCopy, y, x));
 		return population;
 	}
 	
@@ -288,31 +304,30 @@ public abstract class Automaton {
 	 * @param y Reihe
 	 * @return Zellennachbarn als eindimensionales Array
 	 */
-	private Cell[] getCellNeighbors(Cell[][] oldPopulation, int x, int y) {
-		ArrayList<Cell> neighbors = new ArrayList<>();
-		int dY,dX;
-		for (Point d : this.directions) {
-			dY = isTorus?(y+d.y)%numberOfRows:(y+d.y);
-			dX = isTorus?(x+d.x)%numberOfColumns:(x+d.x);
-			if(isValidPosition(dY, dX))
-				neighbors.add(oldPopulation[dY][dX]);
+	public Cell[] getCellNeighbors(Cell[][] oldPopulation, int y, int x) {
+		int dY,dX,ctr = 0;
+		for (int[] d : directions) {
+			dY = isTorus()?(y+d[0]+numberOfRows)%numberOfRows:(y+d[0]);
+			dX = isTorus()?(x+d[1]+numberOfColumns)%numberOfColumns:(x+d[1]);
+			if(isValidPosition(dY, dX)){
+				neighbors[ctr++]=oldPopulation[dY][dX];
+			}
 		}
-		return neighbors.toArray(new Cell[neighbors.size()]);
+		return neighbors;
 	}
 
+	
 	public boolean isValidPosition(int row, int column){
 		return((row >= 0 && row < numberOfRows) && (column >= 0 && column < numberOfColumns));
 	}
 	
-	/* 0/0 is the center!
-	 * [-1 / -1] [-1 / 0] [-1 / 1]
-	 * [ 0 / -1] [ 0 / 0] [ 0 / 1]
-	 * [ 1 / -1] [ 1 / 0] [ 1 / 1]
-	 */
-	private void setDirections(boolean isMooreNeighborHood){
-		if(isMooreNeighborHood)
-			this.directions = new Point[]{new Point(-1, -1), new Point(-1, 0) , new Point(-1, 1), new Point(0, -1), new Point(0, 1), new Point(1, -1), new Point(1, 0), new Point(1, 1) };
-		else
-			this.directions = new Point[]{new Point(0, -1), new Point(-1, 0), new Point(0, 1), new Point(1, 0) };
+	//Im "Benchmark" schneller als System.arraycopy(...)
+	private Cell[][] clonePopulation() {
+		Cell[][] populationCopy = new Cell[numberOfRows][numberOfColumns];
+		for (int y = 0; y < numberOfRows; y++)
+			for (int x = 0; x < numberOfColumns; x++)
+				populationCopy[y][x] = this.population[y][x].clone();
+		return populationCopy;
 	}
+	
 }
