@@ -3,12 +3,12 @@ package de.cas.model.automata;
 import de.cas.model.Automaton;
 import de.cas.model.Cell;
 
-public class GameOfLife extends Automaton {
+public class GameOfLifeAutomaton extends Automaton {
 	
-	public GameOfLife(){
+	public GameOfLifeAutomaton(){
 		super(100,100,2,true,true);
 	}
-	public GameOfLife(int numberOfRows, int numberOfColumns, int numberOfStates, boolean isMooreNeighborHood, boolean isTorus){
+	public GameOfLifeAutomaton(int numberOfRows, int numberOfColumns, int numberOfStates, boolean isMooreNeighborHood, boolean isTorus){
 		super(numberOfRows,numberOfColumns,numberOfStates,isMooreNeighborHood,isTorus);
 	}
 	
@@ -25,26 +25,12 @@ public class GameOfLife extends Automaton {
 				count++;
 		return count;
 	}
-	
-	@Override
-	public String toString(){
-		StringBuilder sb = new StringBuilder();
-		for(int y=0; y < this.getNumberOfRows(); y++){
-            for(int x=0; x < this.getNumberOfColumns(); x++) {
-            	int state = this.getCell(y, x).getState();
-            	if(state==0)
-            		sb.append("| ");
-            	else if(state==1)
-            		sb.append("|\u25A0");
-            }
-            sb.append("|\n");
-        }
-		return sb.toString();
-	}
+
 	
 	
 	
 	
+	//Methods for creating several objects
 	public void createGliderGun(){
 		int OFF_Y = -1;
 		int OFF_X = -1;
@@ -90,5 +76,15 @@ public class GameOfLife extends Automaton {
 		this.getCell(4+OFF_Y, 37+OFF_X).setState(1);
 		this.getCell(5+OFF_Y, 36+OFF_X).setState(1);
 		this.getCell(5+OFF_Y, 37+OFF_X).setState(1);
+	}
+	
+	public void createObj1(int Y_OFF, int X_OFF){
+		this.setSize(10,40);
+		
+		this.getCell(5+Y_OFF, 5+X_OFF).setState(1);
+		this.getCell(5+Y_OFF, 6+X_OFF).setState(1);
+		this.getCell(5+Y_OFF, 7+X_OFF).setState(1);
+		this.getCell(4+Y_OFF, 7+X_OFF).setState(1);
+		this.getCell(3+Y_OFF, 6+X_OFF).setState(1);
 	}
 }

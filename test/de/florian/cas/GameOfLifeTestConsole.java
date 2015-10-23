@@ -1,23 +1,39 @@
 package de.florian.cas;
 
-import de.cas.model.automata.GameOfLife;
+import de.cas.model.Automaton;
+import de.cas.model.automata.GameOfLifeAutomaton;
 
 public class GameOfLifeTestConsole {
 	public static void main(String[] args) throws InterruptedException{
-		GameOfLife golt = new GameOfLife(20,20,2,true,true);
+		GameOfLifeAutomaton golt = new GameOfLifeAutomaton(20,20,2,true,true);
 		//golt.randomPopulation();
 		golt.createGliderGun();
 		
 		int steps = 100;
 		long startTime = System.currentTimeMillis();
 		for (int i = 0; i < steps; i++) {
-			System.out.println(golt);
+			System.out.println(stringRepresentation(golt));
 			golt.calcNextGeneration();
 			Thread.sleep(100);
 		}
 		long ms = (System.currentTimeMillis() - startTime);
         System.out.println(ms+" ms for " + steps + " steps!");
         System.out.println("Real FPS:" + (steps*1000.0)/ms);
+	}
+	
+	public static String stringRepresentation(Automaton automat){
+		StringBuilder sb = new StringBuilder();
+		for(int y=0; y < automat.getNumberOfRows(); y++){
+            for(int x=0; x < automat.getNumberOfColumns(); x++) {
+            	int state = automat.getCell(y, x).getState();
+            	if(state==0)
+            		sb.append("| ");
+            	else if(state==1)
+            		sb.append("|\u25A0");
+            }
+            sb.append("|\n");
+        }
+		return sb.toString();
 	}
 }
 

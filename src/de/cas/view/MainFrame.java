@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+import de.cas.model.Automaton;
 import de.cas.view.casUI.casMenu.CASMenuBar;
 import de.cas.view.casUI.casPanel.CASMessagesPanel;
 import de.cas.view.casUI.casPanel.CASPopulationPanel;
@@ -25,11 +26,27 @@ public class MainFrame extends JFrame {
 	private CASPopulationPanel populationPanel;
 	private CASMessagesPanel messages;
 
-	public MainFrame() {
-        initializeUI();
+	public CASToolbar getToolbar() {
+		return toolbar;
+	}
+
+	public CASStateContainerPanel getStateContainer() {
+		return stateContainer;
+	}
+
+	public CASPopulationPanel getPopulationPanel() {
+		return populationPanel;
+	}
+
+	public CASMessagesPanel getMessages() {
+		return messages;
+	}	
+	
+	public MainFrame(Automaton automaton) {
+        initializeUI(automaton);
     }
 
-    private void initializeUI() {
+    private void initializeUI(Automaton automaton) {
         this.setTitle("CAS");
         this.setMinimumSize(new Dimension());
         this.setLayout(new BorderLayout());
@@ -43,7 +60,7 @@ public class MainFrame extends JFrame {
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         this.stateScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        this.populationPanel = new CASPopulationPanel();
+        this.populationPanel = new CASPopulationPanel(automaton);
         this.populationScrollPane = new JScrollPane(this.populationPanel,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
