@@ -1,4 +1,4 @@
-package de.cas.view.casUI.casPanel;
+package de.cas.view.casUI.panel;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -20,6 +20,7 @@ public class CASStateContainerPanel extends JPanel {
         this.states = new ArrayList<>();
         this.container = new JPanel();
         this.container.setLayout(new BoxLayout(this.container, BoxLayout.Y_AXIS));
+        this.container.setOpaque(false);
         
         this.add(this.container);
         this.setBackground(Color.decode("0xFACDFA"));
@@ -32,7 +33,7 @@ public class CASStateContainerPanel extends JPanel {
         return cell;
     }
 
-    public void removeCell(CASStatePanel state) {
+    public void removeState(CASStatePanel state) {
         this.states.remove(state);
         this.container.remove(state);
     }

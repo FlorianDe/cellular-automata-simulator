@@ -1,12 +1,6 @@
 package de.cas.model;
 
 import java.awt.Color;
-import java.awt.Point;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 public abstract class Automaton {
@@ -309,9 +303,7 @@ public abstract class Automaton {
 		for (int[] d : directions) {
 			dY = isTorus()?(y+d[0]+numberOfRows)%numberOfRows:(y+d[0]);
 			dX = isTorus()?(x+d[1]+numberOfColumns)%numberOfColumns:(x+d[1]);
-			if(isValidPosition(dY, dX)){
-				neighbors[ctr++]=oldPopulation[dY][dX];
-			}
+			neighbors[ctr++] = (isValidPosition(dY, dX)?oldPopulation[dY][dX]:new Cell(-1));
 		}
 		return neighbors;
 	}

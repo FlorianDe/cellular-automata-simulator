@@ -1,4 +1,4 @@
-package de.cas.view.casUI.casPanel;
+package de.cas.view.casUI.panel;
 
 import java.awt.Color;
 import java.awt.FlowLayout;

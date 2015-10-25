@@ -21,18 +21,9 @@ public class Main implements ActionListener {
 	}
 	
 	public void startGUI(){
-		//automaton = new GameOfLife(150, 290,2,true,true);
-		automaton = new GameOfLifeAutomaton(300, 605,2,true,true);
+		automaton = new GameOfLifeAutomaton(300, 605,2,true, false);
 		automaton.randomPopulation();
-		/*
-		((GameOfLife)(automaton)).createGliderGun();
-		
-		((GameOfLife) automaton).createObj1(0,0);
-		((GameOfLife) automaton).createObj1(4,5);
-		((GameOfLife) automaton).createObj1(4,20);
-		((GameOfLife) automaton).createObj1(4,30);
-		*/
-		
+
 		EventQueue.invokeLater(new Runnable() {
 		    @Override
 		    public void run() {

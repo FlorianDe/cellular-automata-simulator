@@ -21,13 +21,12 @@ public class GameOfLifeAutomaton extends Automaton {
 	private int countLivingNeighbors(Cell[] neighbors) {
 		int count = 0;
 		for (Cell cell : neighbors)
-			if (cell.getState() == 1)
-				count++;
+			if(cell!=null)
+				if (cell.getState() == 1)
+					count++;
 		return count;
 	}
 
-	
-	
 	
 	
 	//Methods for creating several objects

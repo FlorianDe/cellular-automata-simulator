@@ -1,4 +1,4 @@
-package de.cas.view.casUI.casMenu;
+package de.cas.view.casUI.menu;
 
 import javax.swing.JComponent;
 import javax.swing.MenuSelectionManager;

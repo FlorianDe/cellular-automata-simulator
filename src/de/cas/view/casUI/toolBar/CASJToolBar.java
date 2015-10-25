@@ -1,4 +1,4 @@
-package de.cas.view.casUI.casToolBar;
+package de.cas.view.casUI.toolBar;
 
 import java.awt.Insets;
 
@@ -10,12 +10,12 @@ import javax.swing.JSlider;
 import javax.swing.JToolBar;
 import javax.swing.border.EtchedBorder;
 
-public class CASToolbar extends JToolBar {
+public class CASJToolBar extends JToolBar {
 
 	private static final long serialVersionUID = -4836559168569081649L;
 	private JButton btn;
 	
-	public CASToolbar(){
+	public CASJToolBar(){
 
 		//1. Button
 		this.btn = createToolbarButton("img/New24.gif");

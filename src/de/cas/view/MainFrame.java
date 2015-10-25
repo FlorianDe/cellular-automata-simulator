@@ -9,24 +9,24 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import de.cas.model.Automaton;
-import de.cas.view.casUI.casMenu.CASMenuBar;
-import de.cas.view.casUI.casPanel.CASMessagesPanel;
-import de.cas.view.casUI.casPanel.CASPopulationPanel;
-import de.cas.view.casUI.casPanel.CASStateContainerPanel;
-import de.cas.view.casUI.casToolBar.CASToolbar;
+import de.cas.view.casUI.menu.CASMenuBar;
+import de.cas.view.casUI.panel.CASMessagesPanel;
+import de.cas.view.casUI.panel.CASPopulationPanel;
+import de.cas.view.casUI.panel.CASStateContainerPanel;
+import de.cas.view.casUI.toolBar.CASJToolBar;
 
 public class MainFrame extends JFrame {
 	private static final long serialVersionUID = -1994192886242251349L;
 	
 	private CASMenuBar menuBar;
-	private CASToolbar toolbar;
+	private CASJToolBar toolbar;
 	private CASStateContainerPanel stateContainer;
 	private JScrollPane stateScrollPane;
 	private JScrollPane	populationScrollPane;
 	private CASPopulationPanel populationPanel;
 	private CASMessagesPanel messages;
 
-	public CASToolbar getToolbar() {
+	public CASJToolBar getToolbar() {
 		return toolbar;
 	}
 
@@ -54,7 +54,7 @@ public class MainFrame extends JFrame {
 
         
     	this.menuBar = new CASMenuBar();
-    	this.toolbar = new CASToolbar();
+    	this.toolbar = new CASJToolBar();
         this.stateContainer = new CASStateContainerPanel();
         this.stateScrollPane = new JScrollPane(this.stateContainer,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -74,6 +74,7 @@ public class MainFrame extends JFrame {
         this.add(this.populationScrollPane,  BorderLayout.CENTER);
         
         
+        //TODO dynamically later!
         this.stateContainer.addState();
         this.stateContainer.addState();
 
