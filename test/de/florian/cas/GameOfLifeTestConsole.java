@@ -5,9 +5,12 @@ import de.cas.model.automata.GameOfLifeAutomaton;
 
 public class GameOfLifeTestConsole {
 	public static void main(String[] args) throws InterruptedException{
-		GameOfLifeAutomaton golt = new GameOfLifeAutomaton(20,20,2,true,true);
+		GameOfLifeAutomaton golt = new GameOfLifeAutomaton(10,10,2,false,true);
 		//golt.randomPopulation();
-		golt.createGliderGun();
+		//golt.createGliderGun();
+		golt.setState(2, 3, 1);
+		golt.setState(2, 4, 1);
+		golt.setState(2, 5, 1);
 		
 		int steps = 100;
 		long startTime = System.currentTimeMillis();

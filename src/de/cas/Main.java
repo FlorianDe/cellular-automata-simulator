@@ -21,7 +21,7 @@ public class Main implements ActionListener {
 	}
 	
 	public void startGUI(){
-		automaton = new GameOfLifeAutomaton(300, 605,2,true, false);
+		automaton = new GameOfLifeAutomaton(300, 605,2,true, true);
 		automaton.randomPopulation();
 
 		EventQueue.invokeLater(new Runnable() {

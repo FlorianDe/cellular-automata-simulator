@@ -286,7 +286,7 @@ public abstract class Automaton {
 		Cell[][] populationCopy = clonePopulation();
 		for (int y = 0; y < numberOfRows; y++)
 			for (int x = 0; x < numberOfColumns; x++)
-				population[y][x] = transform(populationCopy[y][x], getCellNeighbors(populationCopy, y, x));
+				population[y][x] = transform(population[y][x], getCellNeighbors(populationCopy, y, x));
 		return population;
 	}
 	
