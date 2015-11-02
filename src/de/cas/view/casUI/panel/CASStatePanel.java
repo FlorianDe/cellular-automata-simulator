@@ -1,17 +1,15 @@
 package de.cas.view.casUI.panel;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JToggleButton;
 import javax.swing.JButton;
-import javax.swing.JColorChooser;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JToggleButton;
 
+import de.cas.controller.IAutomatonController;
+import de.cas.controller.listener.states.ChooseColorListener;
+import de.cas.controller.listener.states.SelectStateListener;
 import de.cas.view.casUI.component.CASJButton;
 import de.cas.view.casUI.component.CASJToggleButton;
 
@@ -27,34 +25,46 @@ public class CASStatePanel extends JPanel{
 	
 	private JToggleButton btnState;
     private JButton btnColor;
+    private IAutomatonController controller;
 
-	public CASStatePanel(int count){
+	public CASStatePanel(IAutomatonController controller, int state, Color color){
 		super();
-        this.btnState = new CASJToggleButton(String.valueOf(count),BTN_HEIGHT,BTN_WIDTH);
+		this.controller = controller;
+        this.btnState = new CASJToggleButton(String.valueOf(state),BTN_HEIGHT,BTN_WIDTH);
         this.btnColor= new CASJButton("",BTN_HEIGHT,BTN_WIDTH);
         this.setOpaque(false);
         this.setAlignmentY(JPanel.TOP_ALIGNMENT);
         //Only use this
         //setBorder(new EmptyBorder(0,0,0,15));
-
-        this.btnColor.setBackground(new Color((int)(Math.random() * 0x1000000)));
-        this.btnColor.setText("");
         
-        //TODO REPLACE WITH MVC
-        ActionListener actionListener = new ActionListener() {
-  	      public void actionPerformed(ActionEvent actionEvent) {
-  	        Color initialBackground = btnColor.getBackground();
-  	        Color background = JColorChooser.showDialog(null, "Change Button Background",
-  	            initialBackground);
-  	        if (background != null) {
-  	          btnColor.setBackground(background);
-  	        }
-  	      }
-  	    };
-  	    btnColor.addActionListener(actionListener);
+        this.btnState.addActionListener(new SelectStateListener(this.controller, state));
+        /*
+        this.btnState.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                AbstractButton abstractButton = (AbstractButton) actionEvent.getSource();
+                boolean selected = abstractButton.getModel().isSelected();
+                System.out.println("Action - selected=" + selected + "\n");
+                //toggleButton1.setSelected(false);
+            }
+        });
+        */
+
+        this.btnColor.setBackground(color);
+        this.btnColor.setText("");
+  	    btnColor.addActionListener(new ChooseColorListener(this.controller, state));
   	    
         add(this.btnState);
         add(this.btnColor);
+	}
+	
+	
+	public JToggleButton getBtnState() {
+		return btnState;
+	}
+
+	public JButton getBtnColor() {
+		return btnColor;
 	}
 
 	

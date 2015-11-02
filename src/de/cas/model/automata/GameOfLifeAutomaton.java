@@ -8,8 +8,8 @@ public class GameOfLifeAutomaton extends Automaton {
 	public GameOfLifeAutomaton(){
 		super(100,100,2,true,true);
 	}
-	public GameOfLifeAutomaton(int numberOfRows, int numberOfColumns, int numberOfStates, boolean isMooreNeighborHood, boolean isTorus){
-		super(numberOfRows,numberOfColumns,numberOfStates,isMooreNeighborHood,isTorus);
+	public GameOfLifeAutomaton(int numberOfRows, int numberOfColumns, boolean isMooreNeighborHood, boolean isTorus){
+		super(numberOfRows,numberOfColumns, 2, isMooreNeighborHood,isTorus);
 	}
 	
 	@Override
@@ -77,13 +77,58 @@ public class GameOfLifeAutomaton extends Automaton {
 		this.getCell(5+OFF_Y, 37+OFF_X).setState(1);
 	}
 	
-	public void createObj1(int Y_OFF, int X_OFF){
-		this.setSize(10,40);
+	public void createGliderLU(int Y_OFF, int X_OFF){
+		if(3+Y_OFF < this.getNumberOfRows() && 6+X_OFF < this.getNumberOfColumns()){
+			this.getCell(2+Y_OFF, 0+X_OFF).setState(1);
+			this.getCell(2+Y_OFF, 1+X_OFF).setState(1);
+			this.getCell(2+Y_OFF, 2+X_OFF).setState(1);
+			this.getCell(1+Y_OFF, 0+X_OFF).setState(1);
+			this.getCell(0+Y_OFF, 1+X_OFF).setState(1);
+		}
+	}
+	
+	public void createGliderRU(int Y_OFF, int X_OFF){
+		if(3+Y_OFF < this.getNumberOfRows() && 6+X_OFF < this.getNumberOfColumns()){
+			this.getCell(2+Y_OFF, 0+X_OFF).setState(1);
+			this.getCell(2+Y_OFF, 1+X_OFF).setState(1);
+			this.getCell(2+Y_OFF, 2+X_OFF).setState(1);
+			this.getCell(1+Y_OFF, 2+X_OFF).setState(1);
+			this.getCell(0+Y_OFF, 1+X_OFF).setState(1);
+		}
+	}
+	
+	public void createGliderLO(int Y_OFF, int X_OFF){
+		if(3+Y_OFF < this.getNumberOfRows() && 6+X_OFF < this.getNumberOfColumns()){
+			this.getCell(0+Y_OFF, 0+X_OFF).setState(1);
+			this.getCell(0+Y_OFF, 1+X_OFF).setState(1);
+			this.getCell(0+Y_OFF, 2+X_OFF).setState(1);
+			this.getCell(1+Y_OFF, 0+X_OFF).setState(1);
+			this.getCell(2+Y_OFF, 1+X_OFF).setState(1);
+		}
+	}
+	
+	public void createGliderRO(int Y_OFF, int X_OFF){
+		if(3+Y_OFF < this.getNumberOfRows() && 6+X_OFF < this.getNumberOfColumns()){
+			this.getCell(0+Y_OFF, 0+X_OFF).setState(1);
+			this.getCell(0+Y_OFF, 1+X_OFF).setState(1);
+			this.getCell(0+Y_OFF, 2+X_OFF).setState(1);
+			this.getCell(1+Y_OFF, 2+X_OFF).setState(1);
+			this.getCell(2+Y_OFF, 1+X_OFF).setState(1);
+		}
+	}
+	
+	public void createTrafficRLUO(){
+		int scaleF = 1;
+		this.setSize(140*scaleF, 140*scaleF);
+		int size =7;
 		
-		this.getCell(5+Y_OFF, 5+X_OFF).setState(1);
-		this.getCell(5+Y_OFF, 6+X_OFF).setState(1);
-		this.getCell(5+Y_OFF, 7+X_OFF).setState(1);
-		this.getCell(4+Y_OFF, 7+X_OFF).setState(1);
-		this.getCell(3+Y_OFF, 6+X_OFF).setState(1);
+		for (int y = 0; y < this.getNumberOfRows(); y=y+size*4) {
+			for (int x = 0; x < this.getNumberOfColumns(); x=x+size*4) {
+				this.createGliderRU(y, x);
+				this.createGliderLU(y+size*2, x+size*3);
+				this.createGliderRO(y+size*2, x+size*5);
+				this.createGliderLO(y+size*5, x+size*2);	
+			}
+		}
 	}
 }

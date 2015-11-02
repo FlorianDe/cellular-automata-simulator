@@ -5,14 +5,15 @@ import de.cas.model.automata.GameOfLifeAutomaton;
 
 public class GameOfLifeTestConsole {
 	public static void main(String[] args) throws InterruptedException{
-		GameOfLifeAutomaton golt = new GameOfLifeAutomaton(10,10,2,false,true);
-		//golt.randomPopulation();
+		GameOfLifeAutomaton golt = new GameOfLifeAutomaton(10,10,true,true);
+		golt.randomPopulation();
 		//golt.createGliderGun();
 		golt.setState(2, 3, 1);
 		golt.setState(2, 4, 1);
 		golt.setState(2, 5, 1);
 		
-		int steps = 100;
+		
+		int steps = 100000;
 		long startTime = System.currentTimeMillis();
 		for (int i = 0; i < steps; i++) {
 			System.out.println(stringRepresentation(golt));
@@ -22,6 +23,7 @@ public class GameOfLifeTestConsole {
 		long ms = (System.currentTimeMillis() - startTime);
         System.out.println(ms+" ms for " + steps + " steps!");
         System.out.println("Real FPS:" + (steps*1000.0)/ms);
+        
 	}
 	
 	public static String stringRepresentation(Automaton automat){
@@ -33,6 +35,8 @@ public class GameOfLifeTestConsole {
             		sb.append("| ");
             	else if(state==1)
             		sb.append("|\u25A0");
+            	else
+            		sb.append("|"+state);
             }
             sb.append("|\n");
         }

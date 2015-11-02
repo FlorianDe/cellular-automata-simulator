@@ -1,9 +1,15 @@
 package de.cas.view.casUI.menu;
 
 import java.awt.event.ActionEvent;
+
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+
+import de.cas.controller.IAutomatonController;
+import de.cas.controller.listener.population.SetSizeListener;
+import de.cas.controller.listener.population.ZoomInListener;
+import de.cas.controller.listener.population.ZoomOutListener;
 
 public class CASMenuPopulation extends JMenu {
 
@@ -27,12 +33,16 @@ public class CASMenuPopulation extends JMenu {
 	private JMenu submenuLoad;
 	private JMenu submenuExport;
 	
-	public CASMenuPopulation(String name){
+	IAutomatonController controller;
+	
+	public CASMenuPopulation(IAutomatonController controller, String name){
 		super(name);
+		this.controller = controller;
 		this.jme = new JMenuExtension(ActionEvent.CTRL_MASK+ActionEvent.SHIFT_MASK);
 		this.jme.setInformationJM(this, "STRING_DESCRIPTION");
 
     	this.menuItemChangeSize = this.jme.createJMenuItem(new JMenuItem("Größe ändern..."), 'G', "STRING_DESCRIPTION", this);
+    	this.menuItemChangeSize.addActionListener(new SetSizeListener(this.controller));
     	this.menuItemDelete = this.jme.createJMenuItem(new JMenuItem("Löschen"), 'C', "STRING_DESCRIPTION", this);
     	this.menuItemCreate = this.jme.createJMenuItem(new JMenuItem("Erzeugen"), 'E', "STRING_DESCRIPTION", this);
     	this.menuItemTorus = this.jme.createJMenuItem(new JCheckBoxMenuItem("Torus"),'T', "STRING_DESCRIPTION", this);
@@ -41,8 +51,10 @@ public class CASMenuPopulation extends JMenu {
     	this.addSeparator();
     	
     	this.menuItemZoomIn = this.jme.createJMenuItem(new JMenuItem("Vergrößern"),'I', "STRING_DESCRIPTION", this);
+    	this.menuItemZoomIn.addActionListener(new ZoomInListener(this.controller));
     	this.menuItemZoomOut = this.jme.createJMenuItem(new JMenuItem("Verkleinern"), 'O', "STRING_DESCRIPTION", this);
-
+    	this.menuItemZoomOut.addActionListener(new ZoomOutListener(this.controller));
+    	
     	this.addSeparator();
 
     	this.submenuSave = this.jme.createJMenu(new JMenu("Speichern"), "STRING_DESCRIPTION", this);
