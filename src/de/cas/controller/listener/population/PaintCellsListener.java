@@ -9,6 +9,7 @@ import de.cas.controller.IAutomatonController;
 
 public class PaintCellsListener implements MouseListener, MouseMotionListener {
 	
+	private int lastButtonPressed = -1;
 	private Point pStart;
 	private Point pEnd;
 	protected IAutomatonController controller;
@@ -19,6 +20,7 @@ public class PaintCellsListener implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseClicked(MouseEvent me) {
+		this.lastButtonPressed = me.getButton();
 		Point p = this.controller.getPopulationModel().coordinatesToCell(me.getY(), me.getX());
 		if (this.controller.getAutomatonModel().isValidPosition(p.y, p.x))
 			this.controller.getAutomatonModel().setState(p.y, p.x, this.controller.getAutomatonModel().getStates().getActualState());
@@ -27,20 +29,36 @@ public class PaintCellsListener implements MouseListener, MouseMotionListener {
 	@Override
 	public void mouseDragged(MouseEvent me) {
 		this.pEnd = this.controller.getPopulationModel().coordinatesToCell(me.getY(), me.getX());
-		this.drawCellArea();
+		if (this.lastButtonPressed == MouseEvent.BUTTON3) {
+			drawCellLine();
+		}
+		else{
+			drawCellArea();
+		}
 	}
 
 	@Override
 	public void mousePressed(MouseEvent me) {
+		this.lastButtonPressed = me.getButton();
 		this.pStart = this.controller.getPopulationModel().coordinatesToCell(me.getY(), me.getX());
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent me) {
 		this.pEnd = this.controller.getPopulationModel().coordinatesToCell(me.getY(), me.getX());
-		this.drawCellArea();
+		if (this.lastButtonPressed != MouseEvent.BUTTON3) {
+			this.drawCellArea();
+		}
 	}
 	
+	private void drawCellLine() {
+		if(pEnd != null){
+			if (this.controller.getAutomatonModel().isValidPosition((int)pEnd.getY(), (int)pEnd.getX())) {
+				this.controller.getAutomatonModel().setState((int)pEnd.getY(), (int)pEnd.getX(), this.controller.getAutomatonModel().getStates().getActualState());
+			}
+		}
+	}
+
 	private void drawCellArea(){
 		if(pStart != null && pEnd != null){
 			if (!pStart.equals(pEnd)){

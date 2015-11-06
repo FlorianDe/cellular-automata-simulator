@@ -13,8 +13,8 @@ public class SimulationModel extends Observable {
 	private IAutomatonController controller;
 	private int steps;
 
-	public static final int DELAY_MIN = 1;
-	public static final int DELAY_DEFAULT = 2500;
+	public static final int DELAY_MIN = 5;
+	public static final int DELAY_DEFAULT = 1000;
 	
 
 	public void setDelay(int delay) {
