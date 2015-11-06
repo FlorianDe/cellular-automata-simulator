@@ -30,6 +30,6 @@ public class Main{
 		controller.getAutomatonModel().getStates().addObserver(view.getStateContainer());
 		
 		
-		controller.getSimulationModel();//.startThread();
+		controller.getSimulationModel().startThread();
 	}
 }
