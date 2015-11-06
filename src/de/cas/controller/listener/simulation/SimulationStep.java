@@ -1,4 +1,6 @@
-package de.cas.controller;
+package de.cas.controller.listener.simulation;
+
+import de.cas.controller.IAutomatonController;
 
 public class SimulationStep implements Runnable {
 	IAutomatonController controller;
@@ -11,5 +13,8 @@ public class SimulationStep implements Runnable {
 	public void run() {
 		controller.getAutomatonModel().calcNextGeneration();
 		controller.getSimulationModel().incrementSteps();
+		try {
+			Thread.sleep(controller.getSimulationModel().getDelay());
+		} catch (InterruptedException e) {e.printStackTrace();}
 	}
 }

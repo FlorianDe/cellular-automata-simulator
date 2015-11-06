@@ -2,11 +2,13 @@ package de.cas.controller;
 
 import javax.swing.SwingUtilities;
 
+import de.cas.controller.listener.simulation.SimulationStep;
 import de.cas.model.SimulationModel;
 
 public class SimulationController extends Thread {
 
 	private IAutomatonController controller;
+	
 	public SimulationController(IAutomatonController controller) {
 		this.controller = controller;
 	}
@@ -18,11 +20,6 @@ public class SimulationController extends Thread {
 		
 		while (simulationModel.isRunning()) {
 			SwingUtilities.invokeLater(simulationStep);
-			try {
-				Thread.sleep(simulationModel.getDelay());
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 }

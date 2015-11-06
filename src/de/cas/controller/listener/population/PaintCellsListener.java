@@ -53,9 +53,7 @@ public class PaintCellsListener implements MouseListener, MouseMotionListener {
 	
 	private void drawCellLine() {
 		if(pEnd != null){
-			if (this.controller.getAutomatonModel().isValidPosition((int)pEnd.getY(), (int)pEnd.getX())) {
-				this.controller.getAutomatonModel().setState((int)pEnd.getY(), (int)pEnd.getX(), this.controller.getAutomatonModel().getStates().getActualState());
-			}
+			this.controller.getAutomatonModel().setState((int)pEnd.getY(), (int)pEnd.getX(), this.controller.getAutomatonModel().getStates().getActualState());
 		}
 	}
 

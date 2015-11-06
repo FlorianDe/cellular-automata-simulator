@@ -7,18 +7,20 @@ import de.cas.controller.SimulationController;
 
 public class SimulationModel extends Observable {
 
-	private volatile int delay;
-	private volatile boolean isRunning;
 	private SimulationController simulation;
 	private IAutomatonController controller;
+	private volatile int delay;
+	private volatile boolean isRunning;
 	private int steps;
 
 	public static final int DELAY_MIN = 5;
-	public static final int DELAY_DEFAULT = 1000;
-	
+	public static final int DELAY_DEFAULT = 30;
 
 	public void setDelay(int delay) {
-		this.delay = delay;
+		if(delay>=DELAY_MIN)
+			this.delay = delay;
+		else
+			this.delay = DELAY_MIN;
 	}
 
 	public int getDelay() {
@@ -39,30 +41,30 @@ public class SimulationModel extends Observable {
 
 	public SimulationModel(IAutomatonController controller) {
 		this.controller = controller;
-		this.delay = DELAY_DEFAULT;
+		this.setDelay(DELAY_DEFAULT);
 		this.isRunning = false;
-		resetSteps();
+		this.resetSteps();
 	}
 
 	public void startThread() {
 		this.simulation = new SimulationController(this.controller);
 		this.simulation.start();
 		this.isRunning = true;
-		notify(null);
+		this.notify(null);
 	}
 
 	public void stopThread() {
 		this.simulation = null;
 		this.isRunning = false;
-		notify(null);
+		this.notify(null);
 	}
 
 	public void incrementSteps() {
-		steps++;
+		this.steps++;
 	}
 	
 	public void resetSteps() {
-		steps = 0;
+		this.steps = 0;
 	}
 	
 	public void notify(Object arg) {
