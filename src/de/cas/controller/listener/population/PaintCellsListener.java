@@ -9,28 +9,25 @@ import de.cas.controller.IAutomatonController;
 
 public class PaintCellsListener implements MouseListener, MouseMotionListener {
 	
-	private int lastButtonPressed = -1;
+	private int lastButtonPressed;
 	private Point pStart;
 	private Point pEnd;
 	protected IAutomatonController controller;
 
 	public PaintCellsListener(IAutomatonController controller) {
 		this.controller = controller;
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent me) {
-		this.lastButtonPressed = me.getButton();
-		Point p = this.controller.getPopulationModel().coordinatesToCell(me.getY(), me.getX());
-		if (this.controller.getAutomatonModel().isValidPosition(p.y, p.x))
-			this.controller.getAutomatonModel().setState(p.y, p.x, this.controller.getAutomatonModel().getStates().getActualState());
+		this.lastButtonPressed = -1;
+		this.pStart = new Point(0,0);
+		this.pEnd = new Point(0,0);
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent me) {
 		this.pEnd = this.controller.getPopulationModel().coordinatesToCell(me.getY(), me.getX());
+		//System.out.printf("[mouseDragged] pStart[Y:%s | X:%s],  pEnd[Y:%s | X:%s]\n",pStart.getY(),pStart.getX(), pEnd.getY(), pEnd.getX());
 		if (this.lastButtonPressed == MouseEvent.BUTTON3) {
 			drawCellLine();
+			pStart.setLocation(pEnd.getX(),pEnd.getY());
 		}
 		else{
 			drawCellArea();
@@ -41,38 +38,50 @@ public class PaintCellsListener implements MouseListener, MouseMotionListener {
 	public void mousePressed(MouseEvent me) {
 		this.lastButtonPressed = me.getButton();
 		this.pStart = this.controller.getPopulationModel().coordinatesToCell(me.getY(), me.getX());
+		//System.out.printf("[mousePressed] pStart[Y:%s | X:%s],  pEnd[Y:%s | X:%s]\n",pStart.getY(),pStart.getX(), pEnd.getY(), pEnd.getX());
+		if (this.lastButtonPressed == MouseEvent.BUTTON3) {
+			drawCellLine();
+		}
+		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent me) {
 		this.pEnd = this.controller.getPopulationModel().coordinatesToCell(me.getY(), me.getX());
+		//System.out.printf("[mouseReleased] pStart[Y:%s | X:%s],  pEnd[Y:%s | X:%s]\n",pStart.getY(),pStart.getX(), pEnd.getY(), pEnd.getX());
 		if (this.lastButtonPressed != MouseEvent.BUTTON3) {
 			this.drawCellArea();
 		}
+		pEnd.setLocation(pStart.getX(), pStart.getY());
 	}
 	
 	private void drawCellLine() {
-		if(pEnd != null){
-			this.controller.getAutomatonModel().setState((int)pEnd.getY(), (int)pEnd.getX(), this.controller.getAutomatonModel().getStates().getActualState());
+		if(!pStart.equals(pEnd)){
+			int dX = (int)(pStart.getX()-pEnd.getX());
+			int dY = (int)(pStart.getY()-pEnd.getY());
+			int maxXY = Math.max(Math.abs(dX), Math.abs(dY));
+			double kX = (dX != 0)?(dX/(double)maxXY):0;
+			double kY = (dY != 0)?(dY/(double)maxXY):0;
+			for (int i = 0; i <= maxXY; i++) {
+				int pX = (int)pEnd.getX() + (int)(kX*i);
+				int pY = (int)pEnd.getY() + (int)(kY*i);
+				this.controller.getAutomatonModel().setState(pY, pX, this.controller.getAutomatonModel().getStates().getActualState());
+			}
 		}
 	}
 
 	private void drawCellArea(){
-		if(pStart != null && pEnd != null){
-			if (!pStart.equals(pEnd)){
-				int dX = (int)(pEnd.getX() - pStart.getX());
-				int dY = (int)(pEnd.getY() - pStart.getY());
-				int kX = (dX != 0)?(dX/(Math.abs(dX))):0;
-				int kY = (dY != 0)?(dY/(Math.abs(dY))):0;
-				
-				for (int y = 0; y <= Math.abs(dY); y++) {
-					int pY =  (int)pStart.getY() + kY*y;
-					for (int x = 0; x <= Math.abs(dX); x++) {
-						int pX = (int)pStart.getX() + kX*x;
-						if (this.controller.getAutomatonModel().isValidPosition(pY, pX)) {
-							this.controller.getAutomatonModel().setState(pY, pX, this.controller.getAutomatonModel().getStates().getActualState());
-						}
-					}
+		if (!pStart.equals(pEnd)){
+			int dX = (int)(pEnd.getX() - pStart.getX());
+			int dY = (int)(pEnd.getY() - pStart.getY());
+			int kX = (dX != 0)?(dX/(Math.abs(dX))):0;
+			int kY = (dY != 0)?(dY/(Math.abs(dY))):0;
+			
+			for (int y = 0; y <= Math.abs(dY); y++) {
+				int pY =  (int)pStart.getY() + kY*y;
+				for (int x = 0; x <= Math.abs(dX); x++) {
+					int pX = (int)pStart.getX() + kX*x;
+					this.controller.getAutomatonModel().setState(pY, pX, this.controller.getAutomatonModel().getStates().getActualState());
 				}
 			}
 		}
@@ -85,5 +94,7 @@ public class PaintCellsListener implements MouseListener, MouseMotionListener {
 	public void mouseEntered(MouseEvent arg0) {}
 	@Override
 	public void mouseExited(MouseEvent arg0) {}
+	@Override
+	public void mouseClicked(MouseEvent me) {}
 
 }

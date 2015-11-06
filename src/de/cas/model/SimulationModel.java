@@ -14,7 +14,7 @@ public class SimulationModel extends Observable {
 	private int steps;
 
 	public static final int DELAY_MIN = 5;
-	public static final int DELAY_DEFAULT = 30;
+	public static final int DELAY_DEFAULT = 100;
 
 	public void setDelay(int delay) {
 		if(delay>=DELAY_MIN)

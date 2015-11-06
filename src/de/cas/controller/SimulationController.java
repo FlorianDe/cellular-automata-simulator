@@ -20,6 +20,9 @@ public class SimulationController extends Thread {
 		
 		while (simulationModel.isRunning()) {
 			SwingUtilities.invokeLater(simulationStep);
+			try {
+				Thread.sleep(simulationModel.getDelay());
+			} catch (InterruptedException e) {e.printStackTrace();}
 		}
 	}
 }

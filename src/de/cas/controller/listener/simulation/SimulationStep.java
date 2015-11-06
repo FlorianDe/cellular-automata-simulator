@@ -13,8 +13,5 @@ public class SimulationStep implements Runnable {
 	public void run() {
 		controller.getAutomatonModel().calcNextGeneration();
 		controller.getSimulationModel().incrementSteps();
-		try {
-			Thread.sleep(controller.getSimulationModel().getDelay());
-		} catch (InterruptedException e) {e.printStackTrace();}
 	}
 }
