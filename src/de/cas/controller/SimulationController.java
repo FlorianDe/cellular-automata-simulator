@@ -2,7 +2,6 @@ package de.cas.controller;
 
 import javax.swing.SwingUtilities;
 
-import de.cas.controller.listener.simulation.SimulationStep;
 import de.cas.model.SimulationModel;
 
 public class SimulationController extends Thread {
@@ -18,11 +17,18 @@ public class SimulationController extends Thread {
 		SimulationModel simulationModel = this.controller.getSimulationModel();
 		SimulationStep simulationStep = new SimulationStep(controller);
 		
-		while (simulationModel.isRunning()) {
+		if(!simulationModel.isOneSimulationStep()){
+			while (simulationModel.isRunning()) {
+				SwingUtilities.invokeLater(simulationStep);
+				try {
+					Thread.sleep(simulationModel.getDelay());
+				} catch (InterruptedException e) {e.printStackTrace();}
+			}
+		}
+		else{
 			SwingUtilities.invokeLater(simulationStep);
-			try {
-				Thread.sleep(simulationModel.getDelay());
-			} catch (InterruptedException e) {e.printStackTrace();}
+			simulationModel.setOneSimulationStep(false);
+			simulationModel.setRunning(false);
 		}
 	}
 }

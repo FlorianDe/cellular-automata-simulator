@@ -18,7 +18,7 @@ public class PaintCellsListener implements MouseListener, MouseMotionListener {
 		this.controller = controller;
 		this.lastButtonPressed = -1;
 		this.pStart = new Point(0,0);
-		this.pEnd = new Point(0,0);
+		this.pEnd = null;
 	}
 
 	@Override
@@ -39,10 +39,11 @@ public class PaintCellsListener implements MouseListener, MouseMotionListener {
 		this.lastButtonPressed = me.getButton();
 		this.pStart = this.controller.getPopulationModel().coordinatesToCell(me.getY(), me.getX());
 		//System.out.printf("[mousePressed] pStart[Y:%s | X:%s],  pEnd[Y:%s | X:%s]\n",pStart.getY(),pStart.getX(), pEnd.getY(), pEnd.getX());
-		if (this.lastButtonPressed == MouseEvent.BUTTON3) {
-			drawCellLine();
+		if(this.pEnd != null){
+			if (this.lastButtonPressed == MouseEvent.BUTTON3) {
+				drawCellLine();
+			}
 		}
-		
 	}
 
 	@Override
@@ -51,8 +52,11 @@ public class PaintCellsListener implements MouseListener, MouseMotionListener {
 		//System.out.printf("[mouseReleased] pStart[Y:%s | X:%s],  pEnd[Y:%s | X:%s]\n",pStart.getY(),pStart.getX(), pEnd.getY(), pEnd.getX());
 		if (this.lastButtonPressed != MouseEvent.BUTTON3) {
 			this.drawCellArea();
+			pEnd = null;
 		}
-		pEnd.setLocation(pStart.getX(), pStart.getY());
+		else{
+			pEnd.setLocation(pStart.getX(), pStart.getY());
+		}
 	}
 	
 	private void drawCellLine() {

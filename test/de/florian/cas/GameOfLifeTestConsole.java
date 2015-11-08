@@ -5,7 +5,7 @@ import de.cas.model.automata.GameOfLifeAutomaton;
 
 public class GameOfLifeTestConsole {
 	public static void main(String[] args) throws InterruptedException{
-		GameOfLifeAutomaton golt = new GameOfLifeAutomaton(10,10,true,true);
+		GameOfLifeAutomaton golt = new GameOfLifeAutomaton();
 		golt.randomPopulation();
 		//golt.createGliderGun();
 		golt.setState(2, 3, 1);

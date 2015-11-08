@@ -190,7 +190,7 @@ public abstract class Automaton extends Observable{
 	 * @param state neuer Zustand der Zelle
 	 */
 	public void setState(int row, int column, int state){
-		if(isValidPosition(row, column)){
+		if(isValidPosition(row, column) && states.isValidState(state)){
 			population[row][column].setState(state);
 			notify(null);
 		}
@@ -243,7 +243,7 @@ public abstract class Automaton extends Observable{
 	public boolean isValidPosition(int row, int column){
 		return((row >= 0 && row < this.numberOfRows) && (column >= 0 && column < this.numberOfColumns));
 	}
-
+	
 	
 	//Im "Benchmark" schneller als System.arraycopy(...)
 	private Cell[][] clonePopulation() {

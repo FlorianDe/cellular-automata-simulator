@@ -8,9 +8,9 @@ public class PopulationModel extends Observable {
 	public final static int MARGIN_DEFAULT = 10;
 
 	public final static int CELL_SIZE_MIN = 1;
-	public final static int CELL_SIZE_DEFAULT = 10;
+	public final static int CELL_SIZE_DEFAULT = 6;
 	public final static int CELL_SIZE_MAX = 20;
-	public final static int CELL_SIZE_DRAW_RECT_THRESHOLD = 5;
+	//public final static int CELL_SIZE_DRAW_RECT_THRESHOLD = 5;
 
 	private boolean drawCellRect;
 	private int cellSize;
@@ -20,6 +20,7 @@ public class PopulationModel extends Observable {
 	public PopulationModel(){
 		this.setCellSize(CELL_SIZE_DEFAULT);
 		this.margin = MARGIN_DEFAULT;
+		this.drawCellRect = true;
 	}
 	public PopulationModel(int cellSize){
 		this();
@@ -40,13 +41,16 @@ public class PopulationModel extends Observable {
 		return drawCellRect;
 	}
 	
+	public void setDrawCellRect(boolean drawCellRect) {
+		this.drawCellRect = drawCellRect;
+		notify(null);
+	}
 	public int getCellSize() {
 		return cellSize;
 	}
 	public void setCellSize(int value) {
 		if (value >= CELL_SIZE_MIN && value <= CELL_SIZE_MAX){
 			cellSize = value;
-			this.drawCellRect = (value >= CELL_SIZE_DRAW_RECT_THRESHOLD);
 			notify(null);
 		}
 	}
@@ -61,10 +65,12 @@ public class PopulationModel extends Observable {
 
 	public void zoomIn() {
 		this.setCellSize(this.getCellSize()+1);
+		notify(null);
 	}
 
 	public void zoomOut() {
 		this.setCellSize(this.getCellSize()-1);
+		notify(null);
 	}
 	
 	public void notify(Object arg) {

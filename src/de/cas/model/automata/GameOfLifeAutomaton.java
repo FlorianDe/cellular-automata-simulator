@@ -5,11 +5,14 @@ import de.cas.model.Cell;
 
 public class GameOfLifeAutomaton extends Automaton {
 	
+	private final static int numberOfRows = 80;
+	private final static int numberOfColumns = 80;
+	private final static int numberOfStates = 2;
+	private final static boolean isMooreNeighborHood = true;
+	private final static boolean isTorus = true;
+	
 	public GameOfLifeAutomaton(){
-		super(100,100,2,true,true);
-	}
-	public GameOfLifeAutomaton(int numberOfRows, int numberOfColumns, boolean isMooreNeighborHood, boolean isTorus){
-		super(numberOfRows,numberOfColumns, 2, isMooreNeighborHood,isTorus);
+		super(numberOfRows,numberOfColumns, numberOfStates, isMooreNeighborHood,isTorus);
 	}
 	
 	@Override

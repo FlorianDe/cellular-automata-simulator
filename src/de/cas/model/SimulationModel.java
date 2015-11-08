@@ -11,16 +11,20 @@ public class SimulationModel extends Observable {
 	private IAutomatonController controller;
 	private volatile int delay;
 	private volatile boolean isRunning;
+	private volatile boolean oneSimulationStep;
 	private int steps;
 
 	public static final int DELAY_MIN = 5;
 	public static final int DELAY_DEFAULT = 100;
+	public static final int DELAY_MAX = 200;
 
 	public void setDelay(int delay) {
-		if(delay>=DELAY_MIN)
+		if(delay>=DELAY_MIN){
 			this.delay = delay;
-		else
+		} else {
 			this.delay = DELAY_MIN;
+		}
+		notify(null);
 	}
 
 	public int getDelay() {
@@ -53,6 +57,14 @@ public class SimulationModel extends Observable {
 		this.notify(null);
 	}
 
+	public void startStep() {
+		this.oneSimulationStep = true;
+		this.isRunning = false;
+		this.simulation = new SimulationController(this.controller);
+		this.simulation.start();
+		this.notify(null);
+	}
+
 	public void stopThread() {
 		this.simulation = null;
 		this.isRunning = false;
@@ -65,6 +77,14 @@ public class SimulationModel extends Observable {
 	
 	public void resetSteps() {
 		this.steps = 0;
+	}
+	
+	public boolean isOneSimulationStep() {
+		return oneSimulationStep;
+	}
+
+	public void setOneSimulationStep(boolean oneSimulationStep) {
+		this.oneSimulationStep = oneSimulationStep;
 	}
 	
 	public void notify(Object arg) {

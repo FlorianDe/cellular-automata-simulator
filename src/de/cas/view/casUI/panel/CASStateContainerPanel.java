@@ -29,9 +29,9 @@ public class CASStateContainerPanel extends JPanel implements Observer {
         this.setStates();
         
         this.add(this.container);
-        this.setBackground(Color.decode("0xFACDFA"));
+        this.setBackground(Color.decode("0xFFCDFF"));
         
-        this.refreshSelectedState();
+	    update(null, this);
 	}
 	
 	public void setStates(){

@@ -1,6 +1,4 @@
-package de.cas.controller.listener.simulation;
-
-import de.cas.controller.IAutomatonController;
+package de.cas.controller;
 
 public class SimulationStep implements Runnable {
 	IAutomatonController controller;

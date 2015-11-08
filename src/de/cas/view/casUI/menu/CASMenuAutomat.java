@@ -8,6 +8,7 @@ import javax.swing.JMenuItem;
 public class CASMenuAutomat extends JMenu {
 
 	private static final long serialVersionUID = 1857407324411535407L;
+	
 	JMenuExtension jme;
 	JMenuItem menuItemNew;
 	JMenuItem menuItemLoad;

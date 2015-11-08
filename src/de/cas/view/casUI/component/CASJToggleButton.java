@@ -1,6 +1,7 @@
 package de.cas.view.casUI.component;
 
 import java.awt.Dimension;
+
 import javax.swing.JToggleButton;
 
 public class CASJToggleButton extends JToggleButton{
