@@ -1,7 +1,7 @@
 package de.cas.view.casUI.util;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import de.cas.model.PopulationModel;
 
@@ -13,12 +13,8 @@ public class Rectangle implements Drawable{
 	}
 
 	@Override
-	public void draw(Graphics g, PopulationModel zoomFactor, int x, int y, int cellSize, int margin) {
+	public void draw(Graphics2D g, PopulationModel zoomFactor, int x, int y, int cellSize, int margin) {
 		g.setColor(color);
 		g.fillRect(x * cellSize + margin, y * cellSize + margin, cellSize, cellSize);
-		if(zoomFactor.isDrawCellRect()){
-			g.setColor(Color.black);
-			g.drawRect(x * cellSize + margin, y * cellSize + margin, cellSize, cellSize);
-		}
 	}
 }

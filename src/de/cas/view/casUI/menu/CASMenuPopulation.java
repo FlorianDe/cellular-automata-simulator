@@ -1,8 +1,7 @@
 package de.cas.view.casUI.menu;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
@@ -14,8 +13,10 @@ import de.cas.controller.listener.population.SetSizeListener;
 import de.cas.controller.listener.population.TorusListener;
 import de.cas.controller.listener.population.ZoomInListener;
 import de.cas.controller.listener.population.ZoomOutListener;
+import de.cas.util.CstmObservable;
+import de.cas.util.CstmObserver;
 
-public class CASMenuPopulation extends JMenu implements Observer {
+public class CASMenuPopulation extends JMenu implements CstmObserver {
 
 	private static final long serialVersionUID = 1857407324411535407L;
 	JMenuExtension jme;
@@ -43,6 +44,8 @@ public class CASMenuPopulation extends JMenu implements Observer {
 	public CASMenuPopulation(String name, IAutomatonController controller){
 		super(name);
 		this.controller = controller;
+		this.controller.getAutomatonModel().addObserver(this);
+		
 		this.jme = new JMenuExtension(ActionEvent.CTRL_MASK+ActionEvent.SHIFT_MASK);
 		this.jme.setInformationJM(this, "STRING_DESCRIPTION");
 
@@ -86,9 +89,10 @@ public class CASMenuPopulation extends JMenu implements Observer {
 	}
 	
 	@Override
-	public void update(Observable arg0, Object arg1) {
+	public void update(CstmObservable arg0, Object arg1) {
 		this.menuItemTorus.setSelected(this.controller.getAutomatonModel().isTorus());
 		this.menuItemGridOnOff.setSelected(this.controller.getPopulationModel().isDrawCellRect());
+		this.menuItemZoomOut.setEnabled(!this.controller.getPopulationModel().isMinimum());
 		this.revalidate();
 		this.repaint();
 	}

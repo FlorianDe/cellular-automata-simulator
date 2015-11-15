@@ -7,9 +7,11 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.ScrollPaneConstants;
 
 import de.cas.controller.IAutomatonController;
+import de.cas.controller.listener.population.MouseWheelZoomListener;
 import de.cas.view.casUI.menu.CASMenuBar;
 import de.cas.view.casUI.panel.CASMessagesPanel;
 import de.cas.view.casUI.panel.CASPopulationPanel;
@@ -52,9 +54,9 @@ public class CASFrame extends JFrame {
 	
 	public CASFrame(IAutomatonController controller) {
 		this.controller = controller;
-        initializeUI();
+        this.initializeUI();
     }
-
+	
     private void initializeUI() {
         this.setTitle("CAS");
         this.setMinimumSize(new Dimension());
@@ -74,15 +76,25 @@ public class CASFrame extends JFrame {
         this.populationScrollPane = new JScrollPane(this.populationPanel,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        
+       
         this.messages = new CASMessagesPanel(this.controller);
 
 
         this.setJMenuBar(menuBar);
         this.add(this.toolbar, BorderLayout.NORTH);
-        this.add(this.stateScrollPane, BorderLayout.WEST);
-        this.add(this.messages, BorderLayout.SOUTH); 
-        this.add(this.populationScrollPane,  BorderLayout.CENTER);
+        this.add(this.messages, BorderLayout.SOUTH);
+
+        //Anpassen
+        int pspWidth = (int)(this.getPreferredSize().getWidth()-this.stateContainer.getPreferredSize().getWidth())-100;
+        this.populationScrollPane.setMinimumSize(new Dimension(pspWidth,0));
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+        		stateScrollPane, populationScrollPane);
+        splitPane.setOneTouchExpandable(true);
+        splitPane.setDividerLocation((int)this.stateScrollPane.getPreferredSize().getWidth());
+        
+        //this.add(this.stateScrollPane, BorderLayout.WEST); 
+        //this.add(this.populationScrollPane,  BorderLayout.CENTER);
+        this.add(splitPane, BorderLayout.CENTER);
         
         
         

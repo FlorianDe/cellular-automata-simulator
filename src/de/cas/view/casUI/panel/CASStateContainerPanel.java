@@ -3,15 +3,15 @@ package de.cas.view.casUI.panel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import de.cas.controller.IAutomatonController;
+import de.cas.util.CstmObservable;
+import de.cas.util.CstmObserver;
 
-public class CASStateContainerPanel extends JPanel implements Observer {
+public class CASStateContainerPanel extends JPanel implements CstmObserver {
 
 	private static final long serialVersionUID = -6410240876788548983L;
 	
@@ -22,6 +22,8 @@ public class CASStateContainerPanel extends JPanel implements Observer {
 	public CASStateContainerPanel(IAutomatonController controller){
         super();
         this.controller = controller;
+        this.controller.getAutomatonModel().getStates().addObserver(this);
+        
         this.states = new ArrayList<>();
         this.container = new JPanel();
         this.container.setLayout(new BoxLayout(this.container, BoxLayout.Y_AXIS));
@@ -71,9 +73,14 @@ public class CASStateContainerPanel extends JPanel implements Observer {
     public Dimension getPreferredSize() {
     	return new Dimension(CASStatePanel.PANEL_WIDTH ,super.getPreferredSize().height);
     }
+    
+    @Override
+    public Dimension getMaximumSize() {
+    	return new Dimension(CASStatePanel.PANEL_WIDTH+100 ,super.getPreferredSize().height);
+    }
 
 	@Override
-	public void update(Observable arg0, Object arg1) {
+	public void update(CstmObservable o, Object arg) {
 		//If ARGUMENT == NEW_AUTOMAT, nicht refreshColors, sondern setStates!
 		this.refreshSelectedState();
 		this.refreshColors();

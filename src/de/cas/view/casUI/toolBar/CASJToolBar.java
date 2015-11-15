@@ -1,8 +1,8 @@
 package de.cas.view.casUI.toolBar;
 
 import java.awt.Insets;
-import java.util.Observable;
-import java.util.Observer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
@@ -23,9 +23,11 @@ import de.cas.controller.listener.population.ZoomOutListener;
 import de.cas.controller.listener.simulation.OneStepListener;
 import de.cas.controller.listener.simulation.PlayListener;
 import de.cas.controller.listener.simulation.StopListener;
+import de.cas.util.CstmObservable;
+import de.cas.util.CstmObserver;
 import de.cas.view.casUI.component.CASJSliderPanel;
 
-public class CASJToolBar extends JToolBar implements Observer{
+public class CASJToolBar extends JToolBar implements CstmObserver{
 
 	private static final long serialVersionUID = -4836559168569081649L;
 	private JButton btnNew;
@@ -51,7 +53,9 @@ public class CASJToolBar extends JToolBar implements Observer{
 	
 	public CASJToolBar(IAutomatonController controller){
 		this.controller = controller;
-
+		this.controller.getSimulationModel().addObserver(this);
+		this.controller.getAutomatonModel().addObserver(this);
+		
 		//1. Button
 		this.btnNew = (JButton) createToolbarButton(new JButton(), "img/New24.gif");
 		this.add(this.btnNew);
@@ -101,6 +105,7 @@ public class CASJToolBar extends JToolBar implements Observer{
 	    //10. Button
 		this.btnOneStep = (JButton) createToolbarButton(new JButton(), "img/StepForward24.gif");
 		this.btnOneStep.addActionListener(new OneStepListener(controller));
+
 		this.add(this.btnOneStep);
 	    this.addSeparator();
 	    
@@ -147,10 +152,11 @@ public class CASJToolBar extends JToolBar implements Observer{
 	
 
 	@Override
-	public void update(Observable arg0, Object arg1) {
+	public void update(CstmObservable arg0, Object arg1) {
 		this.btnPlay.setEnabled(!this.controller.getSimulationModel().isRunning());
 		this.btnStop.setEnabled(this.controller.getSimulationModel().isRunning());
 		this.btnTorus.setSelected(this.controller.getAutomatonModel().isTorus());
+		this.btnZoomOut.setEnabled(!this.controller.getPopulationModel().isMinimum());
 		this.revalidate();
 		this.repaint();
 	}

@@ -19,7 +19,7 @@ public class SimulationController extends Thread {
 		
 		if(!simulationModel.isOneSimulationStep()){
 			while (simulationModel.isRunning()) {
-				SwingUtilities.invokeLater(simulationStep);
+				simulationStep.run();
 				try {
 					Thread.sleep(simulationModel.getDelay());
 				} catch (InterruptedException e) {e.printStackTrace();}

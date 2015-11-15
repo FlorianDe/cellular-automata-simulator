@@ -1,10 +1,15 @@
 package de.cas.model;
 
-import java.util.Observable;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public abstract class Automaton extends Observable{
+import de.cas.util.CstmObservable;
 
+public abstract class Automaton extends CstmObservable{
 	private StateModel states;
 	private Cell[][] population;
 	private int numberOfRows;
@@ -215,9 +220,38 @@ public abstract class Automaton extends Observable{
 	 * @return
 	 */
 	
-	public Cell[][] calcNextGeneration(){
+	public synchronized Cell[][] calcNextGeneration(){
+		//ExecutorService taskExecutor = Executors.newFixedThreadPool(Math.min(Runtime.getRuntime().availableProcessors() + 1, this.numberOfRows));
+		
 		final Cell[][] populationCopy = clonePopulation();
 		Cell.iterator(this.population, (cell, y, x) -> transform(population[y][x], getCellNeighbors(populationCopy, y, x)));
+		
+		/*
+		for (int y = 0; y < population.length; y++) {
+			final int actY = y;
+			taskExecutor.execute(new Thread() {
+				@Override
+				public void run() {
+					System.out.println("Y:"+actY);
+					for (int x = 0; x < population[actY].length; x++) {
+						population[actY][x] = transform(populationCopy[actY][x], getCellNeighbors(populationCopy, actY, x));
+						//System.out.print("["+actY+"]"+"X:"+x);
+					}
+				}
+			});
+		}
+		
+		taskExecutor.shutdown();
+		
+		try {
+			taskExecutor.awaitTermination(10, TimeUnit.SECONDS);
+			if(!taskExecutor.isTerminated())
+				throw new InterruptedException("Timeout!");
+		} catch (InterruptedException ex) {
+			Logger.getLogger(new Throwable().getStackTrace()[0].getClassName()).log(Level.SEVERE, null, ex);
+		}
+		*/
+		
 		notify(null);
 		return population;
 	}

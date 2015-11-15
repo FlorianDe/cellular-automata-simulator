@@ -1,10 +1,11 @@
 package de.cas.model;
 
 import java.awt.Color;
-import java.util.Observable;
 import java.util.Random;
 
-public class StateModel  extends Observable{
+import de.cas.util.CstmObservable;
+
+public class StateModel  extends CstmObservable{
 	public static final int NO_ACTUAL_STATE = -1;
 	private int actualState;
 	private int numberOfStates;

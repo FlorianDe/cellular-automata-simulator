@@ -1,9 +1,10 @@
 package de.cas.model;
 
 import java.awt.Point;
-import java.util.Observable;
 
-public class PopulationModel extends Observable {
+import de.cas.util.CstmObservable;
+
+public class PopulationModel extends CstmObservable {
 	
 	public final static int MARGIN_DEFAULT = 10;
 
@@ -36,7 +37,6 @@ public class PopulationModel extends Observable {
 		return (t<0)?0:t;
 	}
 	
-	
 	public boolean isDrawCellRect() {
 		return drawCellRect;
 	}
@@ -45,11 +45,15 @@ public class PopulationModel extends Observable {
 		this.drawCellRect = drawCellRect;
 		notify(null);
 	}
+	public boolean isMinimum(){
+		return this.getCellSize()<=CELL_SIZE_MIN;
+	}
 	public int getCellSize() {
 		return cellSize;
 	}
 	public void setCellSize(int value) {
 		if (value >= CELL_SIZE_MIN && value <= CELL_SIZE_MAX){
+			this.setDrawCellRect(value > CELL_SIZE_MIN);
 			cellSize = value;
 			notify(null);
 		}

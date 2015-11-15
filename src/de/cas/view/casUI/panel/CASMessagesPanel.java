@@ -2,16 +2,16 @@ package de.cas.view.casUI.panel;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import de.cas.controller.IAutomatonController;
 import de.cas.model.Automaton;
+import de.cas.util.CstmObservable;
+import de.cas.util.CstmObserver;
 
-public class CASMessagesPanel extends JPanel implements Observer {
+public class CASMessagesPanel extends JPanel implements CstmObserver {
 
 	private static final long serialVersionUID = 5065284549023365460L;
 	private JLabel message;
@@ -31,6 +31,7 @@ public class CASMessagesPanel extends JPanel implements Observer {
 	}
 	public CASMessagesPanel(String message, IAutomatonController controller){
 		this.controller = controller;
+		this.controller.getAutomatonModel().addObserver(this);
 		this.message = new JLabel(message);
 		this.add(this.message);
 		this.setBackground(Color.getHSBColor(187, 33, 100));
@@ -40,7 +41,7 @@ public class CASMessagesPanel extends JPanel implements Observer {
 	}
 
 	@Override
-	public void update(Observable arg0, Object arg1) {
+	public void update(CstmObservable arg0, Object arg1) {
 		Automaton a = this.controller.getAutomatonModel();
 		this.message.setText(String.format("[%s: Size:(W=%s H=%s), Torus: %s, NeighborHood: %s, CellSize: %s, Grid: %s]",
 				a.getClass().getSimpleName(), a.getNumberOfColumns(),

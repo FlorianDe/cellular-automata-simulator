@@ -4,8 +4,6 @@ import java.awt.FlowLayout;
 import java.text.DecimalFormat;
 import java.util.Dictionary;
 import java.util.Hashtable;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -14,8 +12,10 @@ import javax.swing.JSlider;
 import de.cas.controller.IAutomatonController;
 import de.cas.controller.listener.simulation.SimulationSpeedListener;
 import de.cas.model.SimulationModel;
+import de.cas.util.CstmObservable;
+import de.cas.util.CstmObserver;
 
-public class CASJSliderPanel extends JPanel implements Observer {
+public class CASJSliderPanel extends JPanel implements CstmObserver {
 
 	private static final long serialVersionUID = -8302774182641615679L;
 	
@@ -27,9 +27,11 @@ public class CASJSliderPanel extends JPanel implements Observer {
 	
 	public CASJSliderPanel(IAutomatonController controller){
 		super();
+		this.controller = controller;
+		this.controller.getSimulationModel().addObserver(this);
+		
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		this.setOpaque(false);
-		this.controller = controller;
 		this.speedSlider = new JSlider(JSlider.HORIZONTAL, SimulationModel.DELAY_MIN, SimulationModel.DELAY_MAX, controller.getSimulationModel().getDelay());
 		this.speedSlider.setMinorTickSpacing((SimulationModel.DELAY_MAX-SimulationModel.DELAY_MIN)/10);
 		this.speedSlider.setMajorTickSpacing((SimulationModel.DELAY_MAX-SimulationModel.DELAY_MIN)/2);
@@ -52,10 +54,7 @@ public class CASJSliderPanel extends JPanel implements Observer {
 
 
 	@Override
-	public void update(Observable arg0, Object arg1) {
+	public void update(CstmObservable arg0, Object arg1) {
 		this.speedLabel.setText(controller.getSimulationModel().getDelay()+"ms [~" + new DecimalFormat("0.00").format((1000.0/controller.getSimulationModel().getDelay())) + " fps]");
 	}
-
-
-	
 }

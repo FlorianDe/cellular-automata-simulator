@@ -1,11 +1,10 @@
 package de.cas.model;
 
-import java.util.Observable;
-
 import de.cas.controller.IAutomatonController;
 import de.cas.controller.SimulationController;
+import de.cas.util.CstmObservable;
 
-public class SimulationModel extends Observable {
+public class SimulationModel extends CstmObservable {
 
 	private SimulationController simulation;
 	private IAutomatonController controller;

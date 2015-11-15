@@ -120,8 +120,20 @@ public class GameOfLifeAutomaton extends Automaton {
 		}
 	}
 	
-	public void createTrafficRLUO(){
-		int scaleF = 1;
+	public void createTrafficRLUO_F1(){
+		createTrafficRLUO(1);
+	}
+	public void createTrafficRLUO_F2(){
+		createTrafficRLUO(2);
+	}
+	public void createTrafficRLUO_F3(){
+		createTrafficRLUO(3);
+	}
+	public void createTrafficRLUO_F4(){
+		createTrafficRLUO(4);
+	}
+	
+	public void createTrafficRLUO(int scaleF){
 		this.setSize(140*scaleF, 140*scaleF);
 		int size =7;
 		

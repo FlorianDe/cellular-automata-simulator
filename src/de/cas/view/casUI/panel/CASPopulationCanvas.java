@@ -6,15 +6,15 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferStrategy;
-import java.util.Observable;
-import java.util.Observer;
 
 import de.cas.controller.IAutomatonController;
 import de.cas.controller.listener.population.PaintCellsListener;
+import de.cas.util.CstmObservable;
+import de.cas.util.CstmObserver;
 import de.cas.view.CASFrame;
 import de.cas.view.casUI.util.RectangleFactory;
 
-public class CASPopulationCanvas extends Canvas implements Observer {
+public class CASPopulationCanvas extends Canvas implements CstmObserver {
 
 	private static final long serialVersionUID = 5065284549023365460L;
 
@@ -94,9 +94,8 @@ public class CASPopulationCanvas extends Canvas implements Observer {
 		return new Dimension((2 * this.controller.getPopulationModel().getMargin()) + (this.controller.getAutomatonModel().getNumberOfColumns() * controller.getPopulationModel().getCellSize()), (2 * this.controller.getPopulationModel().getMargin()) + (this.controller.getAutomatonModel().getNumberOfRows() * controller.getPopulationModel().getCellSize()));
 	}
 
-
 	@Override
-	public void update(Observable arg0, Object arg1) {
+	public void update(CstmObservable arg0, Object arg1) {
 		//this.revalidate();
 		//this.repaint();
 		

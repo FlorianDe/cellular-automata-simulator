@@ -1,8 +1,6 @@
 package de.cas.view.casUI.menu;
 
 import java.awt.event.ActionEvent;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -11,8 +9,10 @@ import de.cas.controller.IAutomatonController;
 import de.cas.controller.listener.simulation.OneStepListener;
 import de.cas.controller.listener.simulation.PlayListener;
 import de.cas.controller.listener.simulation.StopListener;
+import de.cas.util.CstmObservable;
+import de.cas.util.CstmObserver;
 
-public class CASMenuSimulation extends JMenu implements Observer  {
+public class CASMenuSimulation extends JMenu implements CstmObserver  {
 
 	private static final long serialVersionUID = 1857407324411535407L;
 	JMenuExtension jme;
@@ -25,6 +25,7 @@ public class CASMenuSimulation extends JMenu implements Observer  {
 	public CASMenuSimulation(String name, IAutomatonController controller){
 		super(name);
 		this.controller = controller;
+		this.controller.getSimulationModel().addObserver(this);
 		this.jme = new JMenuExtension(ActionEvent.CTRL_MASK+ActionEvent.ALT_MASK);
 		this.jme.setInformationJM(this, "STRING_DESCRIPTION");
 		
@@ -37,7 +38,7 @@ public class CASMenuSimulation extends JMenu implements Observer  {
 	}
 	
 	@Override
-	public void update(Observable arg0, Object arg1) {
+	public void update(CstmObservable arg0, Object arg1) {
 		this.menuItemStart.setEnabled(!this.controller.getSimulationModel().isRunning());
 		this.menuItemStop.setEnabled(this.controller.getSimulationModel().isRunning());
 		this.revalidate();
