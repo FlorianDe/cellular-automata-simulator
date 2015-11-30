@@ -17,18 +17,18 @@ public class CASJLabel extends JLabel implements IPolyGlot, CstmObserver {
 	public CASJLabel(IAutomatonController controller, CASLanguageBundle.Property property){
 		this.controller = controller;
 		this.property = property;
-		this.controller.getPropertiesManager().getLanguageBundle().addObserver(this);
-		this.updateText();
+		this.controller.getLanguageBundle().addObserver(this);
+		this.updateProperties();
 	}
 
 	@Override
-	public void updateText() {
-		String text = this.controller.getPropertiesManager().getLanguageBundle().getValue(this.property);
+	public void updateProperties() {
+		String text = this.controller.getLanguageBundle().getValue(this.property);
 		this.setText(text);
 	}
 
 	@Override
 	public void update(CstmObservable o, Object arg) {
-		this.updateText();
+		this.updateProperties();
 	}
 }

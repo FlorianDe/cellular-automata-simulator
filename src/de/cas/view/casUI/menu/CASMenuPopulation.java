@@ -177,6 +177,7 @@ public class CASMenuPopulation extends CASJMenu implements CstmObserver {
 	
 	@Override
 	public void update(CstmObservable arg0, Object arg1) {
+		super.update(arg0, arg1);
 		this.menuItemTorus.setSelected(this.controller.getAutomatonModel().isTorus());
 		this.menuItemGridOnOff.setSelected(this.controller.getPopulationModel().isDrawCellRect());
 		this.menuItemZoomOut.setEnabled(!this.controller.getPopulationModel().isMinimum());

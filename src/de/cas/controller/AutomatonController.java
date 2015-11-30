@@ -1,7 +1,7 @@
 package de.cas.controller;
 
 import de.cas.controller.properties.CASLanguageBundle;
-import de.cas.controller.properties.PropertiesManager;
+import de.cas.controller.properties.CASSettings;
 import de.cas.model.Automaton;
 import de.cas.model.SimulationModel;
 import de.cas.model.PopulationModel;
@@ -12,7 +12,7 @@ public class AutomatonController implements IAutomatonController{
 	private CASFrame view;
 	private PopulationModel zoomFactor;
 	private SimulationModel simulationModel;
-	private PropertiesManager propertiesManager;
+	private CASLanguageBundle languageBundle;
 
 	@Override
 	public Automaton getAutomatonModel() {
@@ -46,20 +46,19 @@ public class AutomatonController implements IAutomatonController{
 	public void setSimulationModel(SimulationModel simulationModel) {
 		this.simulationModel = simulationModel;
 	}
+
+	public CASLanguageBundle getLanguageBundle() {
+		return languageBundle;
+	}
+	public void setLanguageBundle(CASLanguageBundle languageBundle) {
+		this.languageBundle = languageBundle;
+	}
 	
-	public PropertiesManager getPropertiesManager() {
-		return propertiesManager;
-	}
-	public void setPropertiesManager(PropertiesManager propertiesManager) {
-		this.propertiesManager = propertiesManager;
-	}
-
-
 	public AutomatonController(Automaton automaton){
 		this.automaton = automaton;
 		this.zoomFactor = new PopulationModel();
 		this.simulationModel = new SimulationModel(this);
-		this.propertiesManager = new PropertiesManager(this);
+		this.languageBundle = new CASLanguageBundle(CASSettings.getInstance().getProperty(CASSettings.Property.SETTINGS_PROPERTY_LANGUAGE));
 	}
 	
 	@Override

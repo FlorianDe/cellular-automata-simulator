@@ -61,6 +61,7 @@ public class CASMenuSimulation extends CASJMenu implements CstmObserver  {
 	
 	@Override
 	public void update(CstmObservable arg0, Object arg1) {
+		super.update(arg0, arg1);
 		this.menuItemStart.setEnabled(!this.controller.getSimulationModel().isRunning());
 		this.menuItemStop.setEnabled(this.controller.getSimulationModel().isRunning());
 		this.revalidate();

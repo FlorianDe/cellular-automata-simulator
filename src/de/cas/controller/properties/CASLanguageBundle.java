@@ -1,10 +1,9 @@
 package de.cas.controller.properties;
 
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
-
-import de.cas.controller.IAutomatonController;
 import de.cas.util.CstmObservable;
 
 //Controller & Model!
@@ -14,20 +13,30 @@ public class CASLanguageBundle extends CstmObservable{
 	
 	public enum SupportedLocale{
 		GERMAN(Locale.GERMAN), 
-		ENGLISH(Locale.ENGLISH);
+		ENGLISH(Locale.ENGLISH),
+		FRENCH(Locale.FRENCH),
+		POLISH(new Locale("pl"));
 		
         private final Locale locale;
-        public static Locale[] getLocales(){
-        	SupportedLocale[] sl = SupportedLocale.values();
-        	Locale[] l = new Locale[sl.length];
-        	for(int i = 0; i < sl.length; i++){
-        		l[i] = sl[i].getLocale();
-        	}
-        	return l;
-        }
         public Locale getLocale() {return locale;}
+        private static HashSet<Locale> locales = new HashSet<>();
+        public static HashSet<Locale> getLocales(){
+        	return locales;
+        }
+		public static Locale getDefault() {
+			if(getLocales().contains(Locale.getDefault()))
+				return Locale.getDefault();
+			return ENGLISH.getLocale();
+		}
+		
         SupportedLocale(Locale locale) {
             this.locale = locale;
+        }
+        
+        static {
+            for (SupportedLocale sl : SupportedLocale.values()) {
+            	locales.add(sl.getLocale());
+            }
         }
 	}
 	
@@ -174,25 +183,32 @@ public class CASLanguageBundle extends CstmObservable{
 
 	private PropertyResourceBundle languageBundle;
 	private Locale locale;
-	private IAutomatonController controller;
 
-	public CASLanguageBundle(IAutomatonController controller){
-		this(controller, SupportedLocale.GERMAN.getLocale());
+	public CASLanguageBundle(){
+		this(SupportedLocale.GERMAN.getLocale().getLanguage());
 	}
-	public CASLanguageBundle(IAutomatonController controller, Locale locale){
-		this.controller = controller;
-		if(locale!=null)
+	
+	public CASLanguageBundle(String localeStr){
+		this(new Locale(localeStr));
+	}
+	public CASLanguageBundle(Locale locale){
+		if(locale!=null && SupportedLocale.getLocales().contains(locale)){
 			this.locale = locale;
-		this.languageBundle = (PropertyResourceBundle) ResourceBundle.getBundle(languageFilePath, locale);
-
+		} else {
+			this.locale = SupportedLocale.getDefault();
+		}
+		this.languageBundle = (PropertyResourceBundle) ResourceBundle.getBundle(languageFilePath, this.locale);
 		notify(null);
 	}
 	
+	public void setLanguageBundle(String localeStr){
+		setLanguageBundle(new Locale(localeStr));
+	}
 	public void setLanguageBundle(Locale locale){
-		if(!this.locale.equals(locale)){
+		if(!this.locale.equals(locale) && SupportedLocale.getLocales().contains(locale)){
 			this.locale = locale;
-			this.languageBundle = (PropertyResourceBundle) ResourceBundle.getBundle(languageFilePath, locale);
-		}		
+			this.languageBundle = (PropertyResourceBundle) ResourceBundle.getBundle(languageFilePath, this.locale);
+		}	
 		notify(null);
 	}
 	
@@ -200,7 +216,7 @@ public class CASLanguageBundle extends CstmObservable{
 		return this.languageBundle.getString(property.getKey());
 	}
 
-	public static Locale[] getSupportedLocales() {
+	public static HashSet<Locale> getSupportedLocales() {
 		return SupportedLocale.getLocales();
 	}
 	

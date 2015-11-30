@@ -25,16 +25,16 @@ public class CASJCheckBox extends JCheckBoxMenuItem implements IPolyGlot, CstmOb
 		this.propertyDescription = propertyDescription;
 		this.propertyAcceleratorKey = propertyAcceleratorKey;
 		this.acceleratorModifiers = acceleratorModifiers;
-		this.controller.getPropertiesManager().getLanguageBundle().addObserver(this);
+		this.controller.getLanguageBundle().addObserver(this);
     	this.setUI(new StayOpenCheckBoxMenuItemUI());
-		this.updateText();
+		this.updateProperties();
 	}
 	
 	@Override
-	public void updateText() {
-		String textStr = this.controller.getPropertiesManager().getLanguageBundle().getValue(this.propertyText);
-		String descriptionStr = this.controller.getPropertiesManager().getLanguageBundle().getValue(this.propertyDescription);
-		char acceleratorKeyChar = this.controller.getPropertiesManager().getLanguageBundle().getValue(this.propertyAcceleratorKey).charAt(0);
+	public void updateProperties() {
+		String textStr = this.controller.getLanguageBundle().getValue(this.propertyText);
+		String descriptionStr = this.controller.getLanguageBundle().getValue(this.propertyDescription);
+		char acceleratorKeyChar = this.controller.getLanguageBundle().getValue(this.propertyAcceleratorKey).charAt(0);
 		this.setText(textStr);
 		this.setInformation(descriptionStr, acceleratorKeyChar, this.acceleratorModifiers);
 	}
@@ -49,7 +49,7 @@ public class CASJCheckBox extends JCheckBoxMenuItem implements IPolyGlot, CstmOb
 
 	@Override
 	public void update(CstmObservable o, Object arg) {
-		this.updateText();
+		this.updateProperties();
 		this.revalidate();
 		this.repaint();
 	}

@@ -23,8 +23,8 @@ public class CASJButton extends JButton implements IPolyGlot, CstmObserver {
 	public CASJButton(IAutomatonController controller, CASLanguageBundle.Property property){
 		this.controller = controller;
 		this.property = property;
-		this.controller.getPropertiesManager().getLanguageBundle().addObserver(this);
-		this.updateText();
+		this.controller.getLanguageBundle().addObserver(this);
+		this.updateProperties();
 	}
 	
 	public CASJButton(IAutomatonController controller, CASLanguageBundle.Property property, int prefHeight, int prefWidth){
@@ -39,13 +39,13 @@ public class CASJButton extends JButton implements IPolyGlot, CstmObserver {
 	}
 	
 	@Override
-	public void updateText() {
-		String text = controller.getPropertiesManager().getLanguageBundle().getValue(this.property);
+	public void updateProperties() {
+		String text = controller.getLanguageBundle().getValue(this.property);
 		this.setText(text);
 	}
 
 	@Override
 	public void update(CstmObservable o, Object arg) {
-		this.updateText();
+		this.updateProperties();
 	}
 }

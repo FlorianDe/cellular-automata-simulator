@@ -10,6 +10,9 @@ public class ChangeLanguageListener implements ActionListener {
 	protected IAutomatonController controller;
 	private Locale locale;
 
+	public ChangeLanguageListener(IAutomatonController controller, String localeStr) {
+		this(controller, new Locale(localeStr));
+	}
 	public ChangeLanguageListener(IAutomatonController controller, Locale locale) {
 		this.controller = controller;
 		this.locale = locale;
@@ -17,6 +20,6 @@ public class ChangeLanguageListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.controller.getPropertiesManager().getLanguageBundle().setLanguageBundle(locale);
+		this.controller.getLanguageBundle().setLanguageBundle(locale);
 	}
 }

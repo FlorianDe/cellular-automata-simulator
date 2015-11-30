@@ -37,8 +37,8 @@ public class CASMenuCurrentAutomat extends CASJMenu {
 	}
 	
 	@Override
-	public void updateText() {
-		String descriptionStr = this.controller.getPropertiesManager().getLanguageBundle().getValue(this.propertyDescription);
+	public void updateProperties() {
+		String descriptionStr = this.controller.getLanguageBundle().getValue(this.propertyDescription);
 		this.setInformation(descriptionStr);
 	}
 }

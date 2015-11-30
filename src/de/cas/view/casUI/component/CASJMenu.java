@@ -20,8 +20,8 @@ public class CASJMenu extends JMenu implements IPolyGlot, CstmObserver {
 		this.controller = controller;
 		this.propertyText = propertyText;
 		this.propertyDescription = propertyDescription;
-		this.controller.getPropertiesManager().getLanguageBundle().addObserver(this);
-		this.updateText();
+		this.controller.getLanguageBundle().addObserver(this);
+		this.updateProperties();
 	}
 	
 	public void setInformation(String description){
@@ -32,18 +32,16 @@ public class CASJMenu extends JMenu implements IPolyGlot, CstmObserver {
 	}
 	
 	@Override
-	public void updateText() {
-		String textStr = this.controller.getPropertiesManager().getLanguageBundle().getValue(this.propertyText);
-		String descriptionStr = this.controller.getPropertiesManager().getLanguageBundle().getValue(this.propertyDescription);
+	public void updateProperties() {
+		String textStr = this.controller.getLanguageBundle().getValue(this.propertyText);
+		String descriptionStr = this.controller.getLanguageBundle().getValue(this.propertyDescription);
 		this.setText(textStr);
 		this.setInformation(descriptionStr);
 	}
 
 	@Override
 	public void update(CstmObservable o, Object arg) {
-		this.updateText();
-		this.revalidate();
-		this.repaint();
+		this.updateProperties();
 	}
 
 }
