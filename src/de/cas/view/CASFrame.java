@@ -3,6 +3,7 @@ package de.cas.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
@@ -61,8 +62,12 @@ public class CASFrame extends JFrame {
         this.setTitle("CAS");
         this.setMinimumSize(new Dimension());
         this.setLayout(new BorderLayout());
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+        this.addWindowListener(new WindowAdapter() {
+        	@Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+        		controller.exitSimulator();
+        	}
+		});
         
     	this.menuBar = new CASMenuBar(this.controller);
     	this.toolbar = new CASJToolBar(this.controller);
@@ -76,6 +81,7 @@ public class CASFrame extends JFrame {
         this.populationScrollPane = new JScrollPane(this.populationPanel,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        this.populationPanel.setScrollPane(populationScrollPane);
        
         this.messages = new CASMessagesPanel(this.controller);
 

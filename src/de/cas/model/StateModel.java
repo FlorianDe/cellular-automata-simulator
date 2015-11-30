@@ -7,8 +7,8 @@ import de.cas.util.CstmObservable;
 
 public class StateModel  extends CstmObservable{
 	public static final int NO_ACTUAL_STATE = -1;
-	private int actualState;
-	private int numberOfStates;
+	private volatile int actualState;
+	private volatile int numberOfStates;
 	private Color[] colors;
 	
 	public StateModel(int numberOfStates){
@@ -71,6 +71,10 @@ public class StateModel  extends CstmObservable{
 		return isValidState(state) ? colors[state] : null;
 	}
 	
+	public int getColorRGBInt(int state){
+		return getColor(state).getRGB();
+	}
+	
 	/**
 	 * Ändert die Farbrepräsentation eines Zustandes
 	 *
@@ -78,9 +82,11 @@ public class StateModel  extends CstmObservable{
 	 * @param newColor die neue Farbrepräsentation des Zustandes state
 	 */
 	public void changeColor(int state, Color newColor){
-		if(isValidState(state)){
-			colors[state] = newColor;
-			notify(null);
+		synchronized(colors){
+			if(isValidState(state)){
+				colors[state] = newColor;
+				notify(null);
+			}
 		}
 	}
 	

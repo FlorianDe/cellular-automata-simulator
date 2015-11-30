@@ -9,32 +9,54 @@ import de.cas.controller.IAutomatonController;
 import de.cas.controller.listener.simulation.OneStepListener;
 import de.cas.controller.listener.simulation.PlayListener;
 import de.cas.controller.listener.simulation.StopListener;
+import de.cas.controller.properties.CASLanguageBundle.Property;
 import de.cas.util.CstmObservable;
 import de.cas.util.CstmObserver;
+import de.cas.view.casUI.component.CASJMenu;
+import de.cas.view.casUI.component.CASJMenuItem;
 
-public class CASMenuSimulation extends JMenu implements CstmObserver  {
+public class CASMenuSimulation extends CASJMenu implements CstmObserver  {
 
 	private static final long serialVersionUID = 1857407324411535407L;
-	JMenuExtension jme;
-	JMenuItem menuItemStep;
-	JMenuItem menuItemStart;
-	JMenuItem menuItemStop;
+	CASJMenuItem menuItemStep;
+	CASJMenuItem menuItemStart;
+	CASJMenuItem menuItemStop;
 	
 	IAutomatonController controller;
 	
-	public CASMenuSimulation(String name, IAutomatonController controller){
-		super(name);
-		this.controller = controller;
-		this.controller.getSimulationModel().addObserver(this);
-		this.jme = new JMenuExtension(ActionEvent.CTRL_MASK+ActionEvent.ALT_MASK);
-		this.jme.setInformationJM(this, "STRING_DESCRIPTION");
+	public CASMenuSimulation(IAutomatonController controller, Property propertyText, Property propertyDescription) {
+		super(controller, propertyText, propertyDescription);
 		
-    	this.menuItemStep = this.jme.createJMenuItem(new JMenuItem("Schritt"), 'S', "STRING_DESCRIPTION", this);
+		this.controller = controller;
+		this.acceleratorModifiers = ActionEvent.CTRL_MASK+ActionEvent.ALT_MASK;
+		this.controller.getSimulationModel().addObserver(this);
+		
+    	this.menuItemStep = new CASJMenuItem(controller,
+    			Property.CASMENUSIMULATION_MENUITEM_STEP_TEXT,
+    			Property.CASMENUSIMULATION_MENUITEM_STEP_ACCELERATOR_KEY,
+    			Property.CASMENUSIMULATION_MENUITEM_STEP_DESCRIPTION,
+    			this.acceleratorModifiers);
     	this.menuItemStep.addActionListener(new OneStepListener(controller));
-    	this.menuItemStart = this.jme.createJMenuItem(new JMenuItem("Start"), 'A', "STRING_DESCRIPTION", this);
+    	
+    	this.menuItemStart = new CASJMenuItem(controller,
+    			Property.CASMENUSIMULATION_MENUITEM_START_TEXT,
+    			Property.CASMENUSIMULATION_MENUITEM_START_ACCELERATOR_KEY,
+    			Property.CASMENUSIMULATION_MENUITEM_START_DESCRIPTION,
+    			this.acceleratorModifiers);
     	this.menuItemStart.addActionListener(new PlayListener(controller));
-    	this.menuItemStop = this.jme.createJMenuItem(new JMenuItem("Stopp"), 'O', "STRING_DESCRIPTION", this);
+    	
+    	this.menuItemStop = new CASJMenuItem(controller,
+    			Property.CASMENUSIMULATION_MENUITEM_STOP_TEXT,
+    			Property.CASMENUSIMULATION_MENUITEM_STOP_ACCELERATOR_KEY,
+    			Property.CASMENUSIMULATION_MENUITEM_STOP_DESCRIPTION,
+    			this.acceleratorModifiers);
     	this.menuItemStop.addActionListener(new StopListener(controller));
+    	
+    	this.add(menuItemStep);
+    	this.add(menuItemStart);
+    	this.add(menuItemStop);
+    	
+    	update(null, this);
 	}
 	
 	@Override

@@ -4,7 +4,7 @@ package de.cas.model;
 public class Cell {
 	public static final int INIT_STATE = 0;
 	
-	private int state;
+	private volatile int state;
 
 	public Cell() {
 		this(INIT_STATE);

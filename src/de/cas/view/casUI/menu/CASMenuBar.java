@@ -5,6 +5,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JSeparator;
 
 import de.cas.controller.IAutomatonController;
+import de.cas.controller.properties.CASLanguageBundle.Property;
 
 public class CASMenuBar extends JMenuBar{
 
@@ -44,11 +45,23 @@ public class CASMenuBar extends JMenuBar{
 	}
 	
 	private void initializeUI_Menu() {
-		this.menuAutomat = new CASMenuAutomat("Automat");	
-		this.menuPopulation = new CASMenuPopulation("Population", this.controller);	
-		this.menuSimulation = new CASMenuSimulation("Simulation", this.controller);
-		this.menuHelp = new CASMenuHelp("Help");
-		this.currentAutomat = new CASMenuCurrentAutomat("CurrentAutomat");
+		this.menuAutomat = new CASMenuAutomat(this.controller, 
+				Property.CASMENUAUTOMAT_MENU_TEXT,
+				Property.CASMENUAUTOMAT_MENU_DESCRIPTION);	
+		
+		this.menuPopulation = new CASMenuPopulation(this.controller, 
+				Property.CASMENUPOPULATION_MENU_TEXT,
+				Property.CASMENUPOPULATION_MENU_DESCRIPTION);	
+		
+		this.menuSimulation = new CASMenuSimulation(this.controller, 
+				Property.CASMENUSIMULATION_MENU_TEXT,
+				Property.CASMENUSIMULATION_MENU_DESCRIPTION);
+		
+		this.menuHelp = new CASMenuHelp(this.controller, 
+				Property.CASMENUHELP_MENU_TEXT,
+				Property.CASMENUHELP_MENU_DESCRIPTION);
+		
+		this.currentAutomat = new CASMenuCurrentAutomat(this.controller, Property.CASMENUCURRENTAUTOMAT_MENU_TEXT);
 		this.currentAutomat.setBorder(BorderFactory.createEtchedBorder());
 		this.currentAutomat.setBorderPainted(true);
 

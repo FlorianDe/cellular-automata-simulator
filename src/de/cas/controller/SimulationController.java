@@ -18,11 +18,13 @@ public class SimulationController extends Thread {
 		SimulationStep simulationStep = new SimulationStep(controller);
 		
 		if(!simulationModel.isOneSimulationStep()){
-			while (simulationModel.isRunning()) {
+			while(simulationModel.isRunning()){	
 				simulationStep.run();
 				try {
 					Thread.sleep(simulationModel.getDelay());
-				} catch (InterruptedException e) {e.printStackTrace();}
+				} catch (InterruptedException e) {
+					//this.interrupt();
+				}
 			}
 		}
 		else{

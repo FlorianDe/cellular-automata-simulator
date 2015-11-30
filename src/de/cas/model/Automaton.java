@@ -11,13 +11,12 @@ import de.cas.util.CstmObservable;
 
 public abstract class Automaton extends CstmObservable{
 	private StateModel states;
-	private Cell[][] population;
+	private volatile Cell[][] population;
 	private int numberOfRows;
 	private int numberOfColumns;
-	private boolean isTorus;
-	private boolean isMooreNeighborHood;
+	private volatile boolean isTorus;
+	private volatile boolean isMooreNeighborHood;
 	
-	//Attributes here for performance!
 	private static final int[][] directionsMoore = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1} };
 	private static final int[][] directionsNeumann = {{0, -1}, {-1, 0}, {0, 1}, {1, 0} };
 	private int[][] directions;
@@ -33,9 +32,9 @@ public abstract class Automaton extends CstmObservable{
 	 * @param isTorus true, falls die Zellen als Torus betrachtet werden
 	 */
 	public Automaton(int rows, int columns, int numberOfStates, boolean isMooreNeighborHood, boolean isTorus){
+		this.population = new Cell[rows][columns];
 		this.setSize(rows, columns);
 		this.setTorus(isTorus);
-		this.population = new Cell[rows][columns];
 		this.clearPopulation();
 		this.states = new StateModel(numberOfStates);
 		
@@ -97,11 +96,13 @@ public abstract class Automaton extends CstmObservable{
 	 * @param columns die neue Anzahl an Spalten
 	 */
 	public void setSize(int rows, int columns){
-		if(rows > 0)
-			this.numberOfRows = rows;
-		if(columns > 0)
-			this.numberOfColumns = columns;
-		setSizeHelper();
+		synchronized(this.population){
+			if(rows > 0)
+				this.numberOfRows = rows;
+			if(columns > 0)
+				this.numberOfColumns = columns;
+			setSizeHelper();
+		}
 	}
 	
 	/**
@@ -110,7 +111,9 @@ public abstract class Automaton extends CstmObservable{
 	 * @param rows die neue Anzahl an Reihen
 	 */
 	public void setNumberOfRows(int rows){
-		setSize(rows, numberOfColumns);
+		synchronized(this.population){
+			setSize(rows, numberOfColumns);
+		}
 	}
 	
 	/**
@@ -119,7 +122,9 @@ public abstract class Automaton extends CstmObservable{
 	 * @param rows die neue Anzahl an Spalten
 	 */
 	public void setNumberOfColumns(int columns){
-		setSize(numberOfRows, columns);
+		synchronized(this.population){
+			setSize(numberOfRows, columns);
+		}
 	}
 	
 	/**
@@ -156,7 +161,9 @@ public abstract class Automaton extends CstmObservable{
 	 * @return die Population als Cell-Matrix
 	 */
 	public Cell[][] getPopulation(){
-		return this.population;
+		synchronized(this.population){
+			return this.population;
+		}
 	}
 	
 	/**
@@ -165,9 +172,11 @@ public abstract class Automaton extends CstmObservable{
 	 * @param cells eine neue Population des Automaten
 	 */
 	public void setPopulation(Cell[][] cells){
-		if (cells != null && cells.length > 0) {
-			this.population = cells;
-			this.setSize(cells.length, cells[0].length);
+		synchronized(this.population){
+			if (cells != null && cells.length > 0) {
+				this.population = cells;
+				this.setSize(cells.length, cells[0].length);
+			}
 		}
 	}
 	
@@ -175,7 +184,9 @@ public abstract class Automaton extends CstmObservable{
 	 * setzt alle Zellen in den Zustand 0
 	 */
 	public void clearPopulation(){
-		Cell.iterator(this.population, () -> new Cell());
+		synchronized(this.population){
+			Cell.iterator(this.population, () -> new Cell());
+		}
 		notify(null);
 	}
 	
@@ -183,7 +194,9 @@ public abstract class Automaton extends CstmObservable{
 	 * setzt für jede Zelle einen zufällig erzeugten Zustand
 	 */
 	public void randomPopulation(){
-		Cell.iterator(this.population, (cell)->cell.setState((new Random()).nextInt(this.states.getNumberOfStates())));
+		synchronized(this.population){
+			Cell.iterator(this.population, (cell)->cell.setState((new Random()).nextInt(this.states.getNumberOfStates())));
+		}
 		notify(null);
 	}
 	
@@ -195,9 +208,11 @@ public abstract class Automaton extends CstmObservable{
 	 * @param state neuer Zustand der Zelle
 	 */
 	public void setState(int row, int column, int state){
-		if(isValidPosition(row, column) && states.isValidState(state)){
-			population[row][column].setState(state);
-			notify(null);
+		synchronized(this.population){
+			if(isValidPosition(row, column) && states.isValidState(state)){
+				population[row][column].setState(state);
+				notify(null);
+			}
 		}
 	}
 	
@@ -209,7 +224,9 @@ public abstract class Automaton extends CstmObservable{
 	 * @return Cell-Objekt an Position row/column
 	 */
 	public Cell getCell(int row, int column){
-		return (isValidPosition(row, column))?population[row][column]:null;
+		synchronized(this.population){
+			return (isValidPosition(row, column))?population[row][column]:null;
+		}
 	}
 		
 	/**
@@ -220,40 +237,43 @@ public abstract class Automaton extends CstmObservable{
 	 * @return
 	 */
 	
-	public synchronized Cell[][] calcNextGeneration(){
-		//ExecutorService taskExecutor = Executors.newFixedThreadPool(Math.min(Runtime.getRuntime().availableProcessors() + 1, this.numberOfRows));
-		
-		final Cell[][] populationCopy = clonePopulation();
-		Cell.iterator(this.population, (cell, y, x) -> transform(population[y][x], getCellNeighbors(populationCopy, y, x)));
-		
-		/*
-		for (int y = 0; y < population.length; y++) {
-			final int actY = y;
-			taskExecutor.execute(new Thread() {
-				@Override
-				public void run() {
-					System.out.println("Y:"+actY);
-					for (int x = 0; x < population[actY].length; x++) {
-						population[actY][x] = transform(populationCopy[actY][x], getCellNeighbors(populationCopy, actY, x));
-						//System.out.print("["+actY+"]"+"X:"+x);
+	public Cell[][] calcNextGeneration(){
+		synchronized(this.population){
+			//ExecutorService taskExecutor = Executors.newFixedThreadPool(Math.min(Runtime.getRuntime().availableProcessors() + 1, this.numberOfRows));
+			long startTime = System.currentTimeMillis();
+			final Cell[][] populationCopy = clonePopulation();
+			Cell.iterator(this.population, (cell, y, x) -> transform(population[y][x], getCellNeighbors(populationCopy, y, x)));
+			
+			/*
+			for (int y = 0; y < population.length; y++) {
+				final int actY = y;
+				taskExecutor.execute(new Thread() {
+					@Override
+					public void run() {
+						//System.out.println("Y:"+actY);
+						for (int x = 0; x < population[actY].length; x++) {
+							population[actY][x] = transform(populationCopy[actY][x], getCellNeighbors(populationCopy, actY, x));
+							//System.out.print("["+actY+"]"+"X:"+x);
+						}
 					}
-				}
-			});
+				});
+			}
+			
+			taskExecutor.shutdown();
+			
+			try {
+				taskExecutor.awaitTermination(10, TimeUnit.SECONDS);
+				if(!taskExecutor.isTerminated())
+					throw new InterruptedException("Timeout!");
+			} catch (InterruptedException ex) {
+				Logger.getLogger(new Throwable().getStackTrace()[0].getClassName()).log(Level.SEVERE, null, ex);
+			}
+			*/
+			
+	        System.out.println("Recalc: "+(System.currentTimeMillis() - startTime)+" ms");
+			notify(null);
+			return population;
 		}
-		
-		taskExecutor.shutdown();
-		
-		try {
-			taskExecutor.awaitTermination(10, TimeUnit.SECONDS);
-			if(!taskExecutor.isTerminated())
-				throw new InterruptedException("Timeout!");
-		} catch (InterruptedException ex) {
-			Logger.getLogger(new Throwable().getStackTrace()[0].getClassName()).log(Level.SEVERE, null, ex);
-		}
-		*/
-		
-		notify(null);
-		return population;
 	}
 	
 	/**
@@ -264,7 +284,7 @@ public abstract class Automaton extends CstmObservable{
 	 * @param y Reihe
 	 * @return Zellennachbarn als eindimensionales Array
 	 */
-	public Cell[] getCellNeighbors(Cell[][] oldPopulation, int y, int x) {
+	private Cell[] getCellNeighbors(Cell[][] oldPopulation, int y, int x) {
 		int dY,dX,ctr = 0;
 		for (int[] d : directions) {
 			dY = isTorus()?(y+d[0]+numberOfRows)%numberOfRows:(y+d[0]);

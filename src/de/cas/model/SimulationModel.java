@@ -67,6 +67,7 @@ public class SimulationModel extends CstmObservable {
 	public void stopThread() {
 		this.simulation = null;
 		this.isRunning = false;
+		//this.simulation.interrupt();
 		this.notify(null);
 	}
 

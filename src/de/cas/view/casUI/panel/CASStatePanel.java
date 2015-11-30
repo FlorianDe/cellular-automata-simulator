@@ -10,6 +10,7 @@ import javax.swing.JToggleButton;
 import de.cas.controller.IAutomatonController;
 import de.cas.controller.listener.states.ChooseColorListener;
 import de.cas.controller.listener.states.SelectStateListener;
+import de.cas.controller.properties.CASLanguageBundle;
 import de.cas.view.casUI.component.CASJButton;
 import de.cas.view.casUI.component.CASJToggleButton;
 
@@ -38,7 +39,7 @@ public class CASStatePanel extends JPanel{
         this.btnState = new CASJToggleButton(String.valueOf(state),BTN_HEIGHT,BTN_WIDTH);
         this.btnState.addActionListener(new SelectStateListener(this.controller, state));
 
-        this.btnColor= new CASJButton("",BTN_HEIGHT,BTN_WIDTH);
+        this.btnColor= new CASJButton(controller,CASLanguageBundle.Property.EMPTY,BTN_HEIGHT,BTN_WIDTH);
         this.btnColor.setBackground(color);
         this.btnColor.setText("");
   	    btnColor.addActionListener(new ChooseColorListener(this.controller, state));

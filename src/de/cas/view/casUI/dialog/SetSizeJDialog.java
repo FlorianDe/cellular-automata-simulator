@@ -13,6 +13,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import de.cas.controller.IAutomatonController;
+import de.cas.controller.properties.CASLanguageBundle;
+import de.cas.view.casUI.component.CASJButton;
+import de.cas.view.casUI.component.CASJLabel;
+
 /**
  * 
  * @author Florian
@@ -25,12 +30,14 @@ public class SetSizeJDialog extends JDialog {
 	private String str_okBtn = "Ok";
 	private String str_cancelBtn = "Cancel";
 
-	private JLabel lblRows;
-	private JLabel lblColumns;
+	private CASJLabel lblRows;
+	private CASJLabel lblColumns;
 	private JTextField tfRows;
 	private JTextField tfColumns;
-	private JButton btnAccept;
-	private JButton btnCancel;
+	private CASJButton btnAccept;
+	private CASJButton btnCancel;
+	
+	IAutomatonController controller;
 
 	public String getStr_lblRows() {
 		return str_lblRows;
@@ -72,20 +79,21 @@ public class SetSizeJDialog extends JDialog {
 		return btnCancel;
 	}
 
-	public SetSizeJDialog() {
-		this(null);
+	public SetSizeJDialog(IAutomatonController controller) {
+		this(controller, null);
 	}
 
-	public SetSizeJDialog(JFrame parent) {
-		this(parent, "");
+	public SetSizeJDialog(IAutomatonController controller, JFrame parent) {
+		this(controller, parent, "");
 	}
 
-	public SetSizeJDialog(JFrame parent, String title) {
-		this(parent, title, 1, 1);
+	public SetSizeJDialog(IAutomatonController controller, JFrame parent, String title) {
+		this(controller, parent, title, 1, 1);
 	}
 
-	public SetSizeJDialog(JFrame parent, String title, int oldRowCnt, int oldColsCnt) {
+	public SetSizeJDialog(IAutomatonController controller, JFrame parent, String title, int oldRowCnt, int oldColsCnt) {
 		super(parent, title, true);
+		this.controller = controller;
 		if (parent != null) {
 			Dimension parentSize = parent.getSize();
 			Point p = parent.getLocation();
@@ -95,15 +103,17 @@ public class SetSizeJDialog extends JDialog {
 		}
 		GridLayout gl = new GridLayout(0, 2);
 		this.setLayout(gl);
+		
+		System.out.println("Right size dialog !");
 
-		this.lblRows = new JLabel(str_lblRows);
+		this.lblRows = new CASJLabel(controller, CASLanguageBundle.Property.SETSIZEJDIALOG_LBL_ROWS_TEXT);
 		this.tfRows = new JTextField(4);
 		this.tfRows.setText(oldRowCnt + "");
-		this.lblColumns = new JLabel(str_lblColumns);
+		this.lblColumns = new CASJLabel(controller, CASLanguageBundle.Property.SETSIZEJDIALOG_LBL_COLUMNS_TEXT );
 		this.tfColumns = new JTextField(4);
 		this.tfColumns.setText(oldColsCnt + "");
-		this.btnAccept = new JButton(str_okBtn);
-		this.btnCancel = new JButton(str_cancelBtn);
+		this.btnAccept = new CASJButton(controller, CASLanguageBundle.Property.SETSIZEJDIALOG_BTN_ACCEPT_TEXT);
+		this.btnCancel = new CASJButton(controller, CASLanguageBundle.Property.SETSIZEJDIALOG_BTN_CANCEL_TEXT);
 
 		add(this.lblRows);
 		add(this.tfRows);
@@ -152,20 +162,5 @@ public class SetSizeJDialog extends JDialog {
 		} catch (NumberFormatException e) {
 		}
 		return value;
-	}
-
-	public static SetSizeJDialog ssjd;
-	// For testing only!
-	public static void main(String[] a) {
-
-		EventQueue.invokeLater(new Runnable() {
-		    @Override
-		    public void run() {
-		    	ssjd = new SetSizeJDialog();
-		    	ssjd.setOnCancelListener();
-		    }
-		});
-		
-		
 	}
 }

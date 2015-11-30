@@ -13,7 +13,7 @@ public class PopulationModel extends CstmObservable {
 	public final static int CELL_SIZE_MAX = 20;
 	//public final static int CELL_SIZE_DRAW_RECT_THRESHOLD = 5;
 
-	private boolean drawCellRect;
+	private volatile boolean drawCellRect;
 	private int cellSize;
 	private int margin;
 

@@ -1,5 +1,7 @@
 package de.cas.controller;
 
+import de.cas.controller.properties.CASLanguageBundle;
+import de.cas.controller.properties.PropertiesManager;
 import de.cas.model.Automaton;
 import de.cas.model.SimulationModel;
 import de.cas.model.PopulationModel;
@@ -10,6 +12,7 @@ public class AutomatonController implements IAutomatonController{
 	private CASFrame view;
 	private PopulationModel zoomFactor;
 	private SimulationModel simulationModel;
+	private PropertiesManager propertiesManager;
 
 	@Override
 	public Automaton getAutomatonModel() {
@@ -44,11 +47,23 @@ public class AutomatonController implements IAutomatonController{
 		this.simulationModel = simulationModel;
 	}
 	
+	public PropertiesManager getPropertiesManager() {
+		return propertiesManager;
+	}
+	public void setPropertiesManager(PropertiesManager propertiesManager) {
+		this.propertiesManager = propertiesManager;
+	}
+
 
 	public AutomatonController(Automaton automaton){
 		this.automaton = automaton;
 		this.zoomFactor = new PopulationModel();
 		this.simulationModel = new SimulationModel(this);
+		this.propertiesManager = new PropertiesManager(this);
 	}
-
+	
+	@Override
+	public void exitSimulator(){
+		System.exit(0);
+	}
 }
