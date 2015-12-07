@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Method;
 
-import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import de.cas.controller.IAutomatonController;

@@ -12,7 +12,6 @@ import javax.swing.JSplitPane;
 import javax.swing.ScrollPaneConstants;
 
 import de.cas.controller.IAutomatonController;
-import de.cas.controller.listener.population.MouseWheelZoomListener;
 import de.cas.view.casUI.menu.CASMenuBar;
 import de.cas.view.casUI.panel.CASMessagesPanel;
 import de.cas.view.casUI.panel.CASPopulationPanel;

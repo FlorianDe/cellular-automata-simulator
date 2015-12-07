@@ -9,21 +9,9 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.ScrollPane;
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
 import java.awt.image.DataBufferInt;
-import java.awt.image.Raster;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -31,13 +19,11 @@ import de.cas.controller.IAutomatonController;
 import de.cas.controller.listener.population.MouseWheelZoomListener;
 import de.cas.controller.listener.population.PaintCellsListener;
 import de.cas.model.Automaton;
-import de.cas.model.Cell;
 import de.cas.model.PopulationModel;
 import de.cas.util.CstmObservable;
 import de.cas.util.CstmObserver;
 import de.cas.util.Lang;
 import de.cas.view.casUI.util.RectangleFactory;
-import sun.java2d.loops.DrawLine;
 
 public class CASPopulationPanel extends JPanel implements CstmObserver  {
 

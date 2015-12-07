@@ -31,7 +31,7 @@ public class CASStateContainerPanel extends JPanel implements CstmObserver {
         this.setStates();
         
         this.add(this.container);
-        this.setBackground(Color.decode("0xFFCDFF"));
+        this.setBackground(Color.decode("0xd2e1f0"));
         
 	    update(null, this);
 	}
@@ -76,6 +76,11 @@ public class CASStateContainerPanel extends JPanel implements CstmObserver {
     
     @Override
     public Dimension getMaximumSize() {
+    	return new Dimension(CASStatePanel.PANEL_WIDTH+100 ,super.getPreferredSize().height);
+    }
+    
+    @Override
+    public Dimension getMinimumSize() {
     	return new Dimension(CASStatePanel.PANEL_WIDTH+100 ,super.getPreferredSize().height);
     }
 

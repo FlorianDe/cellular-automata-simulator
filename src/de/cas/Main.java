@@ -1,8 +1,6 @@
 package de.cas;
 
 import javax.swing.SwingUtilities;
-import javax.swing.Timer;
-
 import de.cas.controller.AutomatonController;
 import de.cas.model.Automaton;
 import de.cas.model.CurrentAutomatonModel;

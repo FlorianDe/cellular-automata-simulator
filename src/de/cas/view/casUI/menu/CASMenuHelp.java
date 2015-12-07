@@ -1,10 +1,8 @@
 package de.cas.view.casUI.menu;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Locale;
 
-import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import de.cas.controller.IAutomatonController;

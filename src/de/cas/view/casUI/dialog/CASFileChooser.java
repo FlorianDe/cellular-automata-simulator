@@ -1,15 +1,18 @@
 package de.cas.view.casUI.dialog;
 
-import javax.swing.*;
+import java.awt.Component;
+import java.awt.Container;
+
+import javax.swing.Icon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import de.cas.controller.IAutomatonController;
 import de.cas.model.internalautomata.GameOfLifeAutomaton;
 import de.cas.util.FileLoader;
-
-import java.awt.*;
-import java.io.File;
 
 /**
  * Created by Florian on 13.11.2015.

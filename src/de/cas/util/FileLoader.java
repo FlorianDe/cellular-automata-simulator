@@ -34,7 +34,7 @@ public class FileLoader {
      * 
      * @author: http://stackoverflow.com/questions/15359702/get-location-of-jar-file
      */
-    public File getJarDir(Class aclass) {
+    public File getJarDir(Class<?> aclass) {
         URL url;
         String extURL;      //  url.toExternalForm();
 

@@ -2,13 +2,10 @@ package de.cas.view.casUI.menu;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.JMenu;
 import de.cas.controller.IAutomatonController;
 import de.cas.controller.listener.dispatcher.ExitSimulatorListener;
 import de.cas.controller.listener.dispatcher.OpenSimulatorListener;
 import de.cas.controller.properties.CASLanguageBundle.Property;
-import de.cas.util.CstmObservable;
-import de.cas.util.CstmObserver;
 import de.cas.view.casUI.component.CASJMenu;
 import de.cas.view.casUI.component.CASJMenuItem;
 

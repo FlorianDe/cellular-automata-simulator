@@ -1,7 +1,6 @@
 package de.cas.view.casUI.dialog;
 
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;

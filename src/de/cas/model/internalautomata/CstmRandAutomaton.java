@@ -2,7 +2,6 @@ package de.cas.model.internalautomata;
 
 import de.cas.model.Automaton;
 import de.cas.model.Cell;
-import de.cas.util.ACallable;
 
 public class CstmRandAutomaton extends Automaton {
 	

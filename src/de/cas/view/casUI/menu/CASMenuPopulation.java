@@ -1,8 +1,6 @@
 package de.cas.view.casUI.menu;
 
 import java.awt.event.ActionEvent;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 
 import de.cas.controller.IAutomatonController;
 import de.cas.controller.listener.population.GridOnOffListener;

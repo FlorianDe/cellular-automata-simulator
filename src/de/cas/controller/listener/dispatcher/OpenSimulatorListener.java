@@ -2,24 +2,19 @@ package de.cas.controller.listener.dispatcher;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 
 import de.cas.Main;
 import de.cas.controller.IAutomatonController;
 import de.cas.model.Automaton;
-import de.cas.model.internalautomata.GameOfLifeAutomaton;
 import de.cas.util.CstmClassloader;
 import de.cas.util.FileLoader;
-import de.cas.util.Lang;
 import de.cas.view.casUI.dialog.CASFileChooser;
 
 public class OpenSimulatorListener implements ActionListener {
