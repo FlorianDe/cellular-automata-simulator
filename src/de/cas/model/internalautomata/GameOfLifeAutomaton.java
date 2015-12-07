@@ -1,7 +1,8 @@
-package de.cas.model.automata;
+package de.cas.model.internalautomata;
 
 import de.cas.model.Automaton;
 import de.cas.model.Cell;
+import de.cas.util.ACallable;
 
 public class GameOfLifeAutomaton extends Automaton {
 	
@@ -120,12 +121,15 @@ public class GameOfLifeAutomaton extends Automaton {
 		}
 	}
 	
+	@ACallable
 	public void createTrafficRLUO_F1(){
 		createTrafficRLUO(1);
 	}
+	@ACallable
 	public void createTrafficRLUO_F2(){
 		createTrafficRLUO(2);
 	}
+	@ACallable
 	public void createTrafficRLUO_F3(){
 		createTrafficRLUO(3);
 	}

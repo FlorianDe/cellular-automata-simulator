@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import de.cas.controller.IAutomatonController;
+import de.cas.util.Lang;
 
 public class ExitSimulatorListener implements ActionListener {
 	protected IAutomatonController controller;
@@ -11,10 +12,10 @@ public class ExitSimulatorListener implements ActionListener {
 	public ExitSimulatorListener(IAutomatonController controller) {
 		this.controller = controller;
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.controller.exitSimulator();
-		this.controller.getSimulationModel().stopThread();
+		Lang.println(controller.getAutomatonModel(), "Exited...");
+		controller.exitSimulator();
 	}
 }

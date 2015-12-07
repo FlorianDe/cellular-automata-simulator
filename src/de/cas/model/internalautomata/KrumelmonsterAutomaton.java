@@ -1,4 +1,4 @@
-package de.cas.model.automata;
+package de.cas.model.internalautomata;
 
 import de.cas.model.Automaton;
 import de.cas.model.Cell;

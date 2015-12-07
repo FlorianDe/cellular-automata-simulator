@@ -6,7 +6,8 @@ import javax.swing.Timer;
 import de.cas.controller.AutomatonController;
 import de.cas.model.Automaton;
 import de.cas.model.CurrentAutomatonModel;
-import de.cas.model.automata.GameOfLifeAutomaton;
+import de.cas.model.internalautomata.GameOfLifeAutomaton;
+import de.cas.util.Lang;
 import de.cas.view.CASFrame;
 
 public class Main{
@@ -15,15 +16,15 @@ public class Main{
 	CASFrame view;
 	
 	public static void main(String[] args) throws InterruptedException {
-		new Main().startGUI();
+		Lang.setPrintAutomatonCount(true);
+		new Main().startGUI(new GameOfLifeAutomaton());
 	}
 	
-	public void startGUI(){
-		automaton = new GameOfLifeAutomaton();
-		((GameOfLifeAutomaton) automaton).createTrafficRLUO(1);
-		
-		CurrentAutomatonModel cam = new CurrentAutomatonModel(automaton);
-		controller = new AutomatonController(automaton);
+	public void startGUI(Automaton automaton){
+		this.automaton = automaton;
+
+		CurrentAutomatonModel cam = new CurrentAutomatonModel(this.automaton);
+		this.controller = new AutomatonController(automaton);
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -32,5 +33,7 @@ public class Main{
 				controller.setView(view);
 			}
 		});
+		
+		Lang.println(automaton, "Automaton started: %s", automaton.getClass().getSimpleName());
 	}
 }

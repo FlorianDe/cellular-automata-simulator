@@ -4,6 +4,7 @@ import de.cas.controller.properties.CASLanguageBundle;
 import de.cas.controller.properties.CASSettings;
 import de.cas.model.Automaton;
 import de.cas.model.SimulationModel;
+import de.cas.util.Lang;
 import de.cas.model.PopulationModel;
 import de.cas.view.CASFrame;
 
@@ -62,7 +63,15 @@ public class AutomatonController implements IAutomatonController{
 	}
 	
 	@Override
-	public void exitSimulator(){
-		System.exit(0);
+	public synchronized void exitSimulator(){
+		this.getSimulationModel().stopThread();
+		Lang.println(this.getAutomatonModel(),"Automaton closed: %s", this.getAutomatonModel().getClass().getSimpleName());
+		if(Automaton.getRunningAutomatons().size()<=1){
+			System.err.println("Complete application closed!");
+			System.exit(0);
+		} else {
+			this.getView().dispose();
+			Automaton.removeRunningAutomaton(automaton);
+		}
 	}
 }

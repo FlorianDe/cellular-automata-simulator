@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.ScrollPane;
 import java.awt.Transparency;
@@ -34,8 +35,8 @@ import de.cas.model.Cell;
 import de.cas.model.PopulationModel;
 import de.cas.util.CstmObservable;
 import de.cas.util.CstmObserver;
+import de.cas.util.Lang;
 import de.cas.view.casUI.util.RectangleFactory;
-import javafx.scene.shape.Rectangle;
 import sun.java2d.loops.DrawLine;
 
 public class CASPopulationPanel extends JPanel implements CstmObserver  {
@@ -128,7 +129,7 @@ public class CASPopulationPanel extends JPanel implements CstmObserver  {
 			}
 	        
 			g2d.dispose();
-	        System.out.print("Real Redraw Time: "+(System.currentTimeMillis() - startTime)+" ms    ");
+	       Lang.println(am, "Real Redraw Time: "+(System.currentTimeMillis() - startTime)+" ms    ");
         }
 	}
 	

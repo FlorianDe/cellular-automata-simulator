@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JMenu;
 import de.cas.controller.IAutomatonController;
 import de.cas.controller.listener.dispatcher.ExitSimulatorListener;
+import de.cas.controller.listener.dispatcher.OpenSimulatorListener;
 import de.cas.controller.properties.CASLanguageBundle.Property;
 import de.cas.util.CstmObservable;
 import de.cas.util.CstmObserver;
@@ -37,6 +38,8 @@ public class CASMenuAutomat extends CASJMenu{
     			Property.CASMENUAUTOMAT_MENUITEM_LOAD_ACCELERATOR_KEY,
     			Property.CASMENUAUTOMAT_MENUITEM_LOAD_DESCRIPTION,
     			this.acceleratorModifiers);
+        this.menuItemLoad.addActionListener(new OpenSimulatorListener(this.controller));
+
     	
     	this.menuItemEditor = new CASJMenuItem(controller,
     			Property.CASMENUAUTOMAT_MENUITEM_EDITOR_TEXT,

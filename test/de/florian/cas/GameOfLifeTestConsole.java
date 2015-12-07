@@ -1,7 +1,7 @@
 package de.florian.cas;
 
 import de.cas.model.Automaton;
-import de.cas.model.automata.GameOfLifeAutomaton;
+import de.cas.model.internalautomata.GameOfLifeAutomaton;
 
 public class GameOfLifeTestConsole {
 	public static void main(String[] args) throws InterruptedException{

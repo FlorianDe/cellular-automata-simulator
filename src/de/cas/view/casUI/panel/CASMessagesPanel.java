@@ -43,12 +43,13 @@ public class CASMessagesPanel extends JPanel implements CstmObserver {
 	@Override
 	public void update(CstmObservable arg0, Object arg1) {
 		Automaton a = this.controller.getAutomatonModel();
-		this.message.setText(String.format("[%s: Size:(W=%s H=%s), Torus: %s, NeighborHood: %s, CellSize: %s, Grid: %s]",
+		this.message.setText(String.format("[%s: Size:(W=%s H=%s), Torus: %s, NeighborHood: %s, CellSize: %s, Grid: %s], Automatons: %s",
 				a.getClass().getSimpleName(), a.getNumberOfColumns(),
 				a.getNumberOfRows(), 
 				a.isTorus()?"On":"Off", 
 				a.isMooreNeighborHood()?"Moore":"Neumann",
 				this.controller.getPopulationModel().getCellSize(),
-				this.controller.getPopulationModel().isDrawCellRect()?"On":"Off"));
+				this.controller.getPopulationModel().isDrawCellRect()?"On":"Off",
+				Automaton.getRunningAutomatons().size()));
 	}
 }

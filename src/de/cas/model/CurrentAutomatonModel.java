@@ -4,6 +4,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import de.cas.util.ACallable;
+
 public class CurrentAutomatonModel {
 
 	final Object PARAM_NONE[] = {};
@@ -34,7 +36,9 @@ public class CurrentAutomatonModel {
 			Class<?> cls = Class.forName(automaton.getClass().getName());
 			for (Method method : cls.getDeclaredMethods()) {
 				if(method.getParameterTypes().length==0){
-					rMethods.add(method);
+					if(method.getAnnotation(ACallable.class) != null){
+						rMethods.add(method);
+					}
 				}
 			}
 		} catch (ClassNotFoundException e) {

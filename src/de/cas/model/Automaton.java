@@ -1,15 +1,13 @@
 package de.cas.model;
 
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import java.util.concurrent.ConcurrentHashMap;
 import de.cas.util.CstmObservable;
 
 public abstract class Automaton extends CstmObservable{
+	private static volatile ConcurrentHashMap<Automaton,Integer> runningAutomatons;
+	private static volatile int totalAutomatonsInstantiated;
+	
 	private StateModel states;
 	private volatile Cell[][] population;
 	private int numberOfRows;
@@ -21,6 +19,12 @@ public abstract class Automaton extends CstmObservable{
 	private static final int[][] directionsNeumann = {{0, -1}, {-1, 0}, {0, 1}, {1, 0} };
 	private int[][] directions;
 	private Cell[] neighbors;
+	
+	static{
+		runningAutomatons = new ConcurrentHashMap<>();
+		totalAutomatonsInstantiated = 0;
+	}
+	
 	
 	/**
 	 * Konstruktor
@@ -41,13 +45,19 @@ public abstract class Automaton extends CstmObservable{
 		this.isMooreNeighborHood = isMooreNeighborHood;
 		this.neighbors = isMooreNeighborHood?new Cell[8]:new Cell[4];
 		this.directions = isMooreNeighborHood?directionsMoore:directionsNeumann;
+		Automaton.putRunningAutomaton(this);
 	}
 	
 	/**
 	 * Implementierung der Transformationsregel
 	 *
 	 * @param cell die betroffene Zelle (darf nicht verändert werden!!!)
-	 * @param neighbors die Nachbarn der betroffenen Zelle (dürfen nicht verändert werden!!!)
+	 * @param neighbors die Nachbarn der betroffenen Zelle (dürfen nicht verändert werden!!!) </br>
+	 * Neighbor indices: </br>
+	 * 0 1 2 </br>
+	 * 3 X 4 </br>
+	 * 5 6 7 </br>
+	 *
 	 * @return eine neu erzeugte Zelle, die gemäß der Transformationsregel aus der betroffenen Zelle hervorgeht
 	 */
 	protected abstract Cell transform(Cell cell, Cell[] neighbors);
@@ -310,5 +320,20 @@ public abstract class Automaton extends CstmObservable{
 	public void notify(Object arg) {
 		this.setChanged();
 		this.notifyObservers(arg);
+	}
+	
+
+
+	public static ConcurrentHashMap<Automaton, Integer> getRunningAutomatons() {
+		return runningAutomatons;
+	}
+	public static int getNextRunningCount() {
+		return totalAutomatonsInstantiated++;	
+	}
+	public static synchronized void putRunningAutomaton(Automaton automaton) {
+		Automaton.getRunningAutomatons().put(automaton, Automaton.getNextRunningCount());
+	}
+	public static synchronized Integer removeRunningAutomaton(Automaton automaton){
+		return Automaton.getRunningAutomatons().remove(automaton);
 	}
 }
