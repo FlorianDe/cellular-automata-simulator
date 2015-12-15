@@ -22,7 +22,7 @@ public class CASStateContainerPanel extends JPanel implements CstmObserver {
 	public CASStateContainerPanel(IAutomatonController controller){
         super();
         this.controller = controller;
-        this.controller.getAutomatonModel().getStates().addObserver(this);
+        this.addToObserverable();
         
         this.states = new ArrayList<>();
         this.container = new JPanel();
@@ -87,9 +87,25 @@ public class CASStateContainerPanel extends JPanel implements CstmObserver {
 	@Override
 	public void update(CstmObservable o, Object arg) {
 		//If ARGUMENT == NEW_AUTOMAT, nicht refreshColors, sondern setStates!
+		if(this.states.size()!=this.controller.getAutomatonModel().getStates().getNumberOfStates()){
+			this.setStates();
+		}else{
+			this.refreshColors();			
+		}
 		this.refreshSelectedState();
-		this.refreshColors();
 		this.revalidate();
 		this.repaint();
+	}
+	
+	
+	@Override
+	public void removeFromObserverable() {
+        this.controller.getAutomatonModel().getStates().deleteObserver(this);
+	}
+
+	@Override
+	public void addToObserverable() {
+		this.controller.getView().getObservers().add(this);
+        this.controller.getAutomatonModel().getStates().addObserver(this);
 	}
 }

@@ -44,12 +44,32 @@ public class CASLanguageBundle extends CstmObservable{
 		//Special
 		EMPTY("Empty"),
 		LANGUAGE("Language"),
+		OK("Ok"),
+		ACCEPT("Accept"),
+		CANCEL("Cancel"),
 		
 		//view.casUI.dialog.SetSizeJDialog
         SETSIZEJDIALOG_LBL_ROWS_TEXT("SetSizeJDialog.lblRows.text"),
         SETSIZEJDIALOG_LBL_COLUMNS_TEXT("SetSizeJDialog.lblColumns.text"),
-        SETSIZEJDIALOG_BTN_ACCEPT_TEXT("SetSizeJDialog.btnAccept.text"),
-        SETSIZEJDIALOG_BTN_CANCEL_TEXT("SetSizeJDialog.btnCancel.text"),
+        
+		//view.casUI.dialog.NewAutomatonJDialog
+        NEWAUTOMATONDIALOG_LBL_AUTOMATONNAME("NewAutomatonJDialog.lblAutomatonName.text"),
+        
+        //view.casUI.toolBar.EditorMenuBar
+        EDITORTOOLS_MENU_TEXT("EditorMenuBar.menu.text"),
+        EDITORTOOLS_MENU_DESCRIPTION("EditorMenuBar.menu.description"),
+        
+        EDITORTOOLS_MENUITEM_LOAD_TEXT("EditorMenuBar.menuItemLoad.text"),
+        EDITORTOOLS_MENUITEM_LOAD_DESCRIPTION("EditorMenuBar.menuItemLoad.description"),
+        EDITORTOOLS_MENUITEM_LOAD_ACCELERATOR_KEY("EditorMenuBar.menuItemLoad.acceleratorkey"),
+        
+        EDITORTOOLS_MENUITEM_SAVE_TEXT("EditorMenuBar.menuItemSave.text"),
+        EDITORTOOLS_MENUITEM_SAVE_DESCRIPTION("EditorMenuBar.menuItemSave.description"),
+        EDITORTOOLS_MENUITEM_SAVE_ACCELERATOR_KEY("EditorMenuBar.menuItemSave.acceleratorkey"),
+        
+        EDITORTOOLS_MENUITEM_COMPILE_TEXT("EditorMenuBar.menuItemCompile.text"),
+        EDITORTOOLS_MENUITEM_COMPILE_DESCRIPTION("EditorMenuBar.menuItemCompile.description"),
+        EDITORTOOLS_MENUITEM_COMPILE_ACCELERATOR_KEY("EditorMenuBar.menuItemCompile.acceleratorkey"),
         
 		//view.casUI.menu.CASMenuAutomat
         CASMENUAUTOMAT_MENU_TEXT("CASMenuAutomat.menu.text"),
@@ -204,14 +224,20 @@ public class CASLanguageBundle extends CstmObservable{
 	public void setLanguageBundle(String localeStr){
 		setLanguageBundle(new Locale(localeStr));
 	}
-	public void setLanguageBundle(Locale locale){
+	public boolean setLanguageBundle(Locale locale){
 		if(!this.locale.equals(locale) && SupportedLocale.getLocales().contains(locale)){
 			this.locale = locale;
 			this.languageBundle = (PropertyResourceBundle) ResourceBundle.getBundle(languageFilePath, this.locale);
+			notify(null);
+			return true;
 		}	
-		notify(null);
+		return false;
 	}
 	
+	public Locale getLocale() {
+		return locale;
+	}
+
 	public String getValue(Property property) {
 		return this.languageBundle.getString(property.getKey());
 	}

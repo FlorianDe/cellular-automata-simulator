@@ -24,7 +24,7 @@ public class CASJMenuItem extends JMenuItem implements IPolyGlot, CstmObserver{
 		this.propertyDescription = propertyDescription;
 		this.propertyAcceleratorKey = propertyAcceleratorKey;
 		this.acceleratorModifiers = acceleratorModifiers;
-		this.controller.getLanguageBundle().addObserver(this);
+		this.addToObserverable();
 		this.updateProperties();
 	}
 	
@@ -50,5 +50,16 @@ public class CASJMenuItem extends JMenuItem implements IPolyGlot, CstmObserver{
 		this.updateProperties();
 		this.revalidate();
 		this.repaint();
+	}
+	
+	@Override
+	public void removeFromObserverable() {
+		this.controller.getLanguageBundle().deleteObserver(this);
+	}
+
+	@Override
+	public void addToObserverable() {
+		this.controller.getView().getObservers().add(this);
+		this.controller.getLanguageBundle().addObserver(this);
 	}
 }

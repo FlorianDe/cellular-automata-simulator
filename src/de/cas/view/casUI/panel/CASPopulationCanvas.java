@@ -24,7 +24,7 @@ public class CASPopulationCanvas extends Canvas implements CstmObserver {
 
 	public CASPopulationCanvas(IAutomatonController controller){
 		this.controller = controller;
-		this.bs = CASFrame.bufferStrategy;
+		//this.bs = CASFrame.bufferStrategy;
 		
 		PaintCellsListener pcl = new PaintCellsListener(this.controller);
 		this.addMouseListener(pcl);
@@ -52,7 +52,7 @@ public class CASPopulationCanvas extends Canvas implements CstmObserver {
 			}
 		}
 	}
-	*/
+	
 	
 	protected void paintComponent() {
 		//super.paintComponent(g);
@@ -88,7 +88,7 @@ public class CASPopulationCanvas extends Canvas implements CstmObserver {
 	    }		
 		
 	}
-		
+		*/
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension((2 * this.controller.getPopulationModel().getMargin()) + (this.controller.getAutomatonModel().getNumberOfColumns() * controller.getPopulationModel().getCellSize()), (2 * this.controller.getPopulationModel().getMargin()) + (this.controller.getAutomatonModel().getNumberOfRows() * controller.getPopulationModel().getCellSize()));
@@ -99,6 +99,16 @@ public class CASPopulationCanvas extends Canvas implements CstmObserver {
 		//this.revalidate();
 		//this.repaint();
 		
-		this.paintComponent();
+		//this.paintComponent();
+	}
+	
+	@Override
+	public void removeFromObserverable() {
+
+	}
+
+	@Override
+	public void addToObserverable() {
+
 	}
 }

@@ -1,7 +1,13 @@
 package de.cas.model;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+
+import de.cas.util.ACallable;
 import de.cas.util.CstmObservable;
 
 public abstract class Automaton extends CstmObservable{
@@ -198,6 +204,7 @@ public abstract class Automaton extends CstmObservable{
 			Cell.iterator(this.population, () -> new Cell());
 		}
 		notify(null);
+		
 	}
 	
 	/**
@@ -226,6 +233,13 @@ public abstract class Automaton extends CstmObservable{
 		}
 	}
 	
+	public void setSizeAndStates(Automaton automaton){
+		synchronized(this.population){
+			Cell.iterator(this.population, (cell, y, x) -> (y >= automaton.getNumberOfRows() || x >= automaton.getNumberOfColumns() || automaton.getCell(y, x).getState()>this.getStates().getNumberOfStates())? new Cell() : automaton.getCell(y, x));
+		}
+		notify(null);
+	}
+	
 	/**
 	 * Liefert eine Zelle des Automaten
 	 *
@@ -250,7 +264,7 @@ public abstract class Automaton extends CstmObservable{
 	public Cell[][] calcNextGeneration(){
 		synchronized(this.population){
 			//ExecutorService taskExecutor = Executors.newFixedThreadPool(Math.min(Runtime.getRuntime().availableProcessors() + 1, this.numberOfRows));
-			long startTime = System.currentTimeMillis();
+			//long startTime = System.currentTimeMillis();
 			final Cell[][] populationCopy = clonePopulation();
 			Cell.iterator(this.population, (cell, y, x) -> transform(population[y][x], getCellNeighbors(populationCopy, y, x)));
 			
@@ -280,7 +294,7 @@ public abstract class Automaton extends CstmObservable{
 			}
 			*/
 			
-	        System.out.println("Recalc: "+(System.currentTimeMillis() - startTime)+" ms");
+	        //System.out.println("Recalc: "+(System.currentTimeMillis() - startTime)+" ms");
 			notify(null);
 			return population;
 		}
@@ -322,6 +336,24 @@ public abstract class Automaton extends CstmObservable{
 		this.notifyObservers(arg);
 	}
 	
+	public static void notifyAllAutomatonObservers(){
+		for (Automaton automaton : runningAutomatons.keySet()) {
+			automaton.notify(null);
+		}
+	}
+	
+	public ArrayList<Method> getParameterlessMethods(){
+		ArrayList<Method> rMethods = new ArrayList<>();
+		for (Method method : this.getClass().getDeclaredMethods()) {
+			if(method.getParameterTypes().length==0 && 
+					method.getAnnotation(ACallable.class) != null && 
+					Modifier.isPublic(method.getModifiers()) &&
+					!Modifier.isAbstract(method.getModifiers())){
+				rMethods.add(method);
+			}
+		}
+		return rMethods;
+	}
 
 
 	public static ConcurrentHashMap<Automaton, Integer> getRunningAutomatons() {
@@ -332,8 +364,11 @@ public abstract class Automaton extends CstmObservable{
 	}
 	public static synchronized void putRunningAutomaton(Automaton automaton) {
 		Automaton.getRunningAutomatons().put(automaton, Automaton.getNextRunningCount());
+		Automaton.notifyAllAutomatonObservers();
 	}
 	public static synchronized Integer removeRunningAutomaton(Automaton automaton){
-		return Automaton.getRunningAutomatons().remove(automaton);
+		Integer mappedValue = Automaton.getRunningAutomatons().remove(automaton);
+		Automaton.notifyAllAutomatonObservers();
+		return mappedValue;
 	}
 }

@@ -1,6 +1,5 @@
 package de.cas.util;
 
-
 public interface CstmObserver {
     /**
      * This method is called whenever the observed object is changed. An
@@ -13,4 +12,6 @@ public interface CstmObserver {
      *                 method.
      */
     void update(CstmObservable o, Object arg);
+    void removeFromObserverable();
+    void addToObserverable();
 }

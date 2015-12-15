@@ -42,10 +42,8 @@ public class CASMenuPopulation extends CASJMenu implements CstmObserver {
 	
 	public CASMenuPopulation(IAutomatonController controller, Property propertyText, Property propertyDescription) {
 		super(controller, propertyText, propertyDescription);
-		
 		this.controller = controller;
 		this.acceleratorModifiers = ActionEvent.CTRL_MASK+ActionEvent.SHIFT_MASK;
-		this.controller.getAutomatonModel().addObserver(this);
 
     	this.menuItemChangeSize = new CASJMenuItem(controller,
     			Property.CASMENUPOPULATION_MENUITEM_CHANGESIZE_TEXT,
@@ -182,4 +180,17 @@ public class CASMenuPopulation extends CASJMenu implements CstmObserver {
 		this.revalidate();
 		this.repaint();
 	}
+	
+	@Override
+	public void removeFromObserverable(){
+		super.removeFromObserverable();
+		super.controller.getAutomatonModel().deleteObserver(this);
+    }
+	
+	@Override
+	public void addToObserverable(){
+		super.addToObserverable();
+		super.controller.getView().getObservers().add(this);
+		super.controller.getAutomatonModel().addObserver(this);
+    }
 }

@@ -1,4 +1,4 @@
-package de.cas.model.internalautomata;
+package automata;
 
 import de.cas.model.Automaton;
 import de.cas.model.Cell;
@@ -121,8 +121,8 @@ public class GameOfLifeAutomaton extends Automaton {
 		}
 	}
 	
-	@ACallable
-	public void createTrafficRLUO_F1(){
+	@ACallable(description = "Create gliders in every direction with scale factor 1")
+	public void createTrafficRLUO_F1() throws Exception{
 		createTrafficRLUO(1);
 	}
 	@ACallable
@@ -130,7 +130,7 @@ public class GameOfLifeAutomaton extends Automaton {
 		createTrafficRLUO(2);
 	}
 	@ACallable
-	public void createTrafficRLUO_F3(){
+	private void createTrafficRLUO_F3(){
 		createTrafficRLUO(3);
 	}
 	public void createTrafficRLUO_F4(){

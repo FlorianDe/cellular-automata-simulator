@@ -1,8 +1,13 @@
 package de.cas.controller.properties;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
+import de.cas.controller.properties.CASSettings.Property;
+import de.cas.util.loader.AutomatonLoader;
+import de.cas.util.loader.CstmClassloader;
 
 public class CASSettings extends Properties {
 
@@ -11,8 +16,14 @@ public class CASSettings extends Properties {
 	private static final CASSettings instance = new CASSettings();
 	 
 	public enum Property implements IProperty{
-		SETTINGS_PROPERTY_LANGUAGE("language"),
-		SETTINGS_PROPERTY_STANDART_AUTOMATON("automaton");
+		LANGUAGE("language"),
+		AUTOMATON_TEMPLATE_PATH("automaton.template.path"),
+		AUTOMATON_TEMPLATE_PLACEHOLDER_CLASSNAME("automaton.template.placeholder.classname"),
+		AUTOMATON_FILES_ENDING("automaton.files.ending"),
+		AUTOMATON_PACKAGE("automaton.package"),
+		AUTOMATON_DEFAULT("automaton.default");
+
+				
 		
         private final String key;
         public String getKey() {return key;}

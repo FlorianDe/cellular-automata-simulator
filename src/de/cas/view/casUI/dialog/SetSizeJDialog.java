@@ -24,10 +24,6 @@ import de.cas.view.casUI.component.CASJLabel;
 public class SetSizeJDialog extends JDialog {
 	private static final long serialVersionUID = -3844798685587070198L;
 
-	private String str_lblRows = "Number of rows";
-	private String str_lblColumns = "Number of columns";
-	private String str_okBtn = "Ok";
-	private String str_cancelBtn = "Cancel";
 
 	private CASJLabel lblRows;
 	private CASJLabel lblColumns;
@@ -37,22 +33,6 @@ public class SetSizeJDialog extends JDialog {
 	private CASJButton btnCancel;
 	
 	IAutomatonController controller;
-
-	public String getStr_lblRows() {
-		return str_lblRows;
-	}
-
-	public String getStr_lblColumns() {
-		return str_lblColumns;
-	}
-
-	public String getStr_okBtn() {
-		return str_okBtn;
-	}
-
-	public String getStr_cancelBtn() {
-		return str_cancelBtn;
-	}
 
 	public JLabel getLblRows() {
 		return lblRows;
@@ -103,16 +83,14 @@ public class SetSizeJDialog extends JDialog {
 		GridLayout gl = new GridLayout(0, 2);
 		this.setLayout(gl);
 		
-		System.out.println("Right size dialog !");
-
 		this.lblRows = new CASJLabel(controller, CASLanguageBundle.Property.SETSIZEJDIALOG_LBL_ROWS_TEXT);
 		this.tfRows = new JTextField(4);
 		this.tfRows.setText(oldRowCnt + "");
 		this.lblColumns = new CASJLabel(controller, CASLanguageBundle.Property.SETSIZEJDIALOG_LBL_COLUMNS_TEXT );
 		this.tfColumns = new JTextField(4);
 		this.tfColumns.setText(oldColsCnt + "");
-		this.btnAccept = new CASJButton(controller, CASLanguageBundle.Property.SETSIZEJDIALOG_BTN_ACCEPT_TEXT);
-		this.btnCancel = new CASJButton(controller, CASLanguageBundle.Property.SETSIZEJDIALOG_BTN_CANCEL_TEXT);
+		this.btnAccept = new CASJButton(controller, CASLanguageBundle.Property.ACCEPT);
+		this.btnCancel = new CASJButton(controller, CASLanguageBundle.Property.CANCEL);
 
 		add(this.lblRows);
 		add(this.tfRows);
@@ -127,11 +105,9 @@ public class SetSizeJDialog extends JDialog {
 
 	public void setOnAcceptListener(ActionListener list) {
 		this.btnAccept.addActionListener(list);
-		System.out.println("1");
 	}
 
 	public void setOnCancelListener() {
-		System.out.println("1");
 		this.btnCancel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

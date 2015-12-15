@@ -11,7 +11,7 @@ import de.cas.view.CASFrame;
 public class AutomatonController implements IAutomatonController{
 	private Automaton automaton;
 	private CASFrame view;
-	private PopulationModel zoomFactor;
+	private PopulationModel populationModel;
 	private SimulationModel simulationModel;
 	private CASLanguageBundle languageBundle;
 
@@ -19,10 +19,12 @@ public class AutomatonController implements IAutomatonController{
 	public Automaton getAutomatonModel() {
 		return automaton;
 	}
-	public void setModel(Automaton automaton) {
-		this.automaton = automaton;
-	}
-	
+	@Override
+	public void setAutomatonModel(Automaton automaton) {
+		if(automaton!=null){
+			this.automaton = automaton;
+		}
+	}	
 	@Override
 	public CASFrame getView() {
 		return view;
@@ -33,10 +35,11 @@ public class AutomatonController implements IAutomatonController{
 	
 	@Override
 	public PopulationModel getPopulationModel() {
-		return zoomFactor;
+		return populationModel;
 	}
-	public void setZoomFactor(PopulationModel zoomFactor) {
-		this.zoomFactor = zoomFactor;
+	@Override
+	public void setPopulationModel(PopulationModel populationModel) {
+		this.populationModel = populationModel;
 	}
 	
 	
@@ -57,9 +60,9 @@ public class AutomatonController implements IAutomatonController{
 	
 	public AutomatonController(Automaton automaton){
 		this.automaton = automaton;
-		this.zoomFactor = new PopulationModel();
+		this.populationModel = new PopulationModel();
 		this.simulationModel = new SimulationModel(this);
-		this.languageBundle = new CASLanguageBundle(CASSettings.getInstance().getProperty(CASSettings.Property.SETTINGS_PROPERTY_LANGUAGE));
+		this.languageBundle = new CASLanguageBundle(CASSettings.getInstance().getProperty(CASSettings.Property.LANGUAGE));
 	}
 	
 	@Override
@@ -67,11 +70,12 @@ public class AutomatonController implements IAutomatonController{
 		this.getSimulationModel().stopThread();
 		Lang.println(this.getAutomatonModel(),"Automaton closed: %s", this.getAutomatonModel().getClass().getSimpleName());
 		if(Automaton.getRunningAutomatons().size()<=1){
-			System.err.println("Complete application closed!");
+			System.err.println("\n--> Complete application closed!");
 			System.exit(0);
 		} else {
 			this.getView().dispose();
 			Automaton.removeRunningAutomaton(automaton);
 		}
 	}
+
 }

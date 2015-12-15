@@ -1,37 +1,35 @@
 package de.cas.view.casUI.menu;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.lang.reflect.Method;
 
 import javax.swing.JMenuItem;
 
 import de.cas.controller.IAutomatonController;
+import de.cas.controller.listener.population.InvokeParameterlessMethodListener;
 import de.cas.controller.properties.CASLanguageBundle.Property;
-import de.cas.model.CurrentAutomatonModel;
+import de.cas.util.ACallable;
+import de.cas.util.CstmObserver;
 import de.cas.view.casUI.component.CASJMenu;
 
 
-public class CASMenuCurrentAutomat extends CASJMenu {
+public class CASMenuCurrentAutomat extends CASJMenu implements CstmObserver {
 
 	private static final long serialVersionUID = 1857407324411535407L;
 	
 	public CASMenuCurrentAutomat(IAutomatonController controller, Property propertyDescription) {
 		super(controller, null, propertyDescription);
+		//this.setDynamicMethodButtons();
 	}
 	
-	public void setDynamicMethodButtons(CurrentAutomatonModel cam){
-		this.setText(cam.getAutomatonSimpleName());
+	public void setDynamicMethodButtons(){
+		this.removeAll();
+		this.setText(this.controller.getAutomatonModel().getClass().getSimpleName());
 		JMenuExtension jme = new JMenuExtension();
-		for (Method method : cam.getMethods()) {
+		for (Method method : this.controller.getAutomatonModel().getParameterlessMethods()) {
 			//TODO REFLECTION LABELS!
-			JMenuItem tmi = jme.createJMenuItem(new JMenuItem(method.getName()), method.getName().charAt(0), "STRING_DESCRIPTION", this);
-			tmi.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					cam.invokeMethodParameterless(method);
-				}
-			});
+			ACallable ca = method.getAnnotation(ACallable.class);
+			JMenuItem tmi = jme.createJMenuItem(new JMenuItem(method.getName()), method.getName().charAt(0), (ca!=null)?ca.description():"", this);
+			tmi.addActionListener(new InvokeParameterlessMethodListener(controller, method));
 		}
 	}
 	
@@ -40,4 +38,15 @@ public class CASMenuCurrentAutomat extends CASJMenu {
 		String descriptionStr = this.controller.getLanguageBundle().getValue(this.propertyDescription);
 		this.setInformation(descriptionStr);
 	}
+	
+	@Override
+	public void removeFromObserverable() {
+		super.removeFromObserverable();
+	}
+
+	@Override
+	public void addToObserverable() {
+		super.addToObserverable();
+		this.setDynamicMethodButtons();
+	}	
 }

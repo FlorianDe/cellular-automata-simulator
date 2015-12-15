@@ -2,6 +2,7 @@ package de.cas.view.casUI.dialog;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.io.File;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -11,8 +12,10 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import de.cas.controller.IAutomatonController;
-import de.cas.model.internalautomata.GameOfLifeAutomaton;
-import de.cas.util.FileLoader;
+import de.cas.controller.properties.CASSettings;
+import de.cas.controller.properties.CASSettings.Property;
+import de.cas.util.loader.AutomatonLoader;
+import de.cas.util.loader.CstmClassloader;
 
 /**
  * Created by Florian on 13.11.2015.
@@ -26,12 +29,16 @@ public class CASFileChooser extends JFileChooser {
         super("Choose a file/s");
         this.controller = controller;
         CASFileChooser.disableNewFolderButton(this);
-        FileFilter classFilter = new FileNameExtensionFilter("Class files (*.class)", "class");
+        //FileFilter classSuffixFilter = new FileNameExtensionFilter("Class files (*.class)", "class");
+        //FileFilter javaSuffixFilter = new FileNameExtensionFilter("Java files (*.java)", "java");
+        String automatonEnding = CASSettings.getInstance().getProperty(Property.AUTOMATON_FILES_ENDING);
+        FileFilter automatonSuffixFilter = new FileNameExtensionFilter("Automaton files (*"+automatonEnding+")", automatonEnding.replace(".", ""));
         this.setAcceptAllFileFilterUsed(false);
-        this.setFileFilter(classFilter);
+        //this.setFileFilter(classSuffixFilter);
+        this.setFileFilter(automatonSuffixFilter);
         this.setMultiSelectionEnabled(true);
         this.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        this.setCurrentDirectory(FileLoader.getInstance().getJarDir(GameOfLifeAutomaton.class));
+        this.setCurrentDirectory(CstmClassloader.getAutomataFolder());
     }
 
 

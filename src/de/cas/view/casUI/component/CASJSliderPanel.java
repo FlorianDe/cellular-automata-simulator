@@ -28,7 +28,7 @@ public class CASJSliderPanel extends JPanel implements CstmObserver {
 	public CASJSliderPanel(IAutomatonController controller){
 		super();
 		this.controller = controller;
-		this.controller.getSimulationModel().addObserver(this);
+		this.addToObserverable();
 		
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		this.setOpaque(false);
@@ -56,5 +56,16 @@ public class CASJSliderPanel extends JPanel implements CstmObserver {
 	@Override
 	public void update(CstmObservable arg0, Object arg1) {
 		this.speedLabel.setText(controller.getSimulationModel().getDelay()+"ms [~" + new DecimalFormat("0.00").format((1000.0/controller.getSimulationModel().getDelay())) + " fps]");
+	}
+	
+	@Override
+	public void removeFromObserverable() {
+		this.controller.getSimulationModel().deleteObserver(this);
+	}
+
+	@Override
+	public void addToObserverable() {
+		this.controller.getView().getObservers().add(this);
+		this.controller.getSimulationModel().addObserver(this);
 	}
 }

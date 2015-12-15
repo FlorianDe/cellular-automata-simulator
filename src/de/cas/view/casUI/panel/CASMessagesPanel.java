@@ -27,17 +27,18 @@ public class CASMessagesPanel extends JPanel implements CstmObserver {
 	
 	public CASMessagesPanel(IAutomatonController controller){
 		this("Herzlich Willkommen", controller);
-	    update(null, this);
 	}
 	public CASMessagesPanel(String message, IAutomatonController controller){
 		this.controller = controller;
-		this.controller.getAutomatonModel().addObserver(this);
+		this.addToObserverable();
 		this.message = new JLabel(message);
 		this.add(this.message);
 		this.setBackground(Color.getHSBColor(187, 33, 100));
 		FlowLayout fl = new FlowLayout();
 		fl.setAlignment(FlowLayout.LEFT);
 		this.setLayout(fl);
+		
+	    update(null, this);
 	}
 
 	@Override
@@ -51,5 +52,16 @@ public class CASMessagesPanel extends JPanel implements CstmObserver {
 				this.controller.getPopulationModel().getCellSize(),
 				this.controller.getPopulationModel().isDrawCellRect()?"On":"Off",
 				Automaton.getRunningAutomatons().size()));
+	}
+	
+	@Override
+	public void removeFromObserverable() {
+		this.controller.getAutomatonModel().deleteObserver(this);
+	}
+
+	@Override
+	public void addToObserverable() {
+		this.controller.getView().getObservers().add(this);
+		this.controller.getAutomatonModel().addObserver(this);
 	}
 }

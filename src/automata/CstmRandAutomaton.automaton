@@ -1,0 +1,23 @@
+package automata;
+
+import de.cas.model.Automaton;
+import de.cas.model.Cell;
+
+public class CstmRandAutomaton extends Automaton {
+	
+	private final static int numberOfRows = 80;
+	private final static int numberOfColumns = 80;
+	private final static int numberOfStates = 2;
+	private final static boolean isMooreNeighborHood = true;
+	private final static boolean isTorus = true;
+	
+	public CstmRandAutomaton(){
+		super(numberOfRows,numberOfColumns, numberOfStates, isMooreNeighborHood,isTorus);
+	}
+	
+	@Override
+	protected Cell transform(Cell cell, Cell[] neighbors) {
+		boolean expr = (neighbors[3].getState()==1 && neighbors[4].getState()==1)||(neighbors[6].getState()==1 && neighbors[2].getState()==1);
+		return new Cell(expr?1:0);
+	}
+}

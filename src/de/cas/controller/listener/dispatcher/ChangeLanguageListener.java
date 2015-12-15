@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.Locale;
 
 import de.cas.controller.IAutomatonController;
+import de.cas.util.Lang;
 
 public class ChangeLanguageListener implements ActionListener {
 	protected IAutomatonController controller;
@@ -20,6 +21,9 @@ public class ChangeLanguageListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.controller.getLanguageBundle().setLanguageBundle(locale);
+		if(this.controller.getLanguageBundle().setLanguageBundle(locale)){
+			Lang.println(this.controller.getAutomatonModel(), "Changed language to %s", this.locale.getDisplayName());
+		}
+		
 	}
 }

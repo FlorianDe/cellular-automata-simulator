@@ -51,8 +51,7 @@ public class CASJToolBar extends JToolBar implements CstmObserver{
 	
 	public CASJToolBar(IAutomatonController controller){
 		this.controller = controller;
-		this.controller.getSimulationModel().addObserver(this);
-		this.controller.getAutomatonModel().addObserver(this);
+		this.addToObserverable();
 		
 		//1. Button
 		this.btnNew = (JButton) createToolbarButton(new JButton(), "img/New24.gif");
@@ -157,5 +156,18 @@ public class CASJToolBar extends JToolBar implements CstmObserver{
 		this.btnZoomOut.setEnabled(!this.controller.getPopulationModel().isMinimum());
 		this.revalidate();
 		this.repaint();
+	}
+
+	@Override
+	public void removeFromObserverable() {
+		this.controller.getSimulationModel().deleteObserver(this);
+		this.controller.getAutomatonModel().deleteObserver(this);
+	}
+
+	@Override
+	public void addToObserverable() {
+		this.controller.getView().getObservers().add(this);
+		this.controller.getSimulationModel().addObserver(this);
+		this.controller.getAutomatonModel().addObserver(this);
 	}
 }

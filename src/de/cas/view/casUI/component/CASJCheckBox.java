@@ -25,7 +25,7 @@ public class CASJCheckBox extends JCheckBoxMenuItem implements IPolyGlot, CstmOb
 		this.propertyDescription = propertyDescription;
 		this.propertyAcceleratorKey = propertyAcceleratorKey;
 		this.acceleratorModifiers = acceleratorModifiers;
-		this.controller.getLanguageBundle().addObserver(this);
+		this.addToObserverable();
     	this.setUI(new StayOpenCheckBoxMenuItemUI());
 		this.updateProperties();
 	}
@@ -52,5 +52,16 @@ public class CASJCheckBox extends JCheckBoxMenuItem implements IPolyGlot, CstmOb
 		this.updateProperties();
 		this.revalidate();
 		this.repaint();
+	}
+
+	@Override
+	public void removeFromObserverable() {
+		this.controller.getLanguageBundle().deleteObserver(this);
+	}
+
+	@Override
+	public void addToObserverable() {
+		this.controller.getView().getObservers().add(this);
+		this.controller.getLanguageBundle().addObserver(this);
 	}
 }

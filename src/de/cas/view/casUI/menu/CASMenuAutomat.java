@@ -4,7 +4,9 @@ import java.awt.event.ActionEvent;
 
 import de.cas.controller.IAutomatonController;
 import de.cas.controller.listener.dispatcher.ExitSimulatorListener;
-import de.cas.controller.listener.dispatcher.OpenSimulatorListener;
+import de.cas.controller.listener.dispatcher.LoadAutomatonListener;
+import de.cas.controller.listener.dispatcher.NewAutomatonListener;
+import de.cas.controller.listener.editor.OpenEditorListener;
 import de.cas.controller.properties.CASLanguageBundle.Property;
 import de.cas.view.casUI.component.CASJMenu;
 import de.cas.view.casUI.component.CASJMenuItem;
@@ -29,13 +31,14 @@ public class CASMenuAutomat extends CASJMenu{
     			Property.CASMENUAUTOMAT_MENUITEM_NEW_ACCELERATOR_KEY,
     			Property.CASMENUAUTOMAT_MENUITEM_NEW_DESCRIPTION,
     			this.acceleratorModifiers);
+    	this.menuItemNew.addActionListener(new NewAutomatonListener(this.controller));
     	
     	this.menuItemLoad = new CASJMenuItem(controller,
     			Property.CASMENUAUTOMAT_MENUITEM_LOAD_TEXT,
     			Property.CASMENUAUTOMAT_MENUITEM_LOAD_ACCELERATOR_KEY,
     			Property.CASMENUAUTOMAT_MENUITEM_LOAD_DESCRIPTION,
     			this.acceleratorModifiers);
-        this.menuItemLoad.addActionListener(new OpenSimulatorListener(this.controller));
+        this.menuItemLoad.addActionListener(new LoadAutomatonListener(this.controller));
 
     	
     	this.menuItemEditor = new CASJMenuItem(controller,
@@ -43,6 +46,7 @@ public class CASMenuAutomat extends CASJMenu{
     			Property.CASMENUAUTOMAT_MENUITEM_EDITOR_ACCELERATOR_KEY,
     			Property.CASMENUAUTOMAT_MENUITEM_EDITOR_DESCRIPTION,
     			this.acceleratorModifiers);
+    	this.menuItemEditor.addActionListener(new OpenEditorListener(controller));
     	
     	this.menuItemExit = new CASJMenuItem(controller,
     			Property.CASMENUAUTOMAT_MENUITEM_EXIT_TEXT,

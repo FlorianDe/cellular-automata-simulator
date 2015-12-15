@@ -1,0 +1,2 @@
+sysout#System.out.println(#System.out.println(::
+syserr#System.err.println(#System.err.println(::

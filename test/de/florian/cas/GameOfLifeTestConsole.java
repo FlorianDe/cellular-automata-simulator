@@ -1,23 +1,23 @@
 package de.florian.cas;
 
+//import automata.GameOfLifeAutomaton;
 import de.cas.model.Automaton;
-import de.cas.model.internalautomata.GameOfLifeAutomaton;
 
 public class GameOfLifeTestConsole {
 	public static void main(String[] args) throws InterruptedException{
-		GameOfLifeAutomaton golt = new GameOfLifeAutomaton();
-		golt.randomPopulation();
+		//GameOfLifeAutomaton golt = new GameOfLifeAutomaton();
+		//golt.randomPopulation();
 		//golt.createGliderGun();
-		golt.setState(2, 3, 1);
-		golt.setState(2, 4, 1);
-		golt.setState(2, 5, 1);
+		//golt.setState(2, 3, 1);
+		//golt.setState(2, 4, 1);
+		//golt.setState(2, 5, 1);
 		
 		
 		int steps = 100000;
 		long startTime = System.currentTimeMillis();
 		for (int i = 0; i < steps; i++) {
-			System.out.println(stringRepresentation(golt));
-			golt.calcNextGeneration();
+			//System.out.println(stringRepresentation(golt));
+			//golt.calcNextGeneration();
 			Thread.sleep(100);
 		}
 		long ms = (System.currentTimeMillis() - startTime);

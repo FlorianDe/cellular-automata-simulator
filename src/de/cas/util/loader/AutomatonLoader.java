@@ -1,26 +1,40 @@
-package de.cas.util;
+package de.cas.util.loader;
 
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 
+import de.cas.controller.properties.CASSettings;
+import de.cas.controller.properties.CASSettings.Property;
+import de.cas.util.Lang;
+
 /**
  * Created by Florian on 13.11.2015.
  */
-public class FileLoader {
+public class AutomatonLoader {
 
-    public static final FileLoader instance;
-    public static FileLoader getInstance() {
+    public static final AutomatonLoader instance;
+    public static final String automatonTemplateLines;
+    public static AutomatonLoader getInstance() {
 		return instance;
 	}
 
 	static {
-        instance = new FileLoader();
-    }
+        instance = new AutomatonLoader();
+        String templatePath = CASSettings.getInstance().getProperty(Property.AUTOMATON_TEMPLATE_PATH);
+        automatonTemplateLines = Lang.readResourceFileToString(templatePath);
+        if(automatonTemplateLines.isEmpty()){
+        	System.out.println("Cannot load automaton template!");
+        }
+	}
 
+
+	
+	
     /**
      * Compute the absolute file path to the jar file.
      * The framework is based on http://stackoverflow.com/a/12733172/1614775
@@ -85,11 +99,13 @@ public class FileLoader {
     }
     
 	public static boolean classFileSuffixFilter(Path path) {
-		for(String suffix : new String[]{".class"}){
-			if(path.toFile().getName().endsWith(suffix)) {
-				return true;
-			}
-		}
-		return false;
+		return helperFileSuffixFiler(path, ".class");
+	}
+	public static boolean javaFileSuffixFilter(Path path) {
+		return helperFileSuffixFiler(path, ".java");
+	}
+	
+	private static boolean helperFileSuffixFiler(Path path, String suffix){
+		return path.toFile().getName().endsWith(suffix);
 	}
 }

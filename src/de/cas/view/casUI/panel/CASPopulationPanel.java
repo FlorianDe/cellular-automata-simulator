@@ -7,7 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -22,7 +21,6 @@ import de.cas.model.Automaton;
 import de.cas.model.PopulationModel;
 import de.cas.util.CstmObservable;
 import de.cas.util.CstmObserver;
-import de.cas.util.Lang;
 import de.cas.view.casUI.util.RectangleFactory;
 
 public class CASPopulationPanel extends JPanel implements CstmObserver  {
@@ -31,19 +29,14 @@ public class CASPopulationPanel extends JPanel implements CstmObserver  {
 	
     private JScrollPane scrollPane;
 	IAutomatonController controller;
-    PopulationModel pm;
-    Automaton am;
 	BufferedImage populationImageBuffer;
 	RenderingHints rh;
 
 	public CASPopulationPanel(IAutomatonController controller){
 		this.controller = controller;
-		this.pm = this.controller.getPopulationModel();
-		this.am = this.controller.getAutomatonModel();
+
 		this.scrollPane = new JScrollPane();
-		this.controller.getPopulationModel().addObserver(this);
-		this.controller.getAutomatonModel().getStates().addObserver(this);
-		this.controller.getAutomatonModel().addObserver(this);
+		this.addToObserverable();
 		
 		PaintCellsListener pcl = new PaintCellsListener(this.controller);
 		this.addMouseListener(pcl);
@@ -84,13 +77,16 @@ public class CASPopulationPanel extends JPanel implements CstmObserver  {
 	
 	protected void pointPopulation(Graphics g){
         synchronized(this.controller.getAutomatonModel().getPopulation()){
-			long startTime = System.currentTimeMillis();
+			//long startTime = System.currentTimeMillis();
 			Graphics2D g2d = (Graphics2D)g;
 	        g2d.setRenderingHints(rh);
+	        
+			PopulationModel pm = this.controller.getPopulationModel();
+			Automaton am = this.controller.getAutomatonModel();
 	
 	        Point parentLocation = this.getScrollPane().getViewport().getViewRect().getLocation();
 	        Dimension parentSize = this.getScrollPane().getViewport().getSize();
-	        Rectangle popVisible = new Rectangle();
+	        //Rectangle popVisible = new Rectangle();
 	        int colStart = setStartPosition((parentLocation.getX()-pm.getMargin())/pm.getCellSize());
 	        int rowStart = setStartPosition((parentLocation.getY()-pm.getMargin())/pm.getCellSize());
 	        int colsEnd = setColsEnd(colStart+(int)(parentSize.getWidth()+2*pm.getMargin())/pm.getCellSize()); 
@@ -115,7 +111,7 @@ public class CASPopulationPanel extends JPanel implements CstmObserver  {
 			}
 	        
 			g2d.dispose();
-	       Lang.println(am, "Real Redraw Time: "+(System.currentTimeMillis() - startTime)+" ms    ");
+			//Lang.println(am, "Real Redraw Time: "+(System.currentTimeMillis() - startTime)+" ms    ");
         }
 	}
 	
@@ -124,13 +120,13 @@ public class CASPopulationPanel extends JPanel implements CstmObserver  {
 		return minimum<0?0:minimum;
 	}
 	private int setStartPosition(double minimum){
-		return minimum<0?0:(int)minimum;
+		return setStartPosition((int)minimum);
 	}
 	private int setRowsEnd(double endRows){
-		return (endRows<am.getNumberOfRows())?(int)endRows:am.getNumberOfRows();
+		return (endRows<this.controller.getAutomatonModel().getNumberOfRows())?(int)endRows:this.controller.getAutomatonModel().getNumberOfRows();
 	}
 	private int setColsEnd(double endCols){
-		return (endCols<am.getNumberOfColumns())?(int)endCols:am.getNumberOfColumns();
+		return (endCols<this.controller.getAutomatonModel().getNumberOfColumns())?(int)endCols:this.controller.getAutomatonModel().getNumberOfColumns();
 	}
 	
 
@@ -198,5 +194,19 @@ public class CASPopulationPanel extends JPanel implements CstmObserver  {
 	@Override
 	public boolean isOptimizedDrawingEnabled(){
 		return true;
+	}
+	
+	@Override
+	public void removeFromObserverable() {
+		this.controller.getAutomatonModel().getStates().deleteObserver(this);
+		this.controller.getAutomatonModel().deleteObserver(this);
+	}
+
+	@Override
+	public void addToObserverable() {
+		this.controller.getView().getObservers().add(this);
+		this.controller.getPopulationModel().addObserver(this);
+		this.controller.getAutomatonModel().getStates().addObserver(this);
+		this.controller.getAutomatonModel().addObserver(this);
 	}
 }
