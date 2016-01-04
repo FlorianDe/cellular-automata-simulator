@@ -1,5 +1,7 @@
 package de.cas;
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriter;
 import javax.swing.SwingUtilities;
 
 import de.cas.controller.AutomatonController;

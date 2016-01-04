@@ -32,6 +32,7 @@ public class CASFrame extends JFrame implements CstmObserver{
 	private CASMenuBar menuBar;
 	private CASJToolBar toolbar;
 	private CASStateContainerPanel stateContainer;
+	private JSplitPane splitPane;
 	private JScrollPane stateScrollPane;
 	private JScrollPane	populationScrollPane;
 	private CASPopulationPanel populationPanel;
@@ -39,6 +40,11 @@ public class CASFrame extends JFrame implements CstmObserver{
 	
 	private AutomatonEditor automatonEditor;
 	private Set<CstmObserver> observers;
+
+
+	public JSplitPane getSplitPane() {
+		return splitPane;
+	}
 
 	public CASMenuBar getCASMenuBar() {
 		return menuBar;
@@ -60,6 +66,18 @@ public class CASFrame extends JFrame implements CstmObserver{
 		return messages;
 	}	
 	
+	public JScrollPane getStateScrollPane() {
+		return stateScrollPane;
+	}
+
+
+
+	public JScrollPane getPopulationScrollPane() {
+		return populationScrollPane;
+	}
+
+
+
 	IAutomatonController controller;
 	
 	public CASFrame(IAutomatonController controller) {
@@ -112,10 +130,10 @@ public class CASFrame extends JFrame implements CstmObserver{
         //Anpassen
         int pspWidth = (int)(this.getPreferredSize().getWidth()-this.stateContainer.getPreferredSize().getWidth())-100;
         this.populationScrollPane.setMinimumSize(new Dimension(pspWidth,0));
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+        this.splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
         		stateScrollPane, populationScrollPane);
-        splitPane.setOneTouchExpandable(true);
-        splitPane.setDividerLocation((int)this.stateScrollPane.getPreferredSize().getWidth());
+        this.splitPane.setOneTouchExpandable(true);
+        this.splitPane.setDividerLocation((int)this.stateScrollPane.getPreferredSize().getWidth());
         
         //this.add(this.stateScrollPane, BorderLayout.WEST); 
         //this.add(this.populationScrollPane,  BorderLayout.CENTER);

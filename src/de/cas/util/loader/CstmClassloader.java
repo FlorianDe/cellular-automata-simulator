@@ -191,6 +191,10 @@ public class CstmClassloader extends ClassLoader {
         return new File(AutomatonLoader.getInstance().getJarDir(CstmClassloader.class),CASSettings.getInstance().getProperty(Property.AUTOMATON_PACKAGE));
     }
 	
+	public static File getPopulationFolder(){
+        return new File(AutomatonLoader.getInstance().getJarDir(CstmClassloader.class),CASSettings.getInstance().getProperty(Property.POPULATION_PACKAGE));
+    }
+	
 	
 	
 	private static void setPackageField(Automaton automaton){

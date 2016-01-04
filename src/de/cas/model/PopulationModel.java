@@ -51,11 +51,10 @@ public class PopulationModel extends CstmObservable {
 	public int getCellSize() {
 		return cellSize;
 	}
-	public void setCellSize(int value) {
+	public synchronized void setCellSize(int value) {
 		if (value >= CELL_SIZE_MIN && value <= CELL_SIZE_MAX){
-			this.setDrawCellRect(value > CELL_SIZE_MIN);
 			cellSize = value;
-			notify(null);
+			this.setDrawCellRect(value > CELL_SIZE_MIN);
 		}
 	}
 	public int getMargin() {
@@ -67,14 +66,12 @@ public class PopulationModel extends CstmObservable {
 	}
 	
 
-	public void zoomIn() {
+	public synchronized void zoomIn() {
 		this.setCellSize(this.getCellSize()+1);
-		notify(null);
 	}
 
-	public void zoomOut() {
+	public synchronized void zoomOut() {
 		this.setCellSize(this.getCellSize()-1);
-		notify(null);
 	}
 	
 	public void notify(Object arg) {

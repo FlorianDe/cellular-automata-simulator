@@ -166,18 +166,10 @@ public class CASLanguageBundle extends CstmObservable{
 		CASMENUPOPULATION_MENUITEM_PRINT_DESCRIPTION("CASMenuPopulation.menuItemPrint.description"),
 		CASMENUPOPULATION_MENUITEM_PRINT_ACCELERATOR_KEY("CASMenuPopulation.menuItemPrint.acceleratorkey"),
 
-		CASMENUPOPULATION_SUBMENU_EXPORT_TEXT("CASMenuPopulation.submenuExport.text"),
-		CASMENUPOPULATION_SUBMENU_EXPORT_DESCRIPTION("CASMenuPopulation.submenuExport.description"),
+		CASMENUPOPULATION_MENUITEM_EXPORTIMAGE_TEXT("CASMenuPopulation.menuItemExportImage.text"),
+		CASMENUPOPULATION_MENUITEM_EXPORTIMAGE_DESCRIPTION("CASMenuPopulation.menuItemExportImage.description"),
+		CASMENUPOPULATION_MENUITEM_EXPORTIMAGE_ACCELERATOR_KEY("CASMenuPopulation.menuItemExportImage.acceleratorkey"),
 
-		CASMENUPOPULATION_MENUITEM_EXPORTGIF_TEXT("CASMenuPopulation.menuItemExportGIF.text"),
-		CASMENUPOPULATION_MENUITEM_EXPORTGIF_DESCRIPTION("CASMenuPopulation.menuItemExportGIF.description"),
-		CASMENUPOPULATION_MENUITEM_EXPORTGIF_ACCELERATOR_KEY("CASMenuPopulation.menuItemExportGIF.acceleratorkey"),
-
-		CASMENUPOPULATION_MENUITEM_EXPORTPNG_TEXT("CASMenuPopulation.menuItemExportPNG.text"),
-		CASMENUPOPULATION_MENUITEM_EXPORTPNG_DESCRIPTION("CASMenuPopulation.menuItemExportPNG.description"),
-		CASMENUPOPULATION_MENUITEM_EXPORTPNG_ACCELERATOR_KEY("CASMenuPopulation.menuItemExportPNG.acceleratorkey"),
-
-		
 		//view.casUI.menu.CASMenuSimulation
 		CASMENUSIMULATION_MENU_TEXT("CASMenuSimulation.menu.text"),
 		CASMENUSIMULATION_MENU_DESCRIPTION("CASMenuSimulation.menu.description"),

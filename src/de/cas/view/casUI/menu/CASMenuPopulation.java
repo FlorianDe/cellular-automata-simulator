@@ -3,7 +3,12 @@ package de.cas.view.casUI.menu;
 import java.awt.event.ActionEvent;
 
 import de.cas.controller.IAutomatonController;
+import de.cas.controller.listener.dispatcher.LoadAutomatonListener;
+import de.cas.controller.listener.editor.SaveFileListener;
 import de.cas.controller.listener.population.GridOnOffListener;
+import de.cas.controller.listener.population.SavePopulationAsImageListener;
+import de.cas.controller.listener.population.DeserializePopulationListener;
+import de.cas.controller.listener.population.SerializePopulationListener;
 import de.cas.controller.listener.population.SetSizeListener;
 import de.cas.controller.listener.population.TorusListener;
 import de.cas.controller.listener.population.ZoomInListener;
@@ -14,6 +19,7 @@ import de.cas.util.CstmObserver;
 import de.cas.view.casUI.component.CASJCheckBox;
 import de.cas.view.casUI.component.CASJMenu;
 import de.cas.view.casUI.component.CASJMenuItem;
+import de.cas.view.casUI.util.CASFileFilter;
 
 public class CASMenuPopulation extends CASJMenu implements CstmObserver {
 
@@ -32,11 +38,8 @@ public class CASMenuPopulation extends CASJMenu implements CstmObserver {
 	private CASJMenuItem menuItemLoadXML;
 	private CASJMenuItem menuItemLoadSerialized;
 	private CASJMenuItem menuItemPrint;
-	private CASJMenu submenuExport;
-	private CASJMenuItem menuItemExportGIF;
-	private CASJMenuItem menuItemExportPNG;
+	private CASJMenuItem menuItemExportImage;
 	
-
 	
 	IAutomatonController controller;
 	
@@ -101,12 +104,13 @@ public class CASMenuPopulation extends CASJMenu implements CstmObserver {
     			Property.CASMENUPOPULATION_MENUITEM_SAVEXML_ACCELERATOR_KEY,
     			Property.CASMENUPOPULATION_MENUITEM_SAVEXML_DESCRIPTION,
     			this.acceleratorModifiers);
-    	
+
     	this.menuItemSaveSerialized = new CASJMenuItem(controller,
     			Property.CASMENUPOPULATION_MENUITEM_SAVESERIALIZED_TEXT,
     			Property.CASMENUPOPULATION_MENUITEM_SAVESERIALIZED_ACCELERATOR_KEY,
     			Property.CASMENUPOPULATION_MENUITEM_SAVESERIALIZED_DESCRIPTION,
     			this.acceleratorModifiers);
+    	this.menuItemSaveSerialized.addActionListener(new SerializePopulationListener(controller, CASFileFilter.serializedSuffixFilter));
     	
     	this.submenuLoad = new CASJMenu(controller, 
     			Property.CASMENUPOPULATION_SUBMENU_LOAD_TEXT, 
@@ -123,6 +127,7 @@ public class CASMenuPopulation extends CASJMenu implements CstmObserver {
     			Property.CASMENUPOPULATION_MENUITEM_LOADSERIALIZED_ACCELERATOR_KEY,
     			Property.CASMENUPOPULATION_MENUITEM_LOADSERIALIZED_DESCRIPTION,
     			this.acceleratorModifiers);
+    	this.menuItemLoadSerialized.addActionListener(new DeserializePopulationListener(controller, CASFileFilter.serializedSuffixFilter));
 
     	this.menuItemPrint = new CASJMenuItem(controller,
     			Property.CASMENUPOPULATION_MENUITEM_PRINT_TEXT,
@@ -130,21 +135,12 @@ public class CASMenuPopulation extends CASJMenu implements CstmObserver {
     			Property.CASMENUPOPULATION_MENUITEM_PRINT_DESCRIPTION,
     			this.acceleratorModifiers);
     	
-    	this.submenuExport  = new CASJMenu(controller, 
-    			Property.CASMENUPOPULATION_SUBMENU_EXPORT_TEXT, 
-    			Property.CASMENUPOPULATION_SUBMENU_EXPORT_DESCRIPTION);
-    	
-    	this.menuItemExportGIF = new CASJMenuItem(controller,
-    			Property.CASMENUPOPULATION_MENUITEM_EXPORTGIF_TEXT,
-    			Property.CASMENUPOPULATION_MENUITEM_EXPORTGIF_ACCELERATOR_KEY,
-    			Property.CASMENUPOPULATION_MENUITEM_EXPORTGIF_DESCRIPTION,
+    	this.menuItemExportImage = new CASJMenuItem(controller,
+    			Property.CASMENUPOPULATION_MENUITEM_EXPORTIMAGE_TEXT,
+    			Property.CASMENUPOPULATION_MENUITEM_EXPORTIMAGE_ACCELERATOR_KEY,
+    			Property.CASMENUPOPULATION_MENUITEM_EXPORTIMAGE_DESCRIPTION,
     			this.acceleratorModifiers);
-    	
-    	this.menuItemExportPNG = new CASJMenuItem(controller,
-    			Property.CASMENUPOPULATION_MENUITEM_EXPORTPNG_TEXT,
-    			Property.CASMENUPOPULATION_MENUITEM_EXPORTPNG_ACCELERATOR_KEY,
-    			Property.CASMENUPOPULATION_MENUITEM_EXPORTPNG_DESCRIPTION,
-    			this.acceleratorModifiers);
+    	this.menuItemExportImage.addActionListener(new SavePopulationAsImageListener(controller));
     	
 
     	this.add(menuItemChangeSize);
@@ -164,9 +160,7 @@ public class CASMenuPopulation extends CASJMenu implements CstmObserver {
     	this.submenuLoad.add(menuItemLoadSerialized);
     	this.addSeparator();
     	this.add(menuItemPrint);
-    	this.add(submenuExport);
-    	this.submenuExport.add(menuItemExportGIF);
-    	this.submenuExport.add(menuItemExportPNG);
+    	this.add(menuItemExportImage);
     	
     	update(null, this);
 	}

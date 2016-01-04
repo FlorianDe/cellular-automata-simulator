@@ -1,7 +1,10 @@
 package de.cas.model;
 
+import java.io.Serializable;
 
-public class Cell {
+public class Cell implements Serializable{
+	private static final long serialVersionUID = 1L;
+
 	public static final int INIT_STATE = 0;
 	
 	private volatile int state;

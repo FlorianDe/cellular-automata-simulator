@@ -16,6 +16,5 @@ public interface IAutomatonController {
 	public SimulationModel getSimulationModel();
 	public CASLanguageBundle getLanguageBundle();
 
-	
 	public void exitSimulator();
 }

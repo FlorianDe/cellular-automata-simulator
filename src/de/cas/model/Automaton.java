@@ -3,9 +3,13 @@ package de.cas.model;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import de.cas.util.ACallable;
 import de.cas.util.CstmObservable;
@@ -24,8 +28,7 @@ public abstract class Automaton extends CstmObservable{
 	private static final int[][] directionsMoore = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1} };
 	private static final int[][] directionsNeumann = {{0, -1}, {-1, 0}, {0, 1}, {1, 0} };
 	private int[][] directions;
-	private Cell[] neighbors;
-	
+
 	static{
 		runningAutomatons = new ConcurrentHashMap<>();
 		totalAutomatonsInstantiated = 0;
@@ -49,7 +52,7 @@ public abstract class Automaton extends CstmObservable{
 		this.states = new StateModel(numberOfStates);
 		
 		this.isMooreNeighborHood = isMooreNeighborHood;
-		this.neighbors = isMooreNeighborHood?new Cell[8]:new Cell[4];
+		//this.neighbors = isMooreNeighborHood?new Cell[8]:new Cell[4];
 		this.directions = isMooreNeighborHood?directionsMoore:directionsNeumann;
 		Automaton.putRunningAutomaton(this);
 	}
@@ -177,9 +180,9 @@ public abstract class Automaton extends CstmObservable{
 	 * @return die Population als Cell-Matrix
 	 */
 	public Cell[][] getPopulation(){
-		synchronized(this.population){
+		//synchronized(this.population){
 			return this.population;
-		}
+		//}
 	}
 	
 	/**
@@ -261,14 +264,12 @@ public abstract class Automaton extends CstmObservable{
 	 * @return
 	 */
 	
-	public Cell[][] calcNextGeneration(){
+	public Cell[][] calcNextGenerationParallel(){
 		synchronized(this.population){
-			//ExecutorService taskExecutor = Executors.newFixedThreadPool(Math.min(Runtime.getRuntime().availableProcessors() + 1, this.numberOfRows));
 			//long startTime = System.currentTimeMillis();
+			ExecutorService taskExecutor = Executors.newFixedThreadPool(Math.min(Runtime.getRuntime().availableProcessors() + 1, this.numberOfRows));
 			final Cell[][] populationCopy = clonePopulation();
-			Cell.iterator(this.population, (cell, y, x) -> transform(population[y][x], getCellNeighbors(populationCopy, y, x)));
-			
-			/*
+
 			for (int y = 0; y < population.length; y++) {
 				final int actY = y;
 				taskExecutor.execute(new Thread() {
@@ -292,7 +293,19 @@ public abstract class Automaton extends CstmObservable{
 			} catch (InterruptedException ex) {
 				Logger.getLogger(new Throwable().getStackTrace()[0].getClassName()).log(Level.SEVERE, null, ex);
 			}
-			*/
+			
+			
+	        //System.out.println("Recalc: "+(System.currentTimeMillis() - startTime)+" ms");
+			notify(null);
+			return population;
+		}
+	}
+	
+	public Cell[][] calcNextGeneration(){
+		synchronized(this.population){
+			//long startTime = System.currentTimeMillis();
+			final Cell[][] populationCopy = clonePopulation();
+			Cell.iterator(this.population, (cell, y, x) -> transform(population[y][x], getCellNeighbors(populationCopy, y, x)));	
 			
 	        //System.out.println("Recalc: "+(System.currentTimeMillis() - startTime)+" ms");
 			notify(null);
@@ -309,6 +322,7 @@ public abstract class Automaton extends CstmObservable{
 	 * @return Zellennachbarn als eindimensionales Array
 	 */
 	private Cell[] getCellNeighbors(Cell[][] oldPopulation, int y, int x) {
+		final Cell[] neighbors = isMooreNeighborHood ? new Cell[8] : new Cell[4];
 		int dY,dX,ctr = 0;
 		for (int[] d : directions) {
 			dY = isTorus()?(y+d[0]+numberOfRows)%numberOfRows:(y+d[0]);

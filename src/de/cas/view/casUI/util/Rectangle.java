@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 
 import de.cas.model.PopulationModel;
 
-public class Rectangle implements Drawable{
+public class Rectangle implements IDrawable{
 	private Color color;
 
 	public Rectangle(Color color) {

@@ -31,6 +31,7 @@ import de.cas.util.loader.CstmClassloader;
 import de.cas.util.loader.MemJavaFileManager;
 import de.cas.util.loader.StringJavaFileObject;
 import de.cas.view.casUI.dialog.CASFileChooser;
+import de.cas.view.casUI.util.CASFileFilter;
 
 public class LoadAutomatonListener implements ActionListener {
 	protected IAutomatonController controller;
@@ -41,9 +42,9 @@ public class LoadAutomatonListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		CASFileChooser cfc = new CASFileChooser(this.controller);
+		CASFileChooser cfc = new CASFileChooser(this.controller, CstmClassloader.getAutomataFolder(), true, null, CASFileFilter.automatonSuffixFilter);
 
-		int result = cfc.showDialog(null, "Load");
+		int result = cfc.showOpenDialog(this.controller.getView());
 		switch (result) {
 		case JFileChooser.APPROVE_OPTION:
 			for (File fileTier0 : cfc.getSelectedFiles()) {

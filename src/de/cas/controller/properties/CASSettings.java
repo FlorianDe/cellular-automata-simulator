@@ -1,13 +1,8 @@
 package de.cas.controller.properties;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
-import de.cas.controller.properties.CASSettings.Property;
-import de.cas.util.loader.AutomatonLoader;
-import de.cas.util.loader.CstmClassloader;
 
 public class CASSettings extends Properties {
 
@@ -21,7 +16,9 @@ public class CASSettings extends Properties {
 		AUTOMATON_TEMPLATE_PLACEHOLDER_CLASSNAME("automaton.template.placeholder.classname"),
 		AUTOMATON_FILES_ENDING("automaton.files.ending"),
 		AUTOMATON_PACKAGE("automaton.package"),
-		AUTOMATON_DEFAULT("automaton.default");
+		AUTOMATON_DEFAULT("automaton.default"), 
+		POPULATION_PACKAGE("population.package"),
+		POPULATION_IMAGE_EXPORT_PATH("population.image.export.path");
 
 				
 		

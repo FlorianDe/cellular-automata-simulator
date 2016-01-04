@@ -8,6 +8,7 @@ import javax.swing.JMenuItem;
 
 import de.cas.controller.IAutomatonController;
 import de.cas.controller.listener.dispatcher.ChangeLanguageListener;
+import de.cas.controller.listener.dispatcher.FullScreenModeToggleListener;
 import de.cas.controller.properties.CASLanguageBundle;
 import de.cas.controller.properties.CASLanguageBundle.Property;
 import de.cas.util.CstmObservable;
@@ -23,8 +24,10 @@ public class CASMenuHelp extends CASJMenu implements CstmObserver{
 	CASJMenuItem menuItemAbout;
 	CASJMenu submenuLanguage;
 	ArrayList<JMenuItem> submenuLanguageItems;
+	CASJMenuItem menutItemToggleFullScreen;
 	
 	IAutomatonController controller;
+
 	
 	public CASMenuHelp(IAutomatonController controller, Property propertyText, Property propertyDescription) {
 		super(controller, propertyText, propertyDescription);
@@ -54,10 +57,19 @@ public class CASMenuHelp extends CASJMenu implements CstmObserver{
 			this.submenuLanguage.add(langItem);
 		}
     	
+    	this.menutItemToggleFullScreen = new CASJMenuItem(controller, 
+    			Property.CASMENUHELP_MENUITEM_HELP_TEXT,
+    			Property.CASMENUHELP_MENUITEM_HELP_ACCELERATOR_KEY,
+    			Property.CASMENUHELP_MENUITEM_HELP_DESCRIPTION,
+    			this.acceleratorModifiers);
+    	this.menutItemToggleFullScreen.addActionListener(new FullScreenModeToggleListener(controller));
+    	
     	this.add(menuItemHelp);
     	this.add(menuItemAbout);
     	this.addSeparator();
     	this.add(submenuLanguage);
+    	this.addSeparator();
+    	this.add(menutItemToggleFullScreen);
     	
     	update(null, this);
 	}

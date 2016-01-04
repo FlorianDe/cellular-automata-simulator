@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
@@ -21,7 +19,6 @@ import de.cas.model.Automaton;
 import de.cas.model.PopulationModel;
 import de.cas.util.CstmObservable;
 import de.cas.util.CstmObserver;
-import de.cas.view.casUI.util.RectangleFactory;
 
 public class CASPopulationPanel extends JPanel implements CstmObserver  {
 
@@ -47,8 +44,8 @@ public class CASPopulationPanel extends JPanel implements CstmObserver  {
         this.setIgnoreRepaint(true);
         
         this.setPaintSettings();
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        this.populationImageBuffer = new BufferedImage(gd.getDisplayMode().getWidth(), gd.getDisplayMode().getHeight(),BufferedImage.TYPE_INT_RGB);
+        //GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        //this.populationImageBuffer = new BufferedImage(gd.getDisplayMode().getWidth(), gd.getDisplayMode().getHeight(),BufferedImage.TYPE_INT_RGB);
         
 	    update(null, this);
 	}
@@ -72,11 +69,16 @@ public class CASPopulationPanel extends JPanel implements CstmObserver  {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-        pointPopulation(g);
+        paintPopulation(g, true, 0);
+		g.dispose();
 	}
 	
-	protected void pointPopulation(Graphics g){
-        synchronized(this.controller.getAutomatonModel().getPopulation()){
+	public void paintFullPopulation(Graphics g, int yOffset){
+		paintPopulation(g, false, yOffset);
+	}
+	
+	protected void paintPopulation(Graphics g, boolean drawVisibleAreaOnly, int yOffset){
+        //synchronized(this.controller.getAutomatonModel().getPopulation()){
 			//long startTime = System.currentTimeMillis();
 			Graphics2D g2d = (Graphics2D)g;
 	        g2d.setRenderingHints(rh);
@@ -84,35 +86,49 @@ public class CASPopulationPanel extends JPanel implements CstmObserver  {
 			PopulationModel pm = this.controller.getPopulationModel();
 			Automaton am = this.controller.getAutomatonModel();
 	
-	        Point parentLocation = this.getScrollPane().getViewport().getViewRect().getLocation();
-	        Dimension parentSize = this.getScrollPane().getViewport().getSize();
-	        //Rectangle popVisible = new Rectangle();
-	        int colStart = setStartPosition((parentLocation.getX()-pm.getMargin())/pm.getCellSize());
-	        int rowStart = setStartPosition((parentLocation.getY()-pm.getMargin())/pm.getCellSize());
-	        int colsEnd = setColsEnd(colStart+(int)(parentSize.getWidth()+2*pm.getMargin())/pm.getCellSize()); 
-	        int rowsEnd = setRowsEnd(rowStart+(int)(parentSize.getHeight()+2*pm.getMargin())/pm.getCellSize()); 
-	
-	        //System.out.printf("CS:%s, Start[X:%s,Y:%s], PL[X:%s,Y:%s], PS[W:%s,H:%s], Visible[C:%s,R:%s]   \n", pm.getCellSize(), colStart, rowStart, parentLocation.x , parentLocation.y, parentSize.getWidth(), parentSize.getHeight(), colsEnd,rowsEnd);
+			int colStart = 0;
+			int rowStart = 0;
+			int colsEnd = 0;
+			int rowsEnd = 0;
+			
+			int automatonColumns = am.getNumberOfColumns();
+			int automatonRows = am.getNumberOfRows();
+			
+			int margin = pm.getMargin();
+			int cellSize = pm.getCellSize();
+			
+			if(drawVisibleAreaOnly){
+		        Point parentLocation = this.getScrollPane().getViewport().getViewRect().getLocation();
+		        Dimension parentSize = this.getScrollPane().getViewport().getSize();
+
+		        colStart = setStartPosition((parentLocation.getX()-margin)/cellSize);
+		        rowStart = setStartPosition((parentLocation.getY()-margin)/cellSize);
+		        colsEnd = setEndPosition(colStart+(int)(parentSize.getWidth()+2*margin)/cellSize, automatonColumns); 
+		        rowsEnd = setEndPosition(rowStart+(int)(parentSize.getHeight()+2*margin)/cellSize, automatonRows); 
+			} else {
+		        colsEnd = automatonColumns; 
+		        rowsEnd = automatonRows; 
+			}
+	        //System.out.printf("CS:%s, Start[X:%s,Y:%s], PL[X:%s,Y:%s], PS[W:%s,H:%s], Visible[C:%s,R:%s]   \n", cellSize, colStart, rowStart, parentLocation.x , parentLocation.y, parentSize.getWidth(), parentSize.getHeight(), colsEnd,rowsEnd);
 	        
-	        BufferedImage bim = new BufferedImage(am.getNumberOfColumns(),am.getNumberOfRows(),BufferedImage.TYPE_INT_RGB);
+	        BufferedImage bim = new BufferedImage(automatonColumns,automatonRows,BufferedImage.TYPE_INT_RGB);
 	        DataBufferInt bb = (DataBufferInt)bim.getRaster().getDataBuffer();
 	        int[] buffer = bb.getData();
 	        for (int y = rowStart; y < rowsEnd; y++)
 				for (int x = colStart; x < colsEnd; x++)
 					buffer[y*bim.getWidth()+x] = am.getStates().getColorRGBInt(am.getPopulation()[y][x].getState());
 	  
-			g2d.drawImage(bim,pm.getMargin(),pm.getMargin(),am.getNumberOfColumns()*pm.getCellSize(), am.getNumberOfRows()*pm.getCellSize(), null);	
+			g2d.drawImage(bim,margin,margin+yOffset,automatonColumns*cellSize, automatonRows*cellSize, null);	
 			if(pm.isDrawCellRect()){
 				g2d.setColor(Color.black);
 				for (int y = 0; y <= rowsEnd; y++)
-					g2d.drawLine(pm.getMargin(), pm.getMargin()+y*pm.getCellSize(), colsEnd*pm.getCellSize()+pm.getMargin(), pm.getMargin()+y*pm.getCellSize());
+					g2d.drawLine(margin, margin+y*cellSize+yOffset, colsEnd*cellSize+margin, margin+y*cellSize+yOffset);
 				for (int x = 0; x <= colsEnd; x++)
-					g2d.drawLine(pm.getMargin()+x*pm.getCellSize(), pm.getMargin(), pm.getMargin()+x*pm.getCellSize(), rowsEnd*pm.getCellSize()+pm.getMargin());
+					g2d.drawLine(margin+x*cellSize, margin+yOffset, margin+x*cellSize, rowsEnd*cellSize+margin+yOffset);
 			}
 	        
-			g2d.dispose();
 			//Lang.println(am, "Real Redraw Time: "+(System.currentTimeMillis() - startTime)+" ms    ");
-        }
+        //}
 	}
 	
 	
@@ -122,14 +138,11 @@ public class CASPopulationPanel extends JPanel implements CstmObserver  {
 	private int setStartPosition(double minimum){
 		return setStartPosition((int)minimum);
 	}
-	private int setRowsEnd(double endRows){
-		return (endRows<this.controller.getAutomatonModel().getNumberOfRows())?(int)endRows:this.controller.getAutomatonModel().getNumberOfRows();
+	private int setEndPosition(double dimCalcEnd, int dimRealEnd){
+		return (dimCalcEnd<dimRealEnd)?(int)dimCalcEnd:dimRealEnd;
 	}
-	private int setColsEnd(double endCols){
-		return (endCols<this.controller.getAutomatonModel().getNumberOfColumns())?(int)endCols:this.controller.getAutomatonModel().getNumberOfColumns();
-	}
-	
 
+	/*
 	protected void pointPopulationOld(Graphics g) {
 		
 		super.paintComponent(g);
@@ -179,6 +192,7 @@ public class CASPopulationPanel extends JPanel implements CstmObserver  {
 		g2d.dispose();
         System.out.println("Redraw: "+(System.currentTimeMillis() - startTime)+" ms");
 	}
+	*/
 		
 	@Override
 	public Dimension getPreferredSize() {

@@ -66,10 +66,13 @@ public class PaintCellsListener implements MouseListener, MouseMotionListener {
 			int maxXY = Math.max(Math.abs(dX), Math.abs(dY));
 			double kX = (dX != 0)?(dX/(double)maxXY):0;
 			double kY = (dY != 0)?(dY/(double)maxXY):0;
+			
+			int state = this.controller.getAutomatonModel().getStates().getActualState();
+			
 			for (int i = 0; i <= maxXY; i++) {
 				int pX = (int)pEnd.getX() + (int)(kX*i);
 				int pY = (int)pEnd.getY() + (int)(kY*i);
-				this.controller.getAutomatonModel().setState(pY, pX, this.controller.getAutomatonModel().getStates().getActualState());
+				this.controller.getAutomatonModel().setState(pY, pX, state);
 			}
 		}
 	}
@@ -81,11 +84,13 @@ public class PaintCellsListener implements MouseListener, MouseMotionListener {
 			int kX = (dX != 0)?(dX/(Math.abs(dX))):0;
 			int kY = (dY != 0)?(dY/(Math.abs(dY))):0;
 			
+			int state = this.controller.getAutomatonModel().getStates().getActualState();
+			
 			for (int y = 0; y <= Math.abs(dY); y++) {
 				int pY =  (int)pStart.getY() + kY*y;
 				for (int x = 0; x <= Math.abs(dX); x++) {
 					int pX = (int)pStart.getX() + kX*x;
-					this.controller.getAutomatonModel().setState(pY, pX, this.controller.getAutomatonModel().getStates().getActualState());
+					this.controller.getAutomatonModel().setState(pY, pX, state);
 				}
 			}
 		}
