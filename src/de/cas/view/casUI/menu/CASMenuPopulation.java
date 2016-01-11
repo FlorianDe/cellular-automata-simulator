@@ -3,11 +3,9 @@ package de.cas.view.casUI.menu;
 import java.awt.event.ActionEvent;
 
 import de.cas.controller.IAutomatonController;
-import de.cas.controller.listener.dispatcher.LoadAutomatonListener;
-import de.cas.controller.listener.editor.SaveFileListener;
+import de.cas.controller.listener.population.DeserializePopulationListener;
 import de.cas.controller.listener.population.GridOnOffListener;
 import de.cas.controller.listener.population.SavePopulationAsImageListener;
-import de.cas.controller.listener.population.DeserializePopulationListener;
 import de.cas.controller.listener.population.SerializePopulationListener;
 import de.cas.controller.listener.population.SetSizeListener;
 import de.cas.controller.listener.population.TorusListener;
@@ -104,7 +102,8 @@ public class CASMenuPopulation extends CASJMenu implements CstmObserver {
     			Property.CASMENUPOPULATION_MENUITEM_SAVEXML_ACCELERATOR_KEY,
     			Property.CASMENUPOPULATION_MENUITEM_SAVEXML_DESCRIPTION,
     			this.acceleratorModifiers);
-
+    	this.menuItemSaveXML.addActionListener(new SerializePopulationListener(controller, CASFileFilter.xmlSuffixFilter));
+    	
     	this.menuItemSaveSerialized = new CASJMenuItem(controller,
     			Property.CASMENUPOPULATION_MENUITEM_SAVESERIALIZED_TEXT,
     			Property.CASMENUPOPULATION_MENUITEM_SAVESERIALIZED_ACCELERATOR_KEY,
@@ -121,7 +120,8 @@ public class CASMenuPopulation extends CASJMenu implements CstmObserver {
     			Property.CASMENUPOPULATION_MENUITEM_LOADXML_ACCELERATOR_KEY,
     			Property.CASMENUPOPULATION_MENUITEM_LOADXML_DESCRIPTION,
     			this.acceleratorModifiers);
-    	
+    	this.menuItemLoadXML.addActionListener(new DeserializePopulationListener(controller, CASFileFilter.xmlSuffixFilter));
+
     	this.menuItemLoadSerialized = new CASJMenuItem(controller,
     			Property.CASMENUPOPULATION_MENUITEM_LOADSERIALIZED_TEXT,
     			Property.CASMENUPOPULATION_MENUITEM_LOADSERIALIZED_ACCELERATOR_KEY,

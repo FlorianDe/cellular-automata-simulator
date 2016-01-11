@@ -3,6 +3,8 @@ package de.cas.controller.properties;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import de.cas.util.Lang;
+
 public class EditorSettings {
 	private static final String BASICCOMPLETIONS_FILE = "editor/basiccompletions.txt";
 	private static final String SHORTHANDCOMPLETIONS_FILE = "editor/shorthandcompletions.txt";
@@ -35,7 +37,7 @@ public class EditorSettings {
         InputStream is = instance.getClass().getClassLoader().getResourceAsStream(relFilePath);
         String lines;
         if(is!=null){
-        	lines = convertStreamToString(is);
+        	lines = Lang.convertStreamToString(is);
 		}
         else{
         	lines = "";
@@ -44,10 +46,4 @@ public class EditorSettings {
         
         return lines;
 	}
-
-	static String convertStreamToString(java.io.InputStream is) {
-	    java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-	    return s.hasNext() ? s.next() : "";
-	}
-
 }

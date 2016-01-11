@@ -2,7 +2,6 @@ package de.cas.util.loader;
 
 
 import java.io.File;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;

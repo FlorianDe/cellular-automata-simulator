@@ -8,12 +8,12 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import de.cas.controller.IAutomatonController;
+import de.cas.controller.properties.CASLanguageBundle;
 import de.cas.controller.properties.CASSettings;
 import de.cas.controller.properties.CASSettings.Property;
 import de.cas.util.Lang;
 import de.cas.util.loader.CstmClassloader;
-import de.cas.view.casUI.dialog.NewAutomatonJDialog;
-import de.cas.view.casUI.dialog.SetSizeJDialog;
+import de.cas.view.casUI.dialog.SingleStringInputJDialog;
 
 public class NewAutomatonListener implements ActionListener {
 	protected IAutomatonController controller;
@@ -27,12 +27,12 @@ public class NewAutomatonListener implements ActionListener {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				final NewAutomatonJDialog nad = new NewAutomatonJDialog(controller, null,"");
+				final SingleStringInputJDialog nad = new SingleStringInputJDialog(controller, null, CASLanguageBundle.Property.NEWAUTOMATONDIALOG_LBL_AUTOMATONNAME,"");
 				nad.setOnAcceptListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						
-						String automatonName = nad.getAutomatonName();
+						String automatonName = nad.getValue();
 						String automatonPath = CstmClassloader.getAutomataFolder()+File.separator+automatonName+CASSettings.getInstance().getProperty(Property.AUTOMATON_FILES_ENDING);
 						File file = new File(automatonPath);
 						

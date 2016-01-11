@@ -7,20 +7,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.tools.Diagnostic;
-import javax.tools.DiagnosticCollector;
-import javax.tools.JavaCompiler;
-import javax.tools.JavaFileManager;
-import javax.tools.JavaFileObject;
-import javax.tools.StandardJavaFileManager;
-import javax.tools.ToolProvider;
-import javax.tools.JavaCompiler.CompilationTask;
 
 import de.cas.Main;
 import de.cas.controller.IAutomatonController;
@@ -28,8 +18,6 @@ import de.cas.controller.properties.CASSettings;
 import de.cas.controller.properties.CASSettings.Property;
 import de.cas.model.Automaton;
 import de.cas.util.loader.CstmClassloader;
-import de.cas.util.loader.MemJavaFileManager;
-import de.cas.util.loader.StringJavaFileObject;
 import de.cas.view.casUI.dialog.CASFileChooser;
 import de.cas.view.casUI.util.CASFileFilter;
 

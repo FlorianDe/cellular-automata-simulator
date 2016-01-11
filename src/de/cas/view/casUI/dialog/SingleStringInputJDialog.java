@@ -15,18 +15,18 @@ import de.cas.controller.properties.CASLanguageBundle;
 import de.cas.view.casUI.component.CASJButton;
 import de.cas.view.casUI.component.CASJLabel;
 
-public class NewAutomatonJDialog  extends JDialog {
+public class SingleStringInputJDialog  extends JDialog {
 
 	private static final long serialVersionUID = -4873273203993880731L;
 	
-	private CASJLabel lblAutomatonName;
-	private JTextField tfAutomatonName;
+	private CASJLabel lblDescription;
+	private JTextField tfDescription;
 	private CASJButton btnAccept;
 	private CASJButton btnCancel;
 	
 	IAutomatonController controller;
 	
-	public NewAutomatonJDialog(IAutomatonController controller, JFrame parent, String title) {
+	public SingleStringInputJDialog(IAutomatonController controller, JFrame parent, CASLanguageBundle.Property property, String title) {
 		super(parent, title, true);
 		this.controller = controller;
 		if (parent != null) {
@@ -39,14 +39,14 @@ public class NewAutomatonJDialog  extends JDialog {
 		GridLayout gl = new GridLayout(0, 2);
 		this.setLayout(gl);
 		
-		this.lblAutomatonName = new CASJLabel(controller, CASLanguageBundle.Property.NEWAUTOMATONDIALOG_LBL_AUTOMATONNAME);
-		this.tfAutomatonName = new JTextField(4);
-		this.tfAutomatonName.setText("");
+		this.lblDescription = new CASJLabel(controller, property);
+		this.tfDescription = new JTextField(4);
+		this.tfDescription.setText("");
 		this.btnAccept = new CASJButton(controller, CASLanguageBundle.Property.ACCEPT);
 		this.btnCancel = new CASJButton(controller, CASLanguageBundle.Property.CANCEL);
 
-		add(this.lblAutomatonName);
-		add(this.tfAutomatonName);
+		add(this.lblDescription);
+		add(this.tfDescription);
 		add(this.btnAccept);
 		add(this.btnCancel);
 
@@ -73,7 +73,7 @@ public class NewAutomatonJDialog  extends JDialog {
 		dispose();
 	}
 	
-	public String getAutomatonName() {
-		return this.tfAutomatonName.getText();
+	public String getValue() {
+		return this.tfDescription.getText();
 	}
 }

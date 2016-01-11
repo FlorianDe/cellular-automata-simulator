@@ -6,14 +6,10 @@ import java.io.File;
 
 import javax.swing.JOptionPane;
 
-import de.cas.controller.AutomatonController;
 import de.cas.controller.IAutomatonController;
 import de.cas.controller.properties.CASSettings;
 import de.cas.controller.properties.CASSettings.Property;
 import de.cas.model.Automaton;
-import de.cas.model.Cell;
-import de.cas.model.PopulationModel;
-import de.cas.util.Lang;
 import de.cas.util.loader.CstmClassloader;
 
 public class CompileFileListener implements ActionListener {

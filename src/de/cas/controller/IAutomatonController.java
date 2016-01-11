@@ -2,8 +2,8 @@ package de.cas.controller;
 
 import de.cas.controller.properties.CASLanguageBundle;
 import de.cas.model.Automaton;
-import de.cas.model.SimulationModel;
 import de.cas.model.PopulationModel;
+import de.cas.model.SimulationModel;
 import de.cas.view.CASFrame;
 
 public interface IAutomatonController {

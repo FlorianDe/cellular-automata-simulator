@@ -11,9 +11,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import de.cas.util.ACallable;
 import de.cas.util.CstmObservable;
 
+@XmlRootElement
 public abstract class Automaton extends CstmObservable{
 	private static volatile ConcurrentHashMap<Automaton,Integer> runningAutomatons;
 	private static volatile int totalAutomatonsInstantiated;
@@ -34,6 +37,7 @@ public abstract class Automaton extends CstmObservable{
 		totalAutomatonsInstantiated = 0;
 	}
 	
+	public Automaton(){}
 	
 	/**
 	 * Konstruktor
@@ -277,7 +281,8 @@ public abstract class Automaton extends CstmObservable{
 					public void run() {
 						//System.out.println("Y:"+actY);
 						for (int x = 0; x < population[actY].length; x++) {
-							population[actY][x] = transform(populationCopy[actY][x], getCellNeighbors(populationCopy, actY, x));
+							final Cell[][] populationCopyCopy = clonePopulation();
+							population[actY][x] = transform(populationCopy[actY][x], getCellNeighbors(populationCopyCopy, actY, x));
 							//System.out.print("["+actY+"]"+"X:"+x);
 						}
 					}

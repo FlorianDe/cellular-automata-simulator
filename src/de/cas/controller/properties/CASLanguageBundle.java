@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+
 import de.cas.util.CstmObservable;
 
 //Controller & Model!
@@ -170,6 +171,23 @@ public class CASLanguageBundle extends CstmObservable{
 		CASMENUPOPULATION_MENUITEM_EXPORTIMAGE_DESCRIPTION("CASMenuPopulation.menuItemExportImage.description"),
 		CASMENUPOPULATION_MENUITEM_EXPORTIMAGE_ACCELERATOR_KEY("CASMenuPopulation.menuItemExportImage.acceleratorkey"),
 
+		//view.casUI.menu.CASMenuSettings
+		CASMENUSETTINGS_MENU_TEXT("CASMenuSettings.menu.text"),
+		CASMENUSETTINGS_MENU_DESCRIPTION("CASMenuSettings.menu.description"),
+		
+		CASMENUSETTINGS_MENUITEM_SAVE_TEXT("CASMenuSettings.menuItemSave.text"),
+		CASMENUSETTINGS_MENUITEM_SAVE_DESCRIPTION("CASMenuSettings.menuItemSave.description"),
+		CASMENUSETTINGS_MENUITEM_SAVE_ACCELERATOR_KEY("CASMenuSettings.menuItemSave.acceleratorkey"),
+		
+		CASMENUSETTINGS_MENUITEM_RECOVER_TEXT("CASMenuSettings.menuItemRecover.text"),
+		CASMENUSETTINGS_MENUITEM_RECOVER_DESCRIPTION("CASMenuSettings.menuItemRecover.description"),
+		CASMENUSETTINGS_MENUITEM_RECOVER_ACCELERATOR_KEY("CASMenuSettings.menuItemRecover.acceleratorkey"),
+		
+		CASMENUSETTINGS_MENUITEM_DELETE_TEXT("CASMenuSettings.menuItemDelete.text"),
+		CASMENUSETTINGS_MENUITEM_DELETE_DESCRIPTION("CASMenuSettings.menuItemDelete.description"),
+		CASMENUSETTINGS_MENUITEM_DELETE_ACCELERATOR_KEY("CASMenuSettings.menuItemDelete.acceleratorkey"),
+
+		
 		//view.casUI.menu.CASMenuSimulation
 		CASMENUSIMULATION_MENU_TEXT("CASMenuSimulation.menu.text"),
 		CASMENUSIMULATION_MENU_DESCRIPTION("CASMenuSimulation.menu.description"),

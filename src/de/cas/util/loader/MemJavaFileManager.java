@@ -1,6 +1,9 @@
 package de.cas.util.loader;
-import javax.tools.*;
+import javax.tools.FileObject;
+import javax.tools.ForwardingJavaFileManager;
+import javax.tools.JavaFileObject;
 import javax.tools.JavaFileObject.Kind;
+import javax.tools.StandardJavaFileManager;
 
 public class MemJavaFileManager extends
 ForwardingJavaFileManager<StandardJavaFileManager>

@@ -4,23 +4,14 @@ import java.awt.Component;
 import java.awt.Container;
 import java.io.File;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
-import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import de.cas.controller.IAutomatonController;
-import de.cas.controller.properties.CASSettings;
-import de.cas.controller.properties.CASSettings.Property;
-import de.cas.util.loader.AutomatonLoader;
-import de.cas.util.loader.CstmClassloader;
-import de.cas.view.casUI.util.CASFileFilter;
 
 /**
  * Created by Florian on 13.11.2015.

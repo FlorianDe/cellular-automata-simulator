@@ -7,7 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.ScrollPaneConstants;
 
 import de.cas.controller.IAutomatonController;
-import de.cas.util.Lang;
 
 public class FullScreenModeToggleListener implements ActionListener {
 	protected IAutomatonController controller;

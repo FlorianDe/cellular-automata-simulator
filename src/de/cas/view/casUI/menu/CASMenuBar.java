@@ -13,6 +13,7 @@ public class CASMenuBar extends JMenuBar{
 	private CASMenuAutomat menuAutomat;
 	private CASMenuPopulation menuPopulation;
 	private CASMenuSimulation menuSimulation;
+	private CASMenuSettings menuSettings;
 	private CASMenuHelp menuHelp;
 	private CASMenuCurrentAutomat currentAutomat;
 	
@@ -30,6 +31,10 @@ public class CASMenuBar extends JMenuBar{
 
 	public CASMenuSimulation getMenuSimulation() {
 		return menuSimulation;
+	}
+
+	public CASMenuSettings getMenuSettings() {
+		return menuSettings;
 	}
 
 	public CASMenuHelp getMenuHelp() {
@@ -57,6 +62,10 @@ public class CASMenuBar extends JMenuBar{
 				Property.CASMENUSIMULATION_MENU_TEXT,
 				Property.CASMENUSIMULATION_MENU_DESCRIPTION);
 		
+		this.menuSettings = new CASMenuSettings(this.controller, 
+				Property.CASMENUSETTINGS_MENU_TEXT,
+				Property.CASMENUSETTINGS_MENU_DESCRIPTION);
+		
 		this.menuHelp = new CASMenuHelp(this.controller, 
 				Property.CASMENUHELP_MENU_TEXT,
 				Property.CASMENUHELP_MENU_DESCRIPTION);
@@ -68,6 +77,7 @@ public class CASMenuBar extends JMenuBar{
 		this.add(this.menuAutomat);
 		this.add(this.menuPopulation);
 		this.add(this.menuSimulation);
+		this.add(this.menuSettings);
 		this.add(this.menuHelp);
 		this.add(new JSeparator(JSeparator.VERTICAL));
 		//this.add(Box.createHorizontalGlue());

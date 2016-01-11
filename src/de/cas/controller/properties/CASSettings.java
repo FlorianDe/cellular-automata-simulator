@@ -18,8 +18,17 @@ public class CASSettings extends Properties {
 		AUTOMATON_PACKAGE("automaton.package"),
 		AUTOMATON_DEFAULT("automaton.default"), 
 		POPULATION_PACKAGE("population.package"),
-		POPULATION_IMAGE_EXPORT_PATH("population.image.export.path");
-
+		POPULATION_IMAGE_EXPORT_PATH("population.image.export.path"),
+		
+		DATASOURCE_TYPE("datasource.type"),
+		DATASOURCE_DRIVER("datasource.driver"),
+		DATASOURCE_URL("datasource.url"),
+		DATASOURCE_CREATE("datasource.create"),
+		DATASOURCE_USER("datasource.user"),
+		DATASOURCE_PASSWORD("datasource.password"),
+		DATASOURCE_POOL("datasource.pool"),
+		DATASOURCE_DATABASE_NAME("datasource.database.name"),
+		DATASOURCE_TABLENAME("datasource.tablename");
 				
 		
         private final String key;

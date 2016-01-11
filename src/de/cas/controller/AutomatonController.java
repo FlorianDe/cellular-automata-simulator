@@ -3,9 +3,9 @@ package de.cas.controller;
 import de.cas.controller.properties.CASLanguageBundle;
 import de.cas.controller.properties.CASSettings;
 import de.cas.model.Automaton;
+import de.cas.model.PopulationModel;
 import de.cas.model.SimulationModel;
 import de.cas.util.Lang;
-import de.cas.model.PopulationModel;
 import de.cas.view.CASFrame;
 
 public class AutomatonController implements IAutomatonController{
@@ -63,6 +63,7 @@ public class AutomatonController implements IAutomatonController{
 		this.populationModel = new PopulationModel();
 		this.simulationModel = new SimulationModel(this);
 		this.languageBundle = new CASLanguageBundle(CASSettings.getInstance().getProperty(CASSettings.Property.LANGUAGE));
+		DBManager.getInstance();
 	}
 	
 	@Override
@@ -71,6 +72,7 @@ public class AutomatonController implements IAutomatonController{
 		Lang.println(this.getAutomatonModel(),"Automaton closed: %s", this.getAutomatonModel().getClass().getSimpleName());
 		if(Automaton.getRunningAutomatons().size()<=1){
 			System.err.println("\n--> Complete application closed!");
+			DBManager.getInstance().shutdown();
 			System.exit(0);
 		} else {
 			this.getView().dispose();

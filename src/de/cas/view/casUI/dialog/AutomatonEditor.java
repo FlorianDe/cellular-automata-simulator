@@ -15,7 +15,6 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import de.cas.controller.IAutomatonController;
-import de.cas.controller.properties.CASSettings;
 import de.cas.controller.properties.EditorSettings;
 import de.cas.model.Automaton;
 import de.cas.util.CstmObservable;

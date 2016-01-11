@@ -2,7 +2,6 @@ package de.cas.util.loader;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -16,16 +15,14 @@ import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
 import javax.tools.JavaCompiler.CompilationTask;
-
-import de.cas.Main;
-import de.cas.controller.properties.CASSettings;
-import de.cas.controller.properties.CASSettings.Property;
-import de.cas.model.Automaton;
-
 import javax.tools.JavaFileManager;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
+
+import de.cas.controller.properties.CASSettings;
+import de.cas.controller.properties.CASSettings.Property;
+import de.cas.model.Automaton;
 
 public class CstmClassloader extends ClassLoader {
 	public static final String AUTOMATON_PACKAGE = "de.cas.model.internalautomata.";
@@ -196,9 +193,8 @@ public class CstmClassloader extends ClassLoader {
     }
 	
 	
-	
+	/*
 	private static void setPackageField(Automaton automaton){
-		
 		for(Field field : (new Main()).getClass().getClass().getDeclaredFields())
 		{
 			//automaton.getClass().getPackage();
@@ -216,4 +212,5 @@ public class CstmClassloader extends ClassLoader {
 			}
 		}
 	}
+	*/
 }

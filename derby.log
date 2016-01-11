@@ -1,0 +1,19 @@
+----------------------------------------------------------------
+Mon Jan 11 22:30:18 CET 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0152-3298-c485-0000042802a0 
+on database directory C:\Users\Florian\Documents\Git\CellularAutomatonSimulator_Florian_2015\dbsettings with class loader sun.misc.Launcher$AppClassLoader@4e0e2f2a 
+Loaded from file:/C:/Users/Florian/Documents/Git/CellularAutomatonSimulator_Florian_2015/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_60-b27
+user.dir=C:\Users\Florian\Documents\Git\CellularAutomatonSimulator_Florian_2015
+os.name=Windows 8.1
+os.arch=amd64
+os.version=6.3
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Jan 11 22:31:41 CET 2016: Shutting down Derby engine
+----------------------------------------------------------------
+Mon Jan 11 22:31:41 CET 2016:
+Shutting down instance a816c00e-0152-3298-c485-0000042802a0 on database directory C:\Users\Florian\Documents\Git\CellularAutomatonSimulator_Florian_2015\dbsettings with class loader sun.misc.Launcher$AppClassLoader@4e0e2f2a 
+----------------------------------------------------------------

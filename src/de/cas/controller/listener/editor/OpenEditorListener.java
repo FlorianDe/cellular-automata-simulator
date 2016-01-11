@@ -6,8 +6,6 @@ import java.io.File;
 
 import javax.swing.SwingUtilities;
 
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-
 import de.cas.controller.IAutomatonController;
 import de.cas.controller.properties.CASSettings;
 import de.cas.controller.properties.CASSettings.Property;

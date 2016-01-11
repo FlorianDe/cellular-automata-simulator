@@ -1,18 +1,14 @@
 package de.cas.view.casUI.panel;
 
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.image.BufferStrategy;
 
 import de.cas.controller.IAutomatonController;
 import de.cas.controller.listener.population.PaintCellsListener;
 import de.cas.util.CstmObservable;
 import de.cas.util.CstmObserver;
-import de.cas.view.CASFrame;
-import de.cas.view.casUI.util.RectangleFactory;
 
 public class CASPopulationCanvas extends Canvas implements CstmObserver {
 
