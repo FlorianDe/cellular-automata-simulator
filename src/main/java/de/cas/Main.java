@@ -9,6 +9,8 @@ import de.cas.util.loader.AutomatonLoader;
 import de.cas.util.loader.CstmClassloader;
 import de.cas.view.CASFrame;
 
+import java.nio.file.Path;
+
 public class Main{
 	Automaton automaton;
 	AutomatonController controller;
@@ -16,7 +18,9 @@ public class Main{
 	
 	public static void main(String[] args) throws InterruptedException {
 		Lang.setPrintAutomatonCount(true);
-		Automaton automaton = (new CstmClassloader()).getAutomatonInstance(CstmClassloader.getDefaultAutomaton().toPath());
+		Path path = CstmClassloader.getDefaultAutomaton().toPath();
+		System.out.println("path = " + path);
+		Automaton automaton = (new CstmClassloader()).getAutomatonInstance(path);
 		new Main().startCAS(automaton);
 		AutomatonLoader.getInstance();
 	}

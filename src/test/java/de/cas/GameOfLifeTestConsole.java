@@ -1,4 +1,4 @@
-package de.florian.cas;
+package de.cas;
 
 //import automata.GameOfLifeAutomaton;
 import de.cas.model.Automaton;

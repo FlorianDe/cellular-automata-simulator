@@ -44,7 +44,7 @@ public abstract class Automaton extends CstmObservable{
 	 *
 	 * @param rows Anzahl an Reihen
 	 * @param columns Anzahl an Spalten
-	 * @param numberOfStates Anzahl an Zuständen; die Zustände des Automaten sind dann die Werte 0 bis numberOfStates-1
+	 * @param numberOfStates Anzahl an ZustÃ¤nden; die ZustÃ¤nde des Automaten sind dann die Werte 0 bis numberOfStates-1
 	 * @param isMooreNeighborHood true, falls der Automat die Moore-Nachbarschaft benutzt; falls, falls der Automat die von-Neumann-Nachbarschaft benutzt
 	 * @param isTorus true, falls die Zellen als Torus betrachtet werden
 	 */
@@ -64,14 +64,14 @@ public abstract class Automaton extends CstmObservable{
 	/**
 	 * Implementierung der Transformationsregel
 	 *
-	 * @param cell die betroffene Zelle (darf nicht verändert werden!!!)
-	 * @param neighbors die Nachbarn der betroffenen Zelle (dürfen nicht verändert werden!!!) </br>
+	 * @param cell die betroffene Zelle (darf nicht verÃ¤ndert werden!!!)
+	 * @param neighbors die Nachbarn der betroffenen Zelle (dÃ¼rfen nicht verÃ¤ndert werden!!!) </br>
 	 * Neighbor indices: </br>
 	 * 0 1 2 </br>
 	 * 3 X 4 </br>
 	 * 5 6 7 </br>
 	 *
-	 * @return eine neu erzeugte Zelle, die gemäß der Transformationsregel aus der betroffenen Zelle hervorgeht
+	 * @return eine neu erzeugte Zelle, die gemÃ¤ÃŸ der Transformationsregel aus der betroffenen Zelle hervorgeht
 	 */
 	protected abstract Cell transform(Cell cell, Cell[] neighbors);
 	
@@ -111,8 +111,8 @@ public abstract class Automaton extends CstmObservable{
 	}
 	
 	/**
-	 * Ändert die Größe des Automaten; Achtung: aktuelle Belegungen nicht
-	 * gelöschter Zellen sollen beibehalten werden; neue Zellen sollen im
+	 * Ã„ndert die GrÃ¶ÃŸe des Automaten; Achtung: aktuelle Belegungen nicht
+	 * gelÃ¶schter Zellen sollen beibehalten werden; neue Zellen sollen im
 	 * Zustand 0 erzeugt werden
 	 *
 	 * @param rows die neue Anzahl an Reihen
@@ -129,7 +129,7 @@ public abstract class Automaton extends CstmObservable{
 	}
 	
 	/**
-	 * Ändert die Anzahl an Reihen des Automaten
+	 * Ã„ndert die Anzahl an Reihen des Automaten
 	 *
 	 * @param rows die neue Anzahl an Reihen
 	 */
@@ -140,9 +140,9 @@ public abstract class Automaton extends CstmObservable{
 	}
 	
 	/**
-	 * Ändert die Anzahl an Spalten des Automaten
+	 * Ã„ndert die Anzahl an Spalten des Automaten
 	 *
-	 * @param rows die neue Anzahl an Spalten
+	 * @param columns die neue Anzahl an Spalten
 	 */
 	public void setNumberOfColumns(int columns){
 		synchronized(this.population){
@@ -160,7 +160,7 @@ public abstract class Automaton extends CstmObservable{
 	}
 	
 	/**
-	 * Ändert die Torus-Eigenschaft des Automaten
+	 * Ã„ndert die Torus-Eigenschaft des Automaten
 	 *
 	 * @param isTorus true, falls der Automat als Torus betrachtet wird; falls sonst
 	 */
@@ -169,10 +169,10 @@ public abstract class Automaton extends CstmObservable{
 	}
 	
 	/**
-	 * Liefert Informationen über die Nachbarschaft-Eigenschaft des Automaten
-	 * (Hinweis: Die Nachbarschaftseigenschaft kann nicht verändert werden)
+	 * Liefert Informationen Ã¼ber die Nachbarschaft-Eigenschaft des Automaten
+	 * (Hinweis: Die Nachbarschaftseigenschaft kann nicht verÃ¤ndert werden)
 	 *
-	 * @return true, falls der Automat die Moore-Nachbarschaft berücksicht; false, falls er die von-Neumann-Nachbarschaft berücksichtigt
+	 * @return true, falls der Automat die Moore-Nachbarschaft berÃ¼cksicht; false, falls er die von-Neumann-Nachbarschaft berÃ¼cksichtigt
 	 */
 	public boolean isMooreNeighborHood(){
 		return this.isMooreNeighborHood;
@@ -190,7 +190,7 @@ public abstract class Automaton extends CstmObservable{
 	}
 	
 	/**
-	 * Ändert die Population
+	 * Ã„ndert die Population
 	 *
 	 * @param cells eine neue Population des Automaten
 	 */
@@ -215,7 +215,7 @@ public abstract class Automaton extends CstmObservable{
 	}
 	
 	/**
-	 * setzt für jede Zelle einen zufällig erzeugten Zustand
+	 * setzt fÃ¼r jede Zelle einen zufÃ¤llig erzeugten Zustand
 	 */
 	public void randomPopulation(){
 		synchronized(this.population){
@@ -225,7 +225,7 @@ public abstract class Automaton extends CstmObservable{
 	}
 	
 	/**
-	 * ändert den Zustand einer Zelle
+	 * Ã„ndert den Zustand einer Zelle
 	 *
 	 * @param row Reihe der Zelle
 	 * @param column Spalte der Zelle
@@ -261,8 +261,8 @@ public abstract class Automaton extends CstmObservable{
 	}
 		
 	/**
-	 * Berechnet und liefert die nächste Generation; ruft dabei die abstrakte
-	 * Methode "transform" für alle Zellen auf; Hinweis: zu berücksichtigen sind
+	 * Berechnet und liefert die nÃ¤chste Generation; ruft dabei die abstrakte
+	 * Methode "transform" fÃ¼r alle Zellen auf; Hinweis: zu berÃ¼cksichtigen sind
 	 * die Nachbarschaftseigenschaft und die Torus-Eigenschaft des Automaten
 	 *
 	 * @return
@@ -319,7 +319,7 @@ public abstract class Automaton extends CstmObservable{
 	}
 	
 	/**
-	 * Berechnet die Nachbarn der angegebenen Zelle, die Ausgabe hängt auch von den Parametern torus und mooreNeighborHood ab.
+	 * Berechnet die Nachbarn der angegebenen Zelle, die Ausgabe hÃ¤ngt auch von den Parametern torus und mooreNeighborHood ab.
 	 * 
 	 * @param oldPopulation
 	 * @param x Spalte

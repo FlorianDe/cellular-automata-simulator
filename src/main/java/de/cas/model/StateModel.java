@@ -18,10 +18,10 @@ public class StateModel  extends CstmObservable{
 	}
 	
 	/**
-	 * Liefert die Anzahl an Zuständen des Automaten; gültige Zustände sind
+	 * Liefert die Anzahl an ZustÃ¤nden des Automaten; gÃ¼ltige ZustÃ¤nde sind
 	 * int-Werte zwischen 0 und Anzahl-1
 	 *
-	 * @return die Anzahl an Zuständen des Automaten
+	 * @return die Anzahl an ZustÃ¤nden des Automaten
 	 */
 	public int getNumberOfStates(){
 		return numberOfStates;
@@ -37,10 +37,10 @@ public class StateModel  extends CstmObservable{
 	}
 
 	/**
-	 * definiert die Farbrepräsentation der einzelnen Zustände; implementiert
+	 * definiert die FarbreprÃ¤sentation der einzelnen ZustÃ¤nde; implementiert
 	 * wie folgt: <br>
-	 * Anzahl der Zustände = 2: 0 = weiß; 1 = schwarz <br>
-	 * Anzahl der Zustände = 3: 0 = weiß; 1 = grau; 2 = schwarz <br>
+	 * Anzahl der ZustÃ¤nde = 2: 0 = weiÃŸ; 1 = schwarz <br>
+	 * Anzahl der ZustÃ¤nde = 3: 0 = weiÃŸ; 1 = grau; 2 = schwarz <br>
 	 * Ansonsten: Farbzuordnung per Zufall
 	 */
 	protected void defineColors(){
@@ -62,10 +62,10 @@ public class StateModel  extends CstmObservable{
 	
 	
 	/**
-	 * Liefert die Farbrepräsentation eines Zustandes
+	 * Liefert die Farbreprï¿½sentation eines Zustandes
 	 *
-	 * @param state der Zustand, dessen Farbrepräsentation geliefert werden soll
-	 * @return die Farbrepräsentation des Zustandes state
+	 * @param state der Zustand, dessen Farbreprï¿½sentation geliefert werden soll
+	 * @return die Farbreprï¿½sentation des Zustandes state
 	 */
 	public Color getColor(int state){
 		return isValidState(state) ? colors[state] : null;
@@ -76,10 +76,10 @@ public class StateModel  extends CstmObservable{
 	}
 	
 	/**
-	 * Ändert die Farbrepräsentation eines Zustandes
+	 * ï¿½ndert die Farbreprï¿½sentation eines Zustandes
 	 *
 	 * @param state der Zustand
-	 * @param newColor die neue Farbrepräsentation des Zustandes state
+	 * @param newColor die neue Farbreprï¿½sentation des Zustandes state
 	 */
 	public void changeColor(int state, Color newColor){
 		synchronized(colors){
@@ -91,9 +91,9 @@ public class StateModel  extends CstmObservable{
 	}
 	
 	/**
-	 * Liefert die Farbrepräsentation alles Zustände des Automaten
+	 * Liefert die Farbreprï¿½sentation alles Zustï¿½nde des Automaten
 	 *
-	 * @return die Farbrepräsentation alles Zustände des Automaten
+	 * @return die Farbreprï¿½sentation alles Zustï¿½nde des Automaten
 	 */
 	public Color[] getColorMapping(){
 		return colors;
