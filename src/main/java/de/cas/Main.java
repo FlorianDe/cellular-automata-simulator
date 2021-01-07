@@ -29,12 +29,7 @@ public class Main{
 		if(automaton!=null){
 			this.automaton = automaton;
 			this.controller = new AutomatonController(automaton);
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					view = new CASFrame(controller);
-				}
-			});
+			SwingUtilities.invokeLater(() -> view = new CASFrame(controller));
 			
 			Lang.println(automaton, "Automaton started: %s", automaton.getClass().getSimpleName());
 		}else{
